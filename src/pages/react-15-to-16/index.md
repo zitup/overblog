@@ -2,6 +2,7 @@
 title: react 15.4.2 到 16.13.1 升级过程
 date: '2020-08-08'
 spoiler: 纯记录
+cta: 'react'
 ---
 
 1. react 16.9.0 剥离了 `prop-types`，需要安装 `prop-types` 单独引用
