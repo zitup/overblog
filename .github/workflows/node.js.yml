@@ -25,6 +25,6 @@ jobs:
       - run: npm ci
       - run:
             |
-            git config --local user.email "yitongzhao@163.com"
-            git config --local user.name "zit"
+            git config --global user.email "yitongzhao@163.com"
+            git config --global user.name "zytjs"
             npm run deploy
