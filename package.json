@@ -1,17 +1,17 @@
 {
-  "name": "overreacted",
+  "name": "overblog",
   "private": true,
   "engines": {
     "node": "12.x"
   },
-  "description": "Overreacted",
+  "description": "Overblog",
   "version": "1.0.0",
   "author": "zit",
   "bugs": {
-    "url": "https://github.com/gaearon/overreacted.io/issues"
+    "url": "https://github.com/zytjs/overblog/issues"
   },
   "dependencies": {
-    "gatsby": "2.20.24",
+    "gatsby": "2.24.23",
     "gatsby-cli": "2.12.54",
     "gatsby-plugin-catch-links": "^2.0.9",
     "gatsby-plugin-ebook": "^1.0.2",
@@ -59,7 +59,7 @@
     "format": "prettier --write '{gatsby-*.js,src/**/*.{js,jsx,json,css}}'",
     "develop": "gatsby develop",
     "start": "npm run develop",
-    "build": "rm -rf public && rm -rf .cache && gatsby build --prefix-paths",
+    "build": "rm -rf public && rm -rf .cache && gatsby build",
     "now-build": "gatsby build",
     "deploy": "yarn build && gh-pages -d public",
     "js-to-jsx": "node src/utils/js-to-jsx"
