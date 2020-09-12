@@ -33,7 +33,10 @@ jobs:
             ${{ runner.os }}-yarn-
 
       - name: Build 🔧
-        run: yarn build
+        run:
+            |
+            yarn install --frozen-lockfile
+            yarn build
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
