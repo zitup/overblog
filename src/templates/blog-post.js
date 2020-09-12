@@ -215,7 +215,7 @@ class BlogPostTemplate extends React.Component {
               }}
               to={'/'}
             >
-              Overover
+              Overblog
             </Link>
           </h3>
           <Bio />
