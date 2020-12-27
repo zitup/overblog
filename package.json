@@ -8,7 +8,7 @@
   "version": "1.0.0",
   "author": "zit",
   "bugs": {
-    "url": "https://github.com/zytjs/overblog/issues"
+    "url": "https://github.com/zitup/overblog/issues"
   },
   "dependencies": {
     "gatsby": "2.24.23",

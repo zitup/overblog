@@ -23,7 +23,7 @@ class Bio extends React.Component {
           }}
         />
         <p style={{ maxWidth: 310 }}>
-          Personal blog by <a href="https://github.com/zytjs">zit</a>.{' '}
+          Personal blog by <a href="https://github.com/zitup">zit</a>.{' '}
           &nbsp;Just write something.
         </p>
       </div>

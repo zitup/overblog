@@ -17,7 +17,7 @@ class Footer extends React.Component {
           </a>
         </div>
         <a
-          href="https://developer.mozilla.org/en-US/profiles/zytjs"
+          href="https://developer.mozilla.org/en-US/profiles/zitup"
           target="_blank"
           rel="noopener noreferrer"
         >
@@ -25,7 +25,7 @@ class Footer extends React.Component {
         </a>{' '}
         &bull;{' '}
         <a
-          href="https://github.com/zytjs"
+          href="https://github.com/zitup"
           target="_blank"
           rel="noopener noreferrer"
         >

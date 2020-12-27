@@ -178,7 +178,7 @@ class BlogPostTemplate extends React.Component {
             <footer>
               <p>
                 <a
-                  href={'https://github.com/zytjs/overblog'}
+                  href={'https://github.com/zitup/overblog'}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
