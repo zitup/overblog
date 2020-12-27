@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[zit's Blog RSS Feed]]></title><description><![CDATA[Personal blog by zit. Just write something.]]></description><link>https://write.of-my.life</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 27 Dec 2020 09:26:50 GMT</lastBuildDate><item><title><![CDATA[怎么用 nodejs 写一个 Git Hook]]></title><description><![CDATA[Git Hook]]></description><link>https://write.of-my.life/git-hook/</link><guid isPermaLink="false">https://write.of-my.life/git-hook/</guid><pubDate>Sun, 27 Dec 2020 00:00:00 GMT</pubDate><content:encoded>&lt;h3 id=&quot;介绍-git-hook&quot;&gt;&lt;a href=&quot;#%E4%BB%8B%E7%BB%8D-git-hook&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;介绍 Git Hook&lt;/h3&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;Git Hook&lt;/code&gt; 是 Git 执行命令时前后可以触发的的脚本，比如 pre-commit ，在提交前执行某些东西，这个也是在前端体系中用的较多的一个 Hook，常见的使用一般也是搭配 Husky 和 lint-staged ，做代码提交前的检查。还有其他的比如，pre-rebase 、 post-rewrite 、post-checkout 、post-merge ，看名字就知道他们的执行时间了。&lt;/p&gt;
+&lt;h3 id=&quot;怎么快速创建自己的钩子？&quot;&gt;&lt;a href=&quot;#%E6%80%8E%E4%B9%88%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84%E9%92%A9%E5%AD%90%EF%BC%9F&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;怎么快速创建自己的钩子？&lt;/h3&gt;
+&lt;ol&gt;
+&lt;li&gt;创建一个文件，命名为对应的钩子名称，语言随便，这里用的nodejs&lt;/li&gt;
+&lt;li&gt;将文件放到项目下的 .git/hooks&lt;/li&gt;
+&lt;li&gt;chmod 777 xxx(你的文件) ，将文件改为可执行文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;使用对应的 git 命令，钩子就生效啦&lt;/p&gt;
+&lt;h3 id=&quot;本文主角--pre-commit&quot;&gt;&lt;a href=&quot;#%E6%9C%AC%E6%96%87%E4%B8%BB%E8%A7%92--pre-commit&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;本文主角 👉 pre-commit&lt;/h3&gt;
+&lt;p&gt;直接上代码&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;#&lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;usr&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;bin&lt;span class=&quot;token operator&quot;&gt;/&lt;/span&gt;env node
+
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; execSync &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;require&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;child_process&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token comment&quot;&gt;// 客户端文件夹名称&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; client &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;client-src&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; stagedFile &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;execSync&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;git diff --cached --name-only&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;encoding&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;utf-8&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+ &lt;span class=&quot;token comment&quot;&gt;// 提交文件包含 client 下文件，不包含 views/index.html&lt;/span&gt;
+ &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;stagedFile&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;includes&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;client&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;!&lt;/span&gt;stagedFile&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;includes&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;index.html&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;token function&quot;&gt;execSync&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token template-string&quot;&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;cd &lt;/span&gt;&lt;span class=&quot;token interpolation&quot;&gt;&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;${&lt;/span&gt;client&lt;span class=&quot;token interpolation-punctuation punctuation&quot;&gt;}&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt; &amp;amp;&amp;amp; npm run build&lt;/span&gt;&lt;span class=&quot;token template-punctuation string&quot;&gt;`&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+   process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;e&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;e&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+ process&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;exit&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token number&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;代码的目的是当 staged 的文件中包含 client 下的文件时，在 client 下执行 build，跟我们的项目结构有关。
+&lt;code class=&quot;language-text&quot;&gt;git diff --cached --name-only&lt;/code&gt; 是获取 stage 的文件，可以根据条件来执行某些逻辑。
+process.exit(0) 是可以继续执行 commit，0 之外的返回，会打断 commit 。&lt;/p&gt;
+&lt;p&gt;So easy? 就是这么简单，然鹅不得不说 git 是个很庞大的技术栈，数不清的命令…&lt;/p&gt;
+&lt;p&gt;快去试试你自己的钩子吧～不要忘了 chmod 777 赋予文件可执行权限哟～&lt;/p&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/git-hook/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[react - useEffect 小记]]></title><description><![CDATA[useEffect 和 useLayoutEffect]]></description><link>https://write.of-my.life/react-useEffect/</link><guid isPermaLink="false">https://write.of-my.life/react-useEffect/</guid><pubDate>Sun, 29 Nov 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;useEffect&lt;/code&gt; 在渲染后执行，假如在 &lt;code class=&quot;language-text&quot;&gt;useEffect&lt;/code&gt; 有一个 &lt;code class=&quot;language-text&quot;&gt;state&lt;/code&gt;，会影响界面的变化，此时，在用户眼中，界面会发生可见的闪烁&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;isShowA&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; setIsShowA&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;useState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token function&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;setIsShowA&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;isShowA &lt;span class=&quot;token operator&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;A&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;B&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;上述代码，会先把 B 组件渲染到界面上，执行副作用之后，会变成渲染 A，就会造成“闪烁”。
+解决办法可以是把 &lt;code class=&quot;language-text&quot;&gt;useEffect&lt;/code&gt; 变成 &lt;code class=&quot;language-text&quot;&gt;useLayoutEffect&lt;/code&gt;，&lt;code class=&quot;language-text&quot;&gt;useLayoutEffect&lt;/code&gt; 会同步执行副作用，就是在渲染 DOM 之前执行副作用，这样渲染时就是最后的界面。&lt;/p&gt;
+&lt;p&gt;上述 &lt;code class=&quot;language-text&quot;&gt;useEffect&lt;/code&gt; 中同步的代码，可以用 &lt;code class=&quot;language-text&quot;&gt;useLayoutEffect&lt;/code&gt; 处理，但是如果 &lt;code class=&quot;language-text&quot;&gt;useEffect&lt;/code&gt; 中是异步的代码，比如请求数据：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token function&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;setIsShowA&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;res&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;此时，替换成 &lt;code class=&quot;language-text&quot;&gt;useLayoutEffect&lt;/code&gt; 也没用了，&lt;code class=&quot;language-text&quot;&gt;setState&lt;/code&gt; 操作还是会在渲染完成之后执行，这样就需要用其他的办法，比如，默认谁也不渲染，等状态确认之后再渲染：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;isShowA&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; setIsShowA&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;useState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;isShowB&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; setIsShowB&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;useState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token function&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;url&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;then&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token keyword&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;res&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;setIsShowA&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;token function&quot;&gt;setIsShowB&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token boolean&quot;&gt;true&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;
+  &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;isShowA &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;A&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;isShowB &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;B&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;这样不会造成明显的两个界面的切换，但是可能界面会有一丢丢的渲染缓慢，可以用 loading 、 骨屏之类的缓冲一下。&lt;/p&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/react-useEffect/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[React v17.0 正式发布小记]]></title><description><![CDATA[react 17!]]></description><link>https://write.of-my.life/react-17/</link><guid isPermaLink="false">https://write.of-my.life/react-17/</guid><pubDate>Sun, 15 Nov 2020 00:00:00 GMT</pubDate><content:encoded>&lt;p&gt;看完三篇发布文档的感受就是，&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;react 本次大版本更新强调&lt;strong&gt;渐进式升级&lt;/strong&gt;，避免一个应用的整体修改。&lt;/li&gt;
+&lt;li&gt;已有API无变化，内在有些改变。&lt;/li&gt;
+&lt;li&gt;对我来说是好事，毕竟现在的原理还没搞清楚，再来新的很难顶。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;下面是具体的变化：&lt;/p&gt;
+&lt;h2 id=&quot;无新特性&quot;&gt;&lt;a href=&quot;#%E6%97%A0%E6%96%B0%E7%89%B9%E6%80%A7&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;无新特性&lt;/h2&gt;
+&lt;p&gt;React v17.0 RC 版本发布在北京时间 8 月 11 日凌晨，距离上一次大的版本更新（HOOK 版本，2019.2），已经将近两年的时间，本次更新没有新特性，主要是&lt;strong&gt;升级简化 React 本身&lt;/strong&gt;，为未来做准备。&lt;/p&gt;
+&lt;h2 id=&quot;逐步升级&quot;&gt;&lt;a href=&quot;#%E9%80%90%E6%AD%A5%E5%8D%87%E7%BA%A7&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;逐步升级&lt;/h2&gt;
+&lt;p&gt;当有新的版本时，可以选择部分升级，项目里可以有两个 react 的版本，&lt;strong&gt;但是官方都不建议这么搞&lt;/strong&gt;，主要是为了么办法全量升级 react 的项目。
+这里有个疑问是【项目里可以有两个 react 的版本呢？】，答案是两个 package.json ，参考官方给的逐步升级 &lt;a href=&quot;https://github.com/reactjs/react-gradual-upgrade-demo/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;demo&lt;/a&gt;，看下目录结构就清楚了&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;https://write.of-my.life/static/89cb9e756169d6df4f84fa2f5c138d5f/bf505/react.jpg&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 374px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 306.7567567567568%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/jpeg;base64,/9j/2wBDABALDA4MChAODQ4SERATGCgaGBYWGDEjJR0oOjM9PDkzODdASFxOQERXRTc4UG1RV19iZ2hnPk1xeXBkeFxlZ2P/2wBDARESEhgVGC8aGi9jQjhCY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2NjY2P/wgARCAA9ABQDASIAAhEBAxEB/8QAGAABAQEBAQAAAAAAAAAAAAAAAAECAwX/xAAVAQEBAAAAAAAAAAAAAAAAAAAAAf/aAAwDAQACEAMQAAAB8uNRzQaqnNFb1MQRXXNRzFf/xAAZEAEBAQEBAQAAAAAAAAAAAAABABACERL/2gAIAQEAAQUCG+m9icJzmTCfMJzm6wnP/8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAwEBPwEP/8QAFBEBAAAAAAAAAAAAAAAAAAAAMP/aAAgBAgEBPwEP/8QAGBAAAgMAAAAAAAAAAAAAAAAAEDEgMEH/2gAIAQEABj8CgjhV3//EACIQAAEEAQIHAAAAAAAAAAAAAAEAESExEEGBUWFxkaGxwf/aAAgBAQABPyEoBXP8J6vDoWn7RnRlaU6xHbFoRjr6zi6KnoYgrY3IC8vhvBG1Adhj/9oADAMBAAIAAwAAABCLLoy4z7z/xAAUEQEAAAAAAAAAAAAAAAAAAAAw/9oACAEDAQE/EA//xAAUEQEAAAAAAAAAAAAAAAAAAAAw/9oACAECAQE/EA//xAAiEAEBAAIABgIDAAAAAAAAAAABEQAhEDFBUWHB0fFxgfD/2gAIAQEAAT8QMtoOg+sbbF/DASUh4y75l6X04JsO9qD3iFQeBk3pL1nvELR2ROLVdb7GVe3PpfPbKCO/1zMRGJE6OAXZz6z2mbap0o/OMrFTzjaSvNh9OUtRL34Dmgr2HW/CYVpi6v28Fta/R38mdEKvP4OH/9k=&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;img&quot;
+        title=&quot;&quot;
+        src=&quot;https://write.of-my.life/static/89cb9e756169d6df4f84fa2f5c138d5f/bf505/react.jpg&quot;
+        srcset=&quot;https://write.of-my.life/static/89cb9e756169d6df4f84fa2f5c138d5f/a80bd/react.jpg 148w,https://write.of-my.life/static/89cb9e756169d6df4f84fa2f5c138d5f/1c91a/react.jpg 295w,https://write.of-my.life/static/89cb9e756169d6df4f84fa2f5c138d5f/bf505/react.jpg 374w&quot;
+        sizes=&quot;(max-width: 374px) 100vw, 374px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;legacy 文件夹是老项目，modern 是新项目，分别有一个 package.json，里面就是对应的 react 版本和 其他依赖 react 版本的库（react-redux 等），这样打包的时候，遵循从内往外找依赖的原则，俩版本就可以共存了。&lt;/p&gt;
+&lt;h2 id=&quot;更改事件委托&quot;&gt;&lt;a href=&quot;#%E6%9B%B4%E6%94%B9%E4%BA%8B%E4%BB%B6%E5%A7%94%E6%89%98&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;更改事件委托&lt;/h2&gt;
+&lt;p&gt;上述的两个 react 版本共存，有一个严重的问题。react 的事件处理一直是委托到 document 处理，两个版本共存，会在顶层注册两个事件处理器，会破坏 &lt;code class=&quot;language-text&quot;&gt;e.stopPropagation()&lt;/code&gt;，如果一个阻止了冒泡，另一个还是会传到顶层。官方给了一个 &lt;a href=&quot;https://github.com/facebook/react/pull/8117&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;Atom&lt;/a&gt; 的例子，没细看～
+基于以上原因，react 改变了事件委托对位置，在 react 17 中，事件处理器将附加到渲染 React 树的根 DOM 容器中。&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;const&lt;/span&gt; rootNode &lt;span class=&quot;token operator&quot;&gt;=&lt;/span&gt; document&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;id&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;render&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;token class-name&quot;&gt;App&lt;/span&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;/&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; rootNode&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;17 会对事件调用 &lt;code class=&quot;language-text&quot;&gt;rootNode.addEventListener&lt;/code&gt;，贴张图&lt;/p&gt;
+&lt;p&gt;
+  &lt;a
+    class=&quot;gatsby-resp-image-link&quot;
+    href=&quot;https://write.of-my.life/static/e2a078bd1be2cfa7b7fb696ef21a0913/1e088/react-event.png&quot;
+    style=&quot;display: block&quot;
+    target=&quot;_blank&quot;
+    rel=&quot;noopener&quot;
+  &gt;
+  
+  &lt;span
+    class=&quot;gatsby-resp-image-wrapper&quot;
+    style=&quot;position: relative; display: block;  max-width: 590px; margin-left: auto; margin-right: auto;&quot;
+  &gt;
+    &lt;span
+      class=&quot;gatsby-resp-image-background-image&quot;
+      style=&quot;padding-bottom: 77.70270270270271%; position: relative; bottom: 0; left: 0; background-image: url(&apos;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAQCAIAAACZeshMAAAACXBIWXMAAAsSAAALEgHS3X78AAACLElEQVQoz41SyY7bMAzNp7eDuRTtobf2R4oee50pumW2ZOIsjhPbiWNLliWLWunKdTrJFBigxNNBFB/5SHF0MYXXU7icwselej+HN4/y1RQuniMEvI3gw1K9i+Dy8eQfrVo/IFN+C5iYLoZu1bon/4BEhgDcSB+fOUfdyTAcf5h0inUvGp5ferKynmnfcFFXOzH5BNmN4QWix7+xXFlhkTWNBDUkGNCTQxSpWZrv92ls859et5aljhdPFYx1JaFpmjHWi0LEU+VwEULUdV2UFQJ1invNLcvQ6SHIGiOlJIRQSp+RQ1kwTloEgJQ0cc09LwLZK+ZkH2qcl8a1Fglh81KsueXSHskhiTSWmW6RHzakYUqaZheUey0c9GTnPdeWWfwapVcrlnE7Thqp3VF2o904Lb+tstuM3K+TtpgFYa4laI/j2XH1PSmu5unncTLJiMNuS+BYOW/1TU7nslsKt4gf8ioPshzfh4H3srGbH+opVeODXgj7ZZpSi0XTj2PUv9VwV/JJyR5DV0k0OzRENFrWQ2PM+NtS/KrMmAbY63W1YpBx45wfaeweSn633YXViao6JjRimgCgdwOZan+9yhfczrj7UaiIqiVTIWOwXvau1VFRr4ValtWixbCG5myRgr5lSTdc3Zb6nugYsDTHv+oH5pyrJKybdiN0obF1+M9OGmvTBiJmU7CVOaU+7bbynfRo8cWdBt+Bw9Br+Lxw8Jz8Pxa+MKjQf+ARfwNERY3v5X12ugAAAABJRU5ErkJggg==&apos;); background-size: cover; display: block;&quot;
+    &gt;
+      &lt;img
+        class=&quot;gatsby-resp-image-image&quot;
+        style=&quot;width: 100%; height: 100%; margin: 0; vertical-align: middle; position: absolute; top: 0; left: 0; box-shadow: inset 0px 0px 0px 400px white;&quot;
+        alt=&quot;img&quot;
+        title=&quot;&quot;
+        src=&quot;https://write.of-my.life/static/e2a078bd1be2cfa7b7fb696ef21a0913/fcda8/react-event.png&quot;
+        srcset=&quot;https://write.of-my.life/static/e2a078bd1be2cfa7b7fb696ef21a0913/12f09/react-event.png 148w,https://write.of-my.life/static/e2a078bd1be2cfa7b7fb696ef21a0913/e4a3f/react-event.png 295w,https://write.of-my.life/static/e2a078bd1be2cfa7b7fb696ef21a0913/fcda8/react-event.png 590w,https://write.of-my.life/static/e2a078bd1be2cfa7b7fb696ef21a0913/1e088/react-event.png 840w&quot;
+        sizes=&quot;(max-width: 590px) 100vw, 590px&quot;
+      /&gt;
+    &lt;/span&gt;
+  &lt;/span&gt;
+  
+  &lt;/a&gt;
+    &lt;/p&gt;
+&lt;p&gt;这样，两个版本对 react 事件体系就可以共存了&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;解决隐患&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;在 React 16 中创建的 &lt;code class=&quot;language-text&quot;&gt;document.addEventListener&lt;/code&gt;，即使在某个事件中调用了 &lt;code class=&quot;language-text&quot;&gt;e.stopPropagation&lt;/code&gt;，还是会执行，因为原生事件都已经处于 document 级别。使用 React 17 冒泡将被阻止（按需），因此 document 级别的事件监听不会触发。&lt;/p&gt;
+&lt;h2 id=&quot;其他重大更改&quot;&gt;&lt;a href=&quot;#%E5%85%B6%E4%BB%96%E9%87%8D%E5%A4%A7%E6%9B%B4%E6%94%B9&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;其他重大更改&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;对标浏览器&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;onScroll 事件「不再冒泡」，以防止出现常见的混淆。&lt;/li&gt;
+&lt;li&gt;React 的 onFocus 和 onBlur 事件已在底层切换为原生的 focusin 和 focusout 事件。它们更接近 React 现有行为，有时还会提供额外的信息。
+React 之前的 focus 和 blur 事件会冒泡，但是对应的原生 Dom 事件不会冒泡，而原生 DOM 的 focusin 和 focusout 事件是会冒泡的，所以切换成原生的 focusin 和 focusout 符合预期。&lt;/li&gt;
+&lt;li&gt;捕获事件（例如，onClickCapture）现在使用的是实际浏览器中的捕获监听器（？不懂，浏览器引擎一类的东东？）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;去除事件池&lt;/strong&gt;
+React 17 中移除了 “event pooling（事件池）”&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;副作用清理时间&lt;/strong&gt;&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token function&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// This is the effect itself.&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;token comment&quot;&gt;// This is its cleanup.&lt;/span&gt;
+  &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;副作用清理函数（如果存在）在 React 16 中同步运行，可能会在标签切换时减缓屏幕的过渡。所以在 React 17 中，副作用清理函数会异步执行，清理会在屏幕更新后执行。
+此外，React 17 会根据它们在树中的位置，以与效果相同的顺序执行清除功能。以前，顺序有时会不同。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;返回一致的 undefined 错误&lt;/strong&gt;
+「在 React 17 中，forwardRef 和 memo 组件的行为会与常规函数组件和 class 组件保持一致。在返回 undefined 时会报错」&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;原生组件栈&lt;/strong&gt;
+「在 React 17 中，使用了不同的机制生成组件堆栈，该机制会将它们与常规的原生 JavaScript 堆栈缝合在一起。这使得你可以在生产环境中获得完全符号化的 React 组件堆栈信息。」
+React 17 的报错信息在 console 中可以看到是哪个组件抛出的错误，会打印出“组件栈”的信息，而且可以点击索引到代码位置，就像 js 抛出的错误那样。
+可以在 context 中设置 displayName 以改善调用栈信息。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;移除私有导出&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;全新的-jsx-转换&quot;&gt;&lt;a href=&quot;#%E5%85%A8%E6%96%B0%E7%9A%84-jsx-%E8%BD%AC%E6%8D%A2&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;全新的 JSX 转换&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;有如下源代码：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; React &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;react&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;&lt;/span&gt;h1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token plain-text&quot;&gt;Hello World&lt;/span&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token tag&quot;&gt;&lt;span class=&quot;token punctuation&quot;&gt;&amp;lt;/&lt;/span&gt;h1&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;旧的 jsx 转换&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; React &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;react&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; React&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;h1&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Hello world&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;新的 jsx 转换&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token comment&quot;&gt;// 由编译器引入（禁止自己引入！）&lt;/span&gt;
+&lt;span class=&quot;token keyword&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;jsx &lt;span class=&quot;token keyword&quot;&gt;as&lt;/span&gt; _jsx&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;token keyword&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;react/jsx-runtime&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+
+&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;_jsx&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token string&quot;&gt;&apos;h1&apos;&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; children&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&apos;Hello world&apos;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;参考：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://mp.weixin.qq.com/s/fpcTFFnOS6JwLi7wq3OF0w&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://mp.weixin.qq.com/s/fpcTFFnOS6JwLi7wq3OF0w&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://reactjs.org/blog/2020/08/10/react-v17-rc.html&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;https://reactjs.org/blog/2020/08/10/react-v17-rc.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/react-17/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[一个安卓 4.4 H5 的兼容性问题]]></title><description><![CDATA[react 16、localStorage]]></description><link>https://write.of-my.life/an-android-4-4-problem/</link><guid isPermaLink="false">https://write.of-my.life/an-android-4-4-problem/</guid><pubDate>Tue, 22 Sep 2020 00:00:00 GMT</pubDate><content:encoded>&lt;h2 id=&quot;解决过程&quot;&gt;&lt;a href=&quot;#%E8%A7%A3%E5%86%B3%E8%BF%87%E7%A8%8B&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;解决过程&lt;/h2&gt;
+&lt;p&gt;&lt;strong&gt;现象&lt;/strong&gt; 是 react 16+ 在 android4.4 的 webview 和自带的浏览器内，会白屏，本来以为只是 react 16 的兼容性问题，搞了半天，还有别的兼容性问题…&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;首先&lt;/strong&gt;是 react 16 运行的 JS 环境要求，看这里&lt;a href=&quot;https://zh-hans.reactjs.org/docs/javascript-environment-requirements.html&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;官方说明&lt;/a&gt;，说得很清楚了，因为用到了 &lt;code class=&quot;language-text&quot;&gt;Map&lt;/code&gt; 和 &lt;code class=&quot;language-text&quot;&gt;Set&lt;/code&gt;，而这俩的兼容性也有要求，所以需要加上 polyfill，官方有俩推荐：&lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt; 和 &lt;code class=&quot;language-text&quot;&gt;babel-polyfill&lt;/code&gt;。
+我用的是 &lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt; ，像文档里那样，把引用放到入口文件的&lt;strong&gt;最&lt;/strong&gt;顶部，或者放到 &lt;code class=&quot;language-text&quot;&gt;webpack&lt;/code&gt; 的打包入口里。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;然后&lt;/strong&gt;把上面搞完了，还是白屏，怀疑是引用的姿势不对，把 &lt;code class=&quot;language-text&quot;&gt;core-js&lt;/code&gt; 改到了 &lt;code class=&quot;language-text&quot;&gt;webpack&lt;/code&gt; 的入口那里…其实是一样的，只是还有别的错误。再尝试使用 &lt;code class=&quot;language-text&quot;&gt;window.onerror&lt;/code&gt; 捕获错误，只弹出一个字符串 &lt;code class=&quot;language-text&quot;&gt;Script error.&lt;/code&gt;，没有什么有效信息，也不行，再尝试最笨的办法，从入口文件开始，一步一个 &lt;code class=&quot;language-text&quot;&gt;alert&lt;/code&gt;，最后终于定位到了一个方法，内部用到了 &lt;code class=&quot;language-text&quot;&gt;localStorage&lt;/code&gt;，打印 &lt;code class=&quot;language-text&quot;&gt;window.localStorage&lt;/code&gt; 是 &lt;code class=&quot;language-text&quot;&gt;null&lt;/code&gt;，找到问题就好解决了，判断一下是否存在，做了兼容处理。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;后续查找 &lt;code class=&quot;language-text&quot;&gt;Script error.&lt;/code&gt; 这几个字符是浏览器的同源策略（Same Origin Policy &lt;a href=&quot;https://blog.sentry.io/2016/05/17/what-is-script-error&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;参考这里&lt;/a&gt;），因为 js 是放在 cdn 上，触发了同源限制，浏览器为了避免信息泄漏，只展示脚本错误几个字。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;几个关键点&quot;&gt;&lt;a href=&quot;#%E5%87%A0%E4%B8%AA%E5%85%B3%E9%94%AE%E7%82%B9&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;几个关键点&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;解决问题没有明确的思路，一直抱有侥幸心理，胡乱尝试，浪费了很多时间，其实科学的解决思路才是解决问题的最快办法&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;完善错误报警&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;第一个问题是 react 16 的兼容性问题，会直接导致渲染出错，尝试了使用&lt;a href=&quot;https://zh-hans.reactjs.org/docs/error-boundaries.html&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;错误边界&lt;/a&gt;包裹根组件，没有报出错误，应该是兼容性问题导致错误边界组件本身也无法正确渲染了（猜测是这样，没有看过源码），这样的兼容性问题貌似没有好的错误报警方式&lt;/li&gt;
+&lt;li&gt;事件处理器内部的错误，也就是 js 的执行错误，只能多使用 &lt;code class=&quot;language-text&quot;&gt;try catch&lt;/code&gt; 包住，尽量避免直接崩溃的情况，还可以及时上报。如果使用了 &lt;code class=&quot;language-text&quot;&gt;sentry&lt;/code&gt;，后端较容易处理，可以自动捕获直接抛出来的错误，前端相对来说比较麻烦，只能手动捕获上报了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;一个手机端调试工具&quot;&gt;&lt;a href=&quot;#%E4%B8%80%E4%B8%AA%E6%89%8B%E6%9C%BA%E7%AB%AF%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;一个手机端调试工具&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/liriliri/eruda&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;eruda&lt;/a&gt;，可以展示 &lt;code class=&quot;language-text&quot;&gt;console&lt;/code&gt; 的消息，一定程度上可能有用。&lt;/p&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/an-android-4-4-problem/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[Semantic]]></title><description><![CDATA[前端中的语义化]]></description><link>https://write.of-my.life/semantic/</link><guid isPermaLink="false">https://write.of-my.life/semantic/</guid><pubDate>Wed, 09 Sep 2020 00:00:00 GMT</pubDate><content:encoded>&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;JS 中的语义化&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;主要是函数、变量等命名的方式，通过命名就可以看出作用，不用去了解内部实现或者具体使用，比如&lt;code class=&quot;language-text&quot;&gt;React&lt;/code&gt;的 API：&lt;code class=&quot;language-text&quot;&gt;getDerivedStateFromProps&lt;/code&gt;、&lt;code class=&quot;language-text&quot;&gt;componentDidMount&lt;/code&gt;，命名都很语义化&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;CSS 中的语义化&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;主要是使用固定的属性去选元素，比如 &lt;code class=&quot;language-text&quot;&gt;.fruits__item&lt;/code&gt; 优于 &lt;code class=&quot;language-text&quot;&gt;div &amp;gt; ul &amp;gt; li&lt;/code&gt;，前者很快就可以定位到对应的元素&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;HTML 中的语义化&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;主要是标签有特定的含义，主要体现在：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;本身命名的语义化&lt;/strong&gt;：比如 &lt;code class=&quot;language-text&quot;&gt;header aside footer article main footer&lt;/code&gt;，从名字就可以看出它的作用，相比页面充斥着很多的&lt;code class=&quot;language-text&quot;&gt;div&lt;/code&gt;，代码更清晰，查找起来也更快&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;SEO 友好&lt;/strong&gt;：比如 &lt;code class=&quot;language-text&quot;&gt;h1&lt;/code&gt; 标签，搜索引擎会把它的内容当作一个重要的关键词，从而影响搜索排序&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;可访问性强&lt;/strong&gt;：屏幕阅读器喜欢语义明确的标签，让界面有更好对体验，无障碍性也会比较好&lt;/li&gt;
+&lt;/ol&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/semantic/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[在命令行使用谷歌搜索]]></title><description><![CDATA[提高效率小知识 search in termianl]]></description><link>https://write.of-my.life/search-in-terminal/</link><guid isPermaLink="false">https://write.of-my.life/search-in-terminal/</guid><pubDate>Thu, 03 Sep 2020 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;关键词： mac 提效 命令行搜索 search in termianl&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;在终端的 &lt;code class=&quot;language-text&quot;&gt;bash_profile&lt;/code&gt; 中添加以下代码(如果使用 &lt;code class=&quot;language-text&quot;&gt;zsh&lt;/code&gt; ，则是 &lt;code class=&quot;language-text&quot;&gt;zshrc&lt;/code&gt; 文件)&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;token function-name function&quot;&gt;google&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token function&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;token string&quot;&gt;&quot;https://www.google.com/search?q=&lt;span class=&quot;token variable&quot;&gt;$1&lt;/span&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;然后 &lt;code class=&quot;language-text&quot;&gt;source ~/.bash_profile&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;命令行中输入 &lt;code class=&quot;language-text&quot;&gt;google test&lt;/code&gt;，直接跳转到浏览器搜索界面&lt;br&gt;
+多字符串搜索用双引号包住 &lt;code class=&quot;language-text&quot;&gt;google &amp;quot;str str str&amp;quot;&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;搜索终端中的问题，更快更便捷更极客！&lt;br&gt;
+推荐指数🌟🌟🌟🌟🌟😄&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;顺带提下，vscode 也有一个在终端快速打开当前文件夹的命令 &lt;code class=&quot;language-text&quot;&gt;code .&lt;/code&gt;&lt;br&gt;
+&lt;code class=&quot;language-text&quot;&gt;command+shift+p&lt;/code&gt; 召唤出面板，选择 &lt;code class=&quot;language-text&quot;&gt;install &amp;#39;code&amp;#39; ...&lt;/code&gt; 安装即可&lt;/p&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/search-in-terminal/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[sentry 部署极简教程]]></title><description><![CDATA[docker 一键部署]]></description><link>https://write.of-my.life/sentry/</link><guid isPermaLink="false">https://write.of-my.life/sentry/</guid><pubDate>Mon, 31 Aug 2020 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+&lt;p&gt;关键词： sentry docker 更换源&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;1-克隆-sentry-官方部署仓库&quot;&gt;&lt;a href=&quot;#1-%E5%85%8B%E9%9A%86-sentry-%E5%AE%98%E6%96%B9%E9%83%A8%E7%BD%B2%E4%BB%93%E5%BA%93&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;1. 克隆 sentry 官方部署仓库&lt;/h2&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;git&lt;/span&gt; clone https://github.com/getsentry/onpremise&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h2 id=&quot;2-安装-docker-docker-compose&quot;&gt;&lt;a href=&quot;#2-%E5%AE%89%E8%A3%85-docker-docker-compose&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;2. 安装 docker docker-compose&lt;/h2&gt;
+&lt;h3 id=&quot;版本要求&quot;&gt;&lt;a href=&quot;#%E7%89%88%E6%9C%AC%E8%A6%81%E6%B1%82&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;版本要求&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;Docker 17.05.0+&lt;/li&gt;
+&lt;li&gt;Compose 1.23.0+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Ubuntu16-18 安装&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&quot;安装-docker&quot;&gt;&lt;a href=&quot;#%E5%AE%89%E8%A3%85-docker&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;安装 docker&lt;/strong&gt;&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;删除旧版本 Docker&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;text&quot;&gt;&lt;pre class=&quot;language-text&quot;&gt;&lt;code class=&quot;language-text&quot;&gt;sudo apt-get remove docker docker-engine docker.io&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;添加 Docker 软件源&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; apt-transport-https ca-certificates  &lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; software-properties-common
+&lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; -fsSL https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu/gpg &lt;span class=&quot;token operator&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; apt-key &lt;span class=&quot;token function&quot;&gt;add&lt;/span&gt; -
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; add-apt-repository &lt;span class=&quot;token string&quot;&gt;&quot;deb [arch=amd64] https://mirrors.ustc.edu.cn/docker-ce/linux/ubuntu &lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;$(&lt;/span&gt;lsb_release -cs&lt;span class=&quot;token variable&quot;&gt;)&lt;/span&gt;&lt;/span&gt; stable&quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装 Docker CE（社区版）&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update -y
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; docker-ce -y&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;设置开机启动&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl &lt;span class=&quot;token builtin class-name&quot;&gt;enable&lt;/span&gt; docker
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; systemctl start docker&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;把当前用户加入 docker 组&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;groupadd&lt;/span&gt; docker
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;usermod&lt;/span&gt; -aG docker &lt;span class=&quot;token environment constant&quot;&gt;$USER&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;测试&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;docker run hello-world&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;h3 id=&quot;安装-docker-compose&quot;&gt;&lt;a href=&quot;#%E5%AE%89%E8%A3%85-docker-compose&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;strong&gt;安装 docker-compose&lt;/strong&gt;&lt;/h3&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;安装&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;curl&lt;/span&gt; -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;uname&lt;/span&gt; -s&lt;span class=&quot;token variable&quot;&gt;`&lt;/span&gt;&lt;/span&gt;-&lt;span class=&quot;token variable&quot;&gt;&lt;span class=&quot;token variable&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;uname&lt;/span&gt; -m&lt;span class=&quot;token variable&quot;&gt;`&lt;/span&gt;&lt;/span&gt; -o /usr/local/bin/docker-compose
+&lt;span class=&quot;token function&quot;&gt;sudo&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;chmod&lt;/span&gt; +x /usr/local/bin/docker-compose&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;测试&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;  docker-compose --version&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote&gt;
+&lt;p&gt;mac 安装  &lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;  直接官网下载安装，&lt;a href=&quot;https://docs.docker.com/docker-for-mac/install/&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;地址点我&lt;/a&gt;，国内下载较慢，可以使用迅雷下载（迅雷用完就删😼），Docker for Mac 和 Docker Toolbox 已经包含了 Compose , 所以 Mac 用户不用单独安装Compose&lt;/p&gt;
+&lt;h2 id=&quot;3-最重要的一步：更换源&quot;&gt;&lt;a href=&quot;#3-%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E4%B8%80%E6%AD%A5%EF%BC%9A%E6%9B%B4%E6%8D%A2%E6%BA%90&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;3. 最重要的一步：更换源&lt;/h2&gt;
+&lt;p&gt;这里主要更换两处源&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;更换 docker 镜像源&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsxon&quot;&gt;&lt;pre class=&quot;language-jsxon&quot;&gt;&lt;code class=&quot;language-jsxon&quot;&gt;&amp;quot;registry-mirrors&amp;quot;: [
+  &amp;quot;https://xxxxxx.mirror.aliyuncs.com&amp;quot;,
+  &amp;quot;http://docker.mirrors.ustc.edu.cn&amp;quot;,
+  &amp;quot;http://hub-mirror.c.163.com&amp;quot;
+]&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;更换 apt-get 源(重要！！！)&lt;/strong&gt;&lt;br&gt;
+这里是修改镜像中 apt debian 的源，否则国内下载要很久很久  &lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;进到第一步克隆的 onpremise 目录&lt;/li&gt;
+&lt;li&gt;打开 cron 下的 Dockerfile&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;将&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;RUN &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -y --no-install-recommends &lt;span class=&quot;token function&quot;&gt;cron&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;rm&lt;/span&gt; -r /var/lib/apt/lists/*&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;替换成&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;RUN &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; -i &lt;span class=&quot;token string&quot;&gt;&quot;s@http://deb.debian.org@http://mirrors.aliyun.com@g&quot;&lt;/span&gt; /etc/apt/sources.list
+RUN &lt;span class=&quot;token function&quot;&gt;sed&lt;/span&gt; -i &lt;span class=&quot;token string&quot;&gt;&quot;s@http://security.debian.org/debian-security@http://mirrors.aliyun.com/debian-security@g&quot;&lt;/span&gt; /etc/apt/sources.list &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;rm&lt;/span&gt; -Rf /var/lib/apt/lists/*
+
+RUN &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; update &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;apt-get&lt;/span&gt; &lt;span class=&quot;token function&quot;&gt;install&lt;/span&gt; -y --no-install-recommends &lt;span class=&quot;token function&quot;&gt;cron&lt;/span&gt; apt-utils &lt;span class=&quot;token operator&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;\&lt;/span&gt;
+    &lt;span class=&quot;token function&quot;&gt;rm&lt;/span&gt; -r /var/lib/apt/lists/*&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;4-最后&quot;&gt;&lt;a href=&quot;#4-%E6%9C%80%E5%90%8E&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;4. 最后&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;onpremise 目录下 &lt;code class=&quot;language-text&quot;&gt;./install.sh&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;启动&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;docker-compose up -d&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;停止&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;bash&quot;&gt;&lt;pre class=&quot;language-bash&quot;&gt;&lt;code class=&quot;language-bash&quot;&gt;docker-compose stop&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;结束，完美。&lt;/p&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/sentry/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[react 15.4.2 到 16.13.1 升级过程]]></title><description><![CDATA[纯记录]]></description><link>https://write.of-my.life/react-15-to-16/</link><guid isPermaLink="false">https://write.of-my.life/react-15-to-16/</guid><pubDate>Sat, 08 Aug 2020 00:00:00 GMT</pubDate><content:encoded>&lt;ol&gt;
+&lt;li&gt;react 16.9.0 剥离了 &lt;code class=&quot;language-text&quot;&gt;prop-types&lt;/code&gt;，需要安装 &lt;code class=&quot;language-text&quot;&gt;prop-types&lt;/code&gt; 单独引用&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code class=&quot;language-text&quot;&gt;javascript:; &amp;#39;&amp;#39; React 16.9.0 deprecates javascript: URLs&lt;/code&gt;
+因为安全原因，react 16.9 开始禁用了 &lt;code class=&quot;language-text&quot;&gt;javascript:&lt;/code&gt; 链接，用 &lt;code class=&quot;language-text&quot;&gt;onClick={e =&amp;gt; e.preventDefault()}&lt;/code&gt; 代替，或者使用button按钮。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Warning: A future version of React will block javascript: URLs as a security precaution. Use event handlers instead if you can. If you need to generate unsafe HTML try using dangerouslySetInnerHTML instead. React was passed “javascript:void(0)“.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;react-hot-loader&lt;/code&gt; 推荐使用 &lt;code class=&quot;language-text&quot;&gt;react-refresh&lt;/code&gt; 代替了&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;setstate 中再调用 setstate&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Warning: An update (setState, replaceState, or forceUpdate) was scheduled from inside an update function. Update functions should be pure, with zero side-effects. Consider using componentDidUpdate or a callback.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;问题出在用 this.setState 的 callback 的方式，但是在callback里又调用了setState, 比如：&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;prevState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; a&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; aaa &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;所以应该返回新的state:&lt;/p&gt;
+&lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsx&quot;&gt;&lt;pre class=&quot;language-jsx&quot;&gt;&lt;code class=&quot;language-jsx&quot;&gt;&lt;span class=&quot;token keyword&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;token function&quot;&gt;setState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;token parameter&quot;&gt;prevState&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;token operator&quot;&gt;=&gt;&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;token comment&quot;&gt;// ...&lt;/span&gt;
+  &lt;span class=&quot;token keyword&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;token punctuation&quot;&gt;{&lt;/span&gt; a&lt;span class=&quot;token operator&quot;&gt;:&lt;/span&gt; aaa &lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;token punctuation&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;token punctuation&quot;&gt;)&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;如果必须再使用 setState ，建议换个写法。&lt;/p&gt;
+&lt;p&gt;5 . API 替换&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;componentWillMount
+一般初始化操作放到constructor，获取数据等有副作用操作放到componentDidMount&lt;/li&gt;
+&lt;li&gt;componentWillReceiveProps
+这个API涉及到父组件，需要结合业务和本组件内的逻辑来修改，优先考虑拆分清楚组件状态，最好是单一数据源，也可以用getDerivedStateFromProps替代（有必要的话），参考&lt;a href=&quot;https://zh-hans.reactjs.org/blog/2018/06/07/you-probably-dont-need-derived-state.html&quot; target=&quot;_blank&quot; rel=&quot;nofollow noopener noreferrer&quot;&gt;你可能不需要使用派生 state&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;6 . 父组件两次渲染，完全受控的组件直接修改props，会污染父组件的state
+应该是和 props 引用相关，子组件的避免直接修改，可以深拷贝一个，再改。&lt;/p&gt;
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://write.of-my.life/react-15-to-16/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item></channel></rss>
