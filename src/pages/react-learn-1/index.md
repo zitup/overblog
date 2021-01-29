@@ -15,16 +15,16 @@ cta: 'react'
 
    ```jsx
    {
-   type: 'button',
-   props: {
-      className: 'button button-blue',
-      children: {
-         type: 'b',
-         props: {
-         children: 'OK!'
+      type: 'button',
+      props: {
+         className: 'button button-blue',
+         children: {
+            type: 'b',
+            props: {
+            children: 'OK!'
+            }
          }
       }
-   }
    }
    ```
 本质就是一个 object，描述一个原生按钮，包括它的属性、子元素。如果是描述一个 instance，type 会是定义的组件，比如：`type: 'Button'`。

@@ -11,7 +11,7 @@
     "url": "https://github.com/zitup/overblog/issues"
   },
   "dependencies": {
-    "gatsby": "2.24.23",
+    "gatsby": "^2.31.1",
     "gatsby-cli": "2.12.54",
     "gatsby-plugin-catch-links": "^2.0.9",
     "gatsby-plugin-ebook": "^1.0.2",
@@ -21,7 +21,7 @@
     "gatsby-plugin-manifest": "^2.0.5",
     "gatsby-plugin-offline": "^2.0.5",
     "gatsby-plugin-react-helmet": "^3.0.0",
-    "gatsby-plugin-sharp": "^2.0.16",
+    "gatsby-plugin-sharp": "^2.13.3",
     "gatsby-plugin-typography": "^2.2.0",
     "gatsby-remark-autolink-headers": "2.0.12",
     "gatsby-remark-copy-linked-files": "^2.0.5",
@@ -51,7 +51,7 @@
     "glob": "^7.1.3",
     "prettier": "^1.14.2"
   },
-  "homepage": "https://write.of-my.life",
+  "homepage": "https://github.com/zitup/overblog",
   "license": "MIT",
   "scripts": {
     "dev": "gatsby develop",
@@ -59,7 +59,7 @@
     "format": "prettier --write '{gatsby-*.js,src/**/*.{js,jsx,json,css}}'",
     "develop": "gatsby develop",
     "start": "npm run develop",
-    "build": "rm -rf public && rm -rf .cache && gatsby build",
+    "build": "rm -rf public && rm -rf .cache && gatsby build --prefix-paths",
     "now-build": "gatsby build",
     "deploy": "yarn build && gh-pages -d public",
     "js-to-jsx": "node src/utils/js-to-jsx"
@@ -80,6 +80,6 @@
     ]
   },
   "resolutions": {
-    "**/sharp": "^0.23"
+    "sharp": "0.27.0"
   }
 }

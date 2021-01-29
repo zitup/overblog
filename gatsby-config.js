@@ -3,9 +3,9 @@ module.exports = {
     title: 'Overblog',
     author: 'zit',
     description: 'Personal blog by zit. Just write something.',
-    siteUrl: 'https://write.of-my.life',
+    siteUrl: 'https://zitup.github.io/overlog/',
   },
-  pathPrefix: '/',
+  pathPrefix: '/overblog',
   plugins: [
     {
       resolve: `gatsby-source-filesystem`,
