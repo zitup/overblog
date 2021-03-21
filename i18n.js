@@ -1,6 +1,6 @@
 // Please keep keys lowercase!
 exports.supportedLanguages = {
-  // en: 'English',
+  en: 'English',
   // ru: 'Русский',
   // tr: 'Türkçe',
   // es: 'Español',
@@ -11,7 +11,7 @@ exports.supportedLanguages = {
   // 'pt-br': 'Português do Brasil',
   // pl: 'Polski',
   // 'zh-hant': '繁體中文',
-  'zh-hans': '简体中文',
+  // 'zh-hans': '简体中文',
   // ja: '日本語',
   // fr: 'Français',
   // he: 'עברית',

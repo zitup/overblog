@@ -3,7 +3,7 @@ module.exports = {
     title: 'Overblog',
     author: 'zit',
     description: 'Personal blog by zit. Just write something.',
-    siteUrl: 'https://zitup.github.io/overlog/',
+    siteUrl: 'https://zitup.github.io/overblog/',
   },
   pathPrefix: '/overblog',
   plugins: [

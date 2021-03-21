@@ -58,7 +58,7 @@
     "lint": "./node_modules/.bin/eslint --ext .js,.jsx --ignore-pattern public .",
     "format": "prettier --write '{gatsby-*.js,src/**/*.{js,jsx,json,css}}'",
     "develop": "gatsby develop",
-    "start": "npm run develop",
+    "start": "yarn develop",
     "build": "rm -rf public && rm -rf .cache && gatsby build --prefix-paths",
     "now-build": "gatsby build",
     "deploy": "yarn build && gh-pages -d public",
