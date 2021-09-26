@@ -86,7 +86,7 @@ React 在比较树时，会先对比根元素，如果两个元素不一样，�
 当比较相同类型的 Dom 类元素时，React 只会查找属性并**只**更新改变的。当处理完当前元素时，会遍历(recurse)处理它的子元素。
 
 当比较相同类型的组件实例时，React 会更新实例的 props，并调用 `UNSAFE_componentWillReceiveProps()`，`UNSAFE_componentWillUpdate()` and `componentDidUpdate()`。16.3 之后的版本，会调用 `static getDerivedStateFromProps()`。
-需要注意的是，组件的状态会跨院更新存在。
+需要注意的是，组件的状态会跨更新存在。
 
 然后，`render()`方法被调用，react 会对返回的结果和之前的结果，递归的执行 diff 算法。
 
