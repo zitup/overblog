@@ -132,6 +132,7 @@ const onClick = () => {
 >  }
 > ```
 > 输出：updated 1 0 , a 1 , updated 1 1 , b 1
+> 
 > 函数式组件
 > ```jsx
 >   const [a, setA] = useState(0)
@@ -159,6 +160,7 @@ const onClick = () => {
 ## 如何优化无法批量更新的更新呢？
 1. 把 state 整合进一个 object，这样多个更新就变成了一个更新
 2. 可以使用 React 提供的一个 API，手动强制批量更新。
+
 ```jsx
 promise.then(() => {
   ReactDom.unstable_batchedUpdates(() => {
@@ -173,6 +175,10 @@ promise.then(() => {
 React event handlers 默认被包含在 unstable_batchedUpdates，所以它们可以批量更新。在其他地方可以强制使用 unstable_batchedUpdates，当 unstable_batchedUpdates 结束时，更新会被刷新到界面。
 3. useReducer
 
+> React 18 针对 react 事件之外的更新后会自动 batch
+> 参考: https://github.com/reactwg/react-18/discussions/21
+
 
 ## 参考：
 1. https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
+2. React 18
