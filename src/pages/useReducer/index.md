@@ -5,9 +5,9 @@ spoiler: 一文搞懂 useReducer
 cta: 'react'
 ---
 
-useReducer 是 useState 的替代方案。当 useState 不能很好的满足需要的时候，或许就是使用 useReducer 的时机。
+useReducer 是 useState 的替代方案。当 useState 不能很好的满足需要的时候，useReducer 可能会解决我们的问题。
 
-## 如何使用
+## 用法
 
 `const [state, dispatch] = useReducer(reducer, initialArg, init);`
 
@@ -45,7 +45,7 @@ dispatch 的参数是 reducer 的 action，reducer 函数根据传入的 action 
 
 ## 用途
   - dispatch 向下传递
-    dispatch 可以代替 callback 的方式向子组件传递，进行从下向上的更新。优点在于 dispatch 在更新时不会重新定义，或多或少的减少了一点重新定义 callback 函数的开销，虽然可以忽略不计。
+    dispatch 可以代替 callback 的方式向子组件传递，进行从下向上的更新。优点在于 dispatch 在更新时不会重新定义，或多或少的减少了一点重新定义 callback 函数的开销，还便于子组件根据 props 判断是否需要更新。
 
     假如层级过深，还可以搭配 context 使用，此时使用 dispatch 代替 callback 优势更明显。因为 dispatch 在 re-render 时不变，不会引起使用 context 的组件执行无意义的更新。
 
@@ -91,4 +91,4 @@ dispatch 的参数是 reducer 的 action，reducer 函数根据传入的 action 
     ```
 
 ## 总结
-useReducer 就是 useState 的替代方案。useState 能做到的事，它都能做到，甚至做得更好。useReducer 某种程度上解耦了操作逻辑(action)和后续的行为(一般是 UI 的更新)，虽然代码量变多了，但是看起来更加整洁。
+useReducer 是 useState 的替代方案，useState 能做到的事，它都能做到，甚至做得更好。useReducer 某种程度上解耦了操作逻辑(action)和后续的行为(一般是 UI 的更新)，虽然代码量变多了，但是看起来更加整洁。
