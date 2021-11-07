@@ -178,7 +178,17 @@ React event handlers 默认被包含在 unstable_batchedUpdates，所以它们�
 > React 18 针对 react 事件之外的更新后会自动 batch
 > 参考: https://github.com/reactwg/react-18/discussions/21
 
+## useState 技巧
+以上是 useState 基本使用总结，这一节记录一些实际业务中遇到的 useState 问题和解决办法。
+
+1. useState 懒惰初始化函数中，依赖的 props 或者 redux 某个值发生变化怎么办？
+   1. 首先看逻辑是否可以适配props值的改变
+   2. 通过 useEffect 更新 state
+      1. 问题：state 值需要重新计算
+      2. 懒惰初始化函数需要抽象出来
+   3. 使用 useMemo
+      1. 问题：可能会依赖其它变量，其他变量保持不变还好，如果也发生改变，可能会重新计算，要确定这是否是想要的结果。
 
 ## 参考：
 1. https://stackoverflow.com/questions/48563650/does-react-keep-the-order-for-state-updates/48610973#48610973
-2. React 18
+2. https://github.com/reactwg/react-18/discussions/21
