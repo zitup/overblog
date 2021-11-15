@@ -348,6 +348,8 @@ myFunc 是对 displayName 实例的引用。displayName 在 makeFunc 执行时�
 
 函数通过内部的属性 `[[scope]]` 记录它创建时所在的词法环境，和更外层的词法环境。
 
+> 参考：https://262.ecma-international.org/11.0/#sec-lexical-environments
+
 ```jsx
 function fn1() {
   var a = 1
@@ -443,25 +445,27 @@ var File = function () { // open IIFE
 }();
 ```
 
-相关知识：
+## 相关知识：
 
 > 以下项不只是涉及到函数，还包括很多其它知识点，避免花费太多时间，暂时不在这里深究了，在后面熟悉原型/串联更多知识之后再说。
 
-## new 一个函数发生了什么、new 原理
+### new 一个函数发生了什么、new 原理
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 
-## bind call apply 
+### bind call apply 
 手写
 
 core-js源码：https://github.com/zloirock/core-js#ecmascript-function
 
-## 柯里化
+### 柯里化
 手写
 
-## 函数式编程
+### 函数式编程
 
-## 节流、去抖函数
+### 节流、去抖函数
 
-## 看不懂的
+### 寄生组合式继承
+
+### 看不懂的
 
 1. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply#using_apply_to_chain_constructors
