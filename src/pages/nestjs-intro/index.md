@@ -202,6 +202,6 @@ create(@Body() createUserDto: CreateUserDto) {
 
 可以在路由函数执行之前或之后做一些事情。比如，全局成功返回的固定格式，访问日志等。
 
-![](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0f613fc1e56b4f799c58e6a8966b96a7~tplv-k3u1fbpfcp-zoom-1.image)
+![](./interceptor.png)
 
 以上便是 NestJS 的一些核心概念，看完后对 NestJS 应该有了一个整体的了解，再结合对应部分的文档，便可以熟练掌握 NestJS 的使用。
