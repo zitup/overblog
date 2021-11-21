@@ -217,3 +217,5 @@ Classes 是 ES6 新增的用于定义对象的模板，替代了之前使用基�
 
 1. ES5、ES6 如何实现继承
 class 转换成 es5 是什么样?
+
+2. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Details_of_the_Object_Model
