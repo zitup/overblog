@@ -56,43 +56,43 @@ let sayHi = function(name) {
 
 函数名称上
 
-- expression
+  - expression
 
-  函数表达式包括函数名称和函数分配给的变量。函数名称可忽略，但是定义了便不可改变，赋给的变量可随意改变。函数名称只在函数体内可以引用到，在外部使用会报错。
+    函数表达式包括函数名称和函数分配给的变量。函数名称可忽略，但是定义了便不可改变，赋给的变量可随意改变。函数名称只在函数体内可以引用到，在外部使用会报错。
 
-  ```jsx
-    var y = function x() {};
-    console.log(y.name;) // x
-    alert(x); // throws an error
-  ```
-  
-- declaration
-  
-  函数声明时所使用的名称，在函数内和外部均可调用。在外部也可以调用，是因为函数声明同时创建了一个和函数名称相同的变量。
-  
-  假如将函数名称重新赋值，改变的是变量的值，函数名称没发生改变。
-
-  ```jsx
-    function fn() {
-      console.log(111)
-    }
-    const test = fn;
-    fn = 1;
+      ```jsx
+        var y = function x() {};
+        console.log(y.name;) // x
+        alert(x); // throws an error
+    ```
     
-    console.log(fn); // 1
-    test() // 111
-    console.log(test.name) // 'fn'
-  ```
+  - declaration
+
+    函数声明时所使用的名称，在函数内和外部均可调用。在外部也可以调用，是因为函数声明同时创建了一个和函数名称相同的变量。
+
+    假如将函数名称重新赋值，改变的是变量的值，函数名称没变。
+
+      ```jsx
+        function fn() {
+          console.log(111)
+        }
+        const test = fn;
+        fn = 1;
+
+        console.log(fn); // 1
+        test() // 111
+        console.log(test.name) // 'fn'
+      ```
 
 ## 箭头函数
 
 箭头函数作为普通函数的紧凑简洁版本，使用起来很方便，但是并不适用所有情况，其中的局限性需要了解：
 
-- 没有自己的 this/super，（所以不建议当作对象方法）
-- 内部不能使用 new.target 关键字（会直接报语法错误）
-- call, apply, bind 无法使用（因为 this 在函数定义时已确定，无法改变）
-- 不能作为构造函数（因为构造函数通过 new 调用时，需要构造函数的 prototype 属性和 this，箭头函数这两样都没有）
-- 内部没有 arguments 对象
+  - 没有自己的 this/super 绑定，（所以不应该当作对象方法）
+  - 内部不能使用 new.target 关键字（会直接报语法错误）
+  - call, apply, bind 无法使用（因为 this 在函数定义时已确定，无法改变）
+  - 不能作为构造函数（因为构造函数通过 new 调用时，需要构造函数的 prototype 属性和 this，箭头函数这两样都没有）
+  - 内部没有 arguments 对象
 
 ## 函数返回值
 如果没有显式定义返回值，New 一个构造函数，函数的默认返回值为 new 创建的新对象，其它函数都默认返回 undefined。

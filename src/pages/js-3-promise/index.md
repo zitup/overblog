@@ -78,7 +78,7 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
 
   返回值
 
-  - 传入的 iterable 对象为空，返回一个**已经 resolved** 的 promise，可以说是同步执行的。值是一个空数组
+  - 传入的 iterable 对象为空，返回一个**已经 resolved** 的 promise。值是一个空数组
   <!-- - 传入的 iterable 对象内不包含 promise 对象，返回一个**异步 resolved** 的 promise -->
   - 其它都返回一个 **pending 的 promise**。返回值的顺序和传入的顺序一致。
 
@@ -180,13 +180,35 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
 
   值得注意的是，`Promise.resolve`会尝试展开嵌套的 promise-like 对象，取最终的值。
 
+  `Promise.resolve` 和 `Promise.reject` 两个方法都是同步创建一个确定状态的 promise，但是他们还是异步执行的。考虑以下代码：
+
+  ```jsx
+    try {
+      Promise.reject(new Error('error'))
+    } catch (e) {
+      console.log(e)
+    }
+  ```
+
+  try/catch 并不能捕获抛出的错误，就是因为 promise 本质上是异步执行的。虽然同步创建了一个 rejected promise，但是只是同步改变了状态，执行仍然是异步的。所以这里使用同步的方式捕获不到，改为下列方式可以正确捕获：
+
+  ```jsx
+    async function catchError() {
+      try {
+        await Promise.reject(new Error('error'))
+      } catch (e) {
+        console.log(e)
+      }
+    }
+  ```
+
 ## 实例方法
 
 - ### Promise.prototype.then()
 
   `.then()` 方法接受两个函数类型的参数，第一个在 promise 变为 fulfilled 时执行，第二个在 promise 变为 rejected 时执行。`.then()` 返回一个新的 promise 对象，即使 `.then()` 没有传入处理函数。
 
-  `p.then(onFulfilled[, onRejected]);`，两个参数都是可选的。如果一个或两个参数未传，或者为非函数，那么返回到 promise 会采用调用 then 的原始 promise 的状态。
+  `p.then(onFulfilled[, onRejected]);`，两个参数都是可选的。如果一个或两个参数未传，或者为非函数，那么返回的 promise 会采用调用 then 的原始 promise 的状态，值也为原值。
 
   返回值
 
