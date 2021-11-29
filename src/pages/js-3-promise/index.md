@@ -287,7 +287,11 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
   - 处理函数中抛出错误或返回一个 rejected promise，finally 会返回一个 rejected promise。
   - 其它情况，返回的 promise，状态是原始 promise 的状态，值是原始 promise 的值。
 
+## async await
+
 ## 相关知识
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
 ### 浏览器中的事件循环
 https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
 
