@@ -287,7 +287,49 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
   - 处理函数中抛出错误或返回一个 rejected promise，finally 会返回一个 rejected promise。
   - 其它情况，返回的 promise，状态是原始 promise 的状态，值是原始 promise 的值。
 
-## async await
+## async await (ES2017)
+
+async/await 使用更简洁的方式启用异步操作。简化了使用 promise API 时必要的语法。
+
+### async
+
+返回值
+
+一个 resolved/rejected promise。
+
+```jsx
+// 函数签名
+async function name([param[, param[, ...param]]]) {
+   statements
+}
+
+async function foo() {
+  return 1
+}
+// 略等于
+function foo() {
+   return Promise.resolve(1)
+}
+// PS: 略等，是因为假如返回一个 promise 时，async 函数返回的是一个新的 promise，而 Promise.resolve() 返回的是同一个 promise。
+```
+
+async 函数体可以根据 await 表达式，分割为1个或多个部分。如果函数体内没有 await 表达式，这个 async 函数是同步执行的。如果有 await 表达式，函数体从最顶层代码到第一个 await 表达式(包括此表达式)是同步执行的，剩余部分异步执行。
+
+主要 async 函数体内存在一个 await 表达式，它就是**异步**执行完成的。看以下代码：
+
+```jsx
+  async function foo() {
+    await 1
+  }
+  // 等于
+  async function foo() {
+    return Promise.resolve(1).then(() => undefined)
+  }
+```
+
+
+
+### await
 
 ## 相关知识
 
