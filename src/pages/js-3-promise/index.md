@@ -295,7 +295,7 @@ async/await 使用更简洁的方式启用异步操作。简化了使用 promise
 
 返回值
 
-一个 resolved/rejected promise。
+一个 resolved promise，或者当函数内部有未捕获的 rejected promise 和抛出异常时，返回一个 rejected promise。
 
 ```jsx
 // 函数签名
@@ -315,11 +315,11 @@ function foo() {
 
 async 函数体可以根据 await 表达式，分割为1个或多个部分。如果函数体内没有 await 表达式，这个 async 函数是同步执行的。如果有 await 表达式，函数体从最顶层代码到第一个 await 表达式(包括此表达式)是同步执行的，剩余部分异步执行。
 
-主要 async 函数体内存在一个 await 表达式，它就是**异步**执行完成的。看以下代码：
+只要 async 函数体内存在一个 await 表达式，它就是**异步**执行完成的。看以下代码：
 
 ```jsx
   async function foo() {
-    await 1
+    await 1 //  仍然是异步返回的
   }
   // 等于
   async function foo() {
@@ -327,9 +327,13 @@ async 函数体可以根据 await 表达式，分割为1个或多个部分。如
   }
 ```
 
-
-
 ### await
+
+只能在 async 函数内使用。
+
+`[rv] = await expression`
+
+如果表达式不是 promise，它会转换成一个 resolved promise，指为表达式本身。
 
 ## 相关知识
 
@@ -374,3 +378,40 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
     // then1-2
     // then5
   ```
+
+### async 一个值得注意的问题
+
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function#:~:text=For%20example%2C%20in,swallow%20all%20errors...
+
+1. 虽然数组内加上了 await，但是不会等第一个resolved之后，再执行第二个，如下代码所示：
+
+  ```jsx
+    async function test() {
+        var p1 = new Promise((resolve, reject) => {
+          console.log(111)
+          setTimeout(() => {console.log(1);reject('one')}, 1000);
+        });
+        var p2 = new Promise((resolve, reject) => {
+          console.log(222)
+          setTimeout(() => {console.log(2);resolve('two')}, 2000);
+        });
+        var p3 = new Promise((resolve, reject) => {
+          setTimeout(() => {console.log(3);resolve('three')}, 3000);
+        });
+        var p4 = new Promise((resolve, reject) => {
+          setTimeout(() => {console.log(4);resolve('four')}, 4000);
+        });
+
+        // Using .catch:
+        var a = [await p4, await p3, await p2, await p1]
+        console.log(a)
+    }
+  ```
+
+  先打印 111 222，再打印 1 2 3 4
+
+### 待确认
+1. new Promise(() => {
+
+  // 异步操作之前也是同步的？
+})

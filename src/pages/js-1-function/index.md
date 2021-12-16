@@ -9,7 +9,9 @@ cta: 'JS'
 
 函数是 JS 世界中的一等公民，写 JS 差不多就是在写函数，所以掌握函数很有必要，本文将从几个方面去学习，力求一文掌握 function。
 
-## Constructor vs. declaration vs. expression
+## 创建函数
+
+### Constructor vs. declaration vs. expression
 
 创建方式上
 
