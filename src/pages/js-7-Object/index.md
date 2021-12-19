@@ -77,7 +77,7 @@ JS 中几乎所有的对象都是 Object 的实例，通过 Object.prototype 继
 
 2. ### `Object.create(proto[, propertiesObject])`
 
-    创建一个新对象，使用参数作为新对象的原型。
+    创建一个新对象，使用第一个参数作为新对象的原型。
 
     proto 必须是 null 或者 object。否则抛出 `TypeError`。
 
@@ -207,7 +207,7 @@ JS 中几乎所有的对象都是 Object 的实例，通过 Object.prototype 继
 
 6. ### `Object.freeze(ojb)`
 
-    冻结一个对象并返回。冻结的对象不能被修改，属性不能增删改，也不能改变属性描述符，原型也不能修改。
+    冻结一个对象并返回。冻结的对象不能添加新属性，已存在的属性变为不可写、不可配置，原型也不能修改。
 
     冻结的对象，其数据属性的描述符，writable/configurable 被设置为 false。
 
@@ -226,6 +226,102 @@ JS 中几乎所有的对象都是 Object 的实例，通过 Object.prototype 继
 9. ### `Object.getOwnPropertyDescriptors(obj)` <font size=1>ES2017</font>
 
     获取一个对象上所有自身属性的描述符。
+
+10. ### `Object.getOwnPropertyNames(obj)`
+
+    获取一个对象上所有自身属性(包括枚举和不可枚举，除了 Symbol 键属性)的名称，返回一个数组。
+
+    根据 ES6，对象的整数键首先按升序添加到数组中，然后按插入顺序添加字符串键。属性枚举顺序和 `for...in`/`Object.keys()`/`Object.entries()` 一致。
+
+11. ### `Object.getOwnPropertySymbols(obj)`
+
+    获取一个对象上所有自身上的 Symbol 属性。
+
+12. ### `Object.getPrototypeOf(obj)`
+
+    返回一个对象的原型，没有继承的属性则返回 null。
+
+13. ### `Object.setPrototypeOf(obj, prototype)`
+
+    设置给定对象的原型(即内部的`[[Prototype]]`属性)。
+
+14. ### `Object.is()`
+
+    判断两个值是否是[同一个值](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)。
+
+    以下情况，是同一个值：
+
+      - 都是 `undefined`
+      - 都是 `null`
+      - 都是 `true` 或 `false`
+      - 都是字符串，且长度相等、字符顺序相同
+      - 都是同一个对象（指向内存中的同一个对象）
+      - 都是数字且
+        - 都是 +0
+        - 都是 -0
+        - 都是 NaN
+        - 或都是其他相同数字
+
+    > PS. `Object.is()` 和 `===` 唯二不同的是：1. -0 === +0 为 true 2. NaN === NaN 为 false
+
+15. ### `Object.isExtensible(obj)`
+
+    确定对象是否可扩展（是否可以向其添加新属性）。
+
+    对一个对象使用 `Object.preventExtensions()`, `Object.seal()`, 或者 `Object.freeze().` ，它会变为不可扩展的。
+
+16. ### `Object.preventExtensions(obj)`
+
+    防止向对象自身添加新属性。这个方法将目标对象的 `[[prototype]]` 变为不可变的，重复赋值 `[[prototype]]` 会报错。
+    
+    但是仍可以删除/修改对象上的属性。没有办法把 non-extensible 对象变回 extensible，也就是说这个方法是不可逆的。
+
+17. ### `Object.isFrozen(obj)`
+
+    确定对象是否被冻住(即使用了 `Object.freeze(ojb)` 后的效果)。
+
+    不可扩展、属性不可配置(configurable 为 false)、数据属性不可写。
+
+18. ### `Object.isSealed(obj)`
+
+    确定对象是否被密封(即使用了 `Object.seal(ojb)` 后的效果)。
+
+    不可扩展、属性不可配置、属性不可删除。
+
+19. ### `Object.seal(obj)`
+
+    防止向对象添加新属性，并把所有已存在的属性标记为不可配置(configurable 为 false)。
+
+    这具有使对象上的属性集固定的效果。
+
+20. ### `Object.keys(obj)`
+
+    返回对象的自身可枚举属性名称数组(不包括 symbol 属性)。
+
+21. ### `Object.values(obj)`
+
+    返回对象的自身可枚举属性值数组(不包括 symbol 属性)。
+
+## 实例属性
+
+1. ### `Object.prototype.constructor`
+
+    constructor 属性返回创建这个实例对象的构造函数的引用。
+
+    所有对象(除了使用 `Object.create(null)` 创建的对象)都有 constructor 属性。
+
+    ```jsx
+      let a = []
+      a.constructor === Array // true
+    ```
+
+    constructor 不是实例本身的属性，它属于原型对象。以上面代码为例，它属于 `Array.prototype`。
+
+2. ### `Object.prototype.__proto__`
+
+    
+
+## 实例方法
 
 ## 相关知识
 

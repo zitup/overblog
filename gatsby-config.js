@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: 'Overblog',
-    author: 'zit',
-    description: 'Personal blog by zit. Just write something.',
+    author: 'zitup',
+    description: 'Personal blog by zitup. Just write something.',
     siteUrl: 'https://zitup.github.io/overblog/',
   },
   pathPrefix: '/overblog',
@@ -117,7 +117,7 @@ module.exports = {
               }
             `,
             output: '/rss.xml',
-            title: "zit's Blog RSS Feed",
+            title: "zitup's Blog RSS Feed",
           },
         ],
       },

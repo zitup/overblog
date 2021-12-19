@@ -34,7 +34,7 @@ function SEO({ meta, image, title, description, slug, lang = 'en' }) {
                   title,
                 }
               : {
-                  title: `${siteMetadata.title} — A blog by zit`,
+                  title: `${siteMetadata.title} — A blog by zitup`,
                 })}
             meta={[
               {
