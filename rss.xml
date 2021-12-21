@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[zitup's Blog RSS Feed]]></title><description><![CDATA[Personal blog by zitup. Just write something.]]></description><link>https://zitup.github.io/overblog</link><generator>GatsbyJS</generator><lastBuildDate>Sun, 19 Dec 2021 16:04:30 GMT</lastBuildDate><item><title><![CDATA[ESLint]]></title><description><![CDATA[前端工程化之 ESLint]]></description><link>https://zitup.github.io/overblog/engineering-1/</link><guid isPermaLink="false">https://zitup.github.io/overblog/engineering-1/</guid><pubDate>Mon, 13 Dec 2021 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
+<?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title><![CDATA[zitup's Blog RSS Feed]]></title><description><![CDATA[Personal blog by zitup. Just write something.]]></description><link>https://zitup.github.io/overblog</link><generator>GatsbyJS</generator><lastBuildDate>Tue, 21 Dec 2021 15:40:16 GMT</lastBuildDate><item><title><![CDATA[Network requests]]></title><description><![CDATA[JS 第八篇之 Network requests]]></description><link>https://zitup.github.io/overblog/js-8-network-request/</link><guid isPermaLink="false">https://zitup.github.io/overblog/js-8-network-request/</guid><pubDate>Tue, 21 Dec 2021 00:00:00 GMT</pubDate><content:encoded>
+                &lt;div style=&quot;margin-top=55px; font-style: italic;&quot;&gt;(This is an article posted to my blog at write.of-my.life. You can read it online by &lt;a href=&quot;https://zitup.github.io/overblog/js-8-network-request/&quot;&gt;clicking here&lt;/a&gt;.)&lt;/div&gt;
+              </content:encoded></item><item><title><![CDATA[ESLint]]></title><description><![CDATA[前端工程化之 ESLint]]></description><link>https://zitup.github.io/overblog/engineering-1/</link><guid isPermaLink="false">https://zitup.github.io/overblog/engineering-1/</guid><pubDate>Mon, 13 Dec 2021 00:00:00 GMT</pubDate><content:encoded>&lt;blockquote&gt;
 &lt;p&gt;前言&lt;/p&gt;
 &lt;p&gt;现在的前端早已不是以前的 JS + CSS 一把梭的时代，它包含了广泛的内容，前端工程化是其中绕不开的基础建设。而在不同的开发阶段，工程化又包含不同的内容。&lt;/p&gt;
 &lt;p&gt;开发阶段：eslint、babel&lt;br&gt;
@@ -36,6 +38,9 @@
 &lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;.eslintrc.yml&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;.eslintrc.json&lt;/code&gt;&lt;/li&gt;
 &lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;package.json&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;配置&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;
 &lt;h4 id=&quot;setting&quot;&gt;&lt;a href=&quot;#setting&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;setting&lt;/h4&gt;
 &lt;p&gt;共享信息可以通过此字段分享给所有插件。&lt;/p&gt;
@@ -73,8 +78,8 @@
   }&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;h3 id=&quot;overrides&quot;&gt;&lt;a href=&quot;#overrides&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;overrides&lt;/h3&gt;
-&lt;p&gt;可以使用 overrides 键覆盖配置中的设置，覆盖文件基于 glob 模式选择。&lt;/p&gt;
+&lt;h4 id=&quot;overrides&quot;&gt;&lt;a href=&quot;#overrides&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;overrides&lt;/h4&gt;
+&lt;p&gt;可使用 overrides 键覆盖配置中的设置，覆盖文件基于 glob 模式选择。&lt;/p&gt;
 &lt;div class=&quot;gatsby-highlight&quot; data-language=&quot;jsxon&quot;&gt;&lt;pre class=&quot;language-jsxon&quot;&gt;&lt;code class=&quot;language-jsxon&quot;&gt;  {
     &amp;quot;rules&amp;quot;: {
       &amp;quot;quotes&amp;quot;: [&amp;quot;error&amp;quot;, &amp;quot;double&amp;quot;]
@@ -468,9 +473,53 @@ console&lt;span class=&quot;token punctuation&quot;&gt;.&lt;/span&gt;&lt;span cl
 &lt;/li&gt;
 &lt;li&gt;
 &lt;h3 id=&quot;objectprototype__proto__&quot;&gt;&lt;a href=&quot;#objectprototype__proto__&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Object.prototype.__proto__&lt;/code&gt;&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;废弃：此功能不再推荐使用。使用 &lt;code class=&quot;language-text&quot;&gt;Object.getPrototypeOf()&lt;/code&gt; 代替。
+警告：更改对象的 [[Prototype]] 是一个非常缓慢的操作，应避免设置对象的 [[Prototype]]，使用 Object.create() 创建一个具有所需 [[Prototype]] 的新对象。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;proto&lt;/strong&gt; 属性是 Object.prototype 上的一个访问器属性，它暴露了访问它的对象的内部属性 &lt;code class=&quot;language-text&quot;&gt;[[Prototype]]&lt;/code&gt;。&lt;/p&gt;
+&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;h2 id=&quot;实例方法&quot;&gt;&lt;a href=&quot;#%E5%AE%9E%E4%BE%8B%E6%96%B9%E6%B3%95&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;实例方法&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;h3 id=&quot;objectprototypehasownpropertyprop&quot;&gt;&lt;a href=&quot;#objectprototypehasownpropertyprop&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Object.prototype.hasOwnProperty(prop)&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;返回一个布尔值，表示一个对象的自身属性是否包含传入的属性。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;ES2022 的 &lt;code class=&quot;language-text&quot;&gt;Object.hasOwn()&lt;/code&gt; 可以代替此方法。它的优势在于可以在使用 &lt;code class=&quot;language-text&quot;&gt;Object.create(null)&lt;/code&gt; 创建的对象上使用，不会受原型链的限制，也不用担心被覆盖。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&quot;objectprototypeisprototypeofobj&quot;&gt;&lt;a href=&quot;#objectprototypeisprototypeofobj&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Object.prototype.isPrototypeOf(obj)&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;检查一个对象是否存在于传入对象的原型链上。&lt;/p&gt;
+&lt;p&gt;和 &lt;code class=&quot;language-text&quot;&gt;isPrototypeOf&lt;/code&gt; 不同的是，&lt;code class=&quot;language-text&quot;&gt;instanceof&lt;/code&gt; 参考的是右侧参数的 &lt;code class=&quot;language-text&quot;&gt;prototype&lt;/code&gt; 属性，&lt;code class=&quot;language-text&quot;&gt;isPrototypeOf&lt;/code&gt; 使用传入对象本身。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&quot;objectprototypepropertyisenumerableprop&quot;&gt;&lt;a href=&quot;#objectprototypepropertyisenumerableprop&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Object.prototype.propertyIsEnumerable(prop)&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;返回一个布尔值，表示传入的属性是否是这个对象的自身可枚举属性。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&quot;objectprototypetolocalestring&quot;&gt;&lt;a href=&quot;#objectprototypetolocalestring&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Object.prototype.toLocaleString()&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;返回一个代表此对象的字符串。&lt;code class=&quot;language-text&quot;&gt;Object&lt;/code&gt; 的 &lt;code class=&quot;language-text&quot;&gt;toLocaleString&lt;/code&gt; 返回调用 &lt;code class=&quot;language-text&quot;&gt;toString()&lt;/code&gt; 的结果。&lt;/p&gt;
+&lt;p&gt;此方法一般会被其他对象上的同名方法覆盖。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Array&lt;/code&gt;: &lt;code class=&quot;language-text&quot;&gt;Array.prototype.toLocaleString()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Number&lt;/code&gt;: &lt;code class=&quot;language-text&quot;&gt;Number.prototype.toLocaleString()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;Date&lt;/code&gt;: &lt;code class=&quot;language-text&quot;&gt;Date.prototype.toLocaleString()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;TypedArray&lt;/code&gt;: &lt;code class=&quot;language-text&quot;&gt;TypedArray.prototype.toLocaleString()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class=&quot;language-text&quot;&gt;BigInt&lt;/code&gt;: &lt;code class=&quot;language-text&quot;&gt;BigInt.prototype.toLocaleString()&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&quot;objectprototypetostring&quot;&gt;&lt;a href=&quot;#objectprototypetostring&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Object.prototype.toString()&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;返回一个代表此对象的字符串。其他内置对象一般都覆盖了此方法。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;h3 id=&quot;objectprototypevalueof&quot;&gt;&lt;a href=&quot;#objectprototypevalueof&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;&lt;code class=&quot;language-text&quot;&gt;Object.prototype.valueOf()&lt;/code&gt;&lt;/h3&gt;
+&lt;p&gt;返回一个对象的原始值。其他内置对象一般都覆盖了此方法。&lt;/p&gt;
+&lt;p&gt;在需要将对象转为原始值时(比如隐式转换)，JS 会自动调用此方法。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 &lt;h2 id=&quot;相关知识&quot;&gt;&lt;a href=&quot;#%E7%9B%B8%E5%85%B3%E7%9F%A5%E8%AF%86&quot; aria-hidden class=&quot;anchor&quot;&gt;&lt;svg aria-hidden=&quot;true&quot; height=&quot;16&quot; version=&quot;1.1&quot; viewBox=&quot;0 0 16 16&quot; width=&quot;16&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/a&gt;相关知识&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;object 属性遍历顺序
