@@ -56,6 +56,8 @@ ESLint 由配置驱动，在配置中定义需要的规则。
   5. `.eslintrc.json`
   6. `package.json`
 
+配置
+
 1. #### setting
 
     共享信息可以通过此字段分享给所有插件。
@@ -82,7 +84,7 @@ ESLint 由配置驱动，在配置中定义需要的规则。
 
     规则列表。
 
-4. #### plugin
+4.  #### plugin
 
     插件是一个 npm 包，可以为 ESLint 提供各种扩展，比如规则、配置。
 
@@ -101,9 +103,9 @@ ESLint 由配置驱动，在配置中定义需要的规则。
       }
     ```
 
-5. ### overrides
+5.  #### overrides
 
-    可以使用 overrides 键覆盖配置中的设置，覆盖文件基于 glob 模式选择。
+    可使用 overrides 键覆盖配置中的设置，覆盖文件基于 glob 模式选择。
 
     ```jsxon
       {

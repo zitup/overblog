@@ -319,9 +319,50 @@ JS 中几乎所有的对象都是 Object 的实例，通过 Object.prototype 继
 
 2. ### `Object.prototype.__proto__`
 
-    
+    > 废弃：此功能不再推荐使用。使用 `Object.getPrototypeOf()` 代替。
+    > 警告：更改对象的 [[Prototype]] 是一个非常缓慢的操作，应避免设置对象的 [[Prototype]]，使用 Object.create() 创建一个具有所需 [[Prototype]] 的新对象。
+    > 
+    __proto__ 属性是 Object.prototype 上的一个访问器属性，它暴露了访问它的对象的内部属性 `[[Prototype]]`。
 
 ## 实例方法
+
+1. ### `Object.prototype.hasOwnProperty(prop)`
+
+    返回一个布尔值，表示一个对象的自身属性是否包含传入的属性。
+
+    > ES2022 的 `Object.hasOwn()` 可以代替此方法。它的优势在于可以在使用 `Object.create(null)` 创建的对象上使用，不会受原型链的限制，也不用担心被覆盖。
+
+2. ### `Object.prototype.isPrototypeOf(obj)`
+
+    检查一个对象是否存在于传入对象的原型链上。
+
+    和 `isPrototypeOf` 不同的是，`instanceof` 参考的是右侧参数的 `prototype` 属性，`isPrototypeOf` 使用传入对象本身。
+
+3. ### `Object.prototype.propertyIsEnumerable(prop)`
+
+    返回一个布尔值，表示传入的属性是否是这个对象的自身可枚举属性。
+
+4. ### `Object.prototype.toLocaleString()`
+
+    返回一个代表此对象的字符串。`Object` 的 `toLocaleString` 返回调用 `toString()` 的结果。
+
+    此方法一般会被其他对象上的同名方法覆盖。
+
+    - `Array`: `Array.prototype.toLocaleString()`
+    - `Number`: `Number.prototype.toLocaleString()`
+    - `Date`: `Date.prototype.toLocaleString()`
+    - `TypedArray`: `TypedArray.prototype.toLocaleString()`
+    - `BigInt`: `BigInt.prototype.toLocaleString()`
+
+5. ### `Object.prototype.toString()`
+
+    返回一个代表此对象的字符串。其他内置对象一般都覆盖了此方法。
+
+6. ### `Object.prototype.valueOf()`
+
+    返回一个对象的原始值。其他内置对象一般都覆盖了此方法。
+
+    在需要将对象转为原始值时(比如隐式转换)，JS 会自动调用此方法。
 
 ## 相关知识
 
