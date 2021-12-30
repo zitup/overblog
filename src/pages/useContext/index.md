@@ -58,10 +58,8 @@ Provider 接收一个 value 属性，传递给消费组件。多个 Provider 也
 
 这里的所有消费组件指 Provider 的所有后代。可以想到，订阅了 context 的后代重新渲染很合理，那么没有订阅的也要重新渲染，是不是有点浪费呢，怎么避免这些无效的重复渲染呢？
 
-  - 合理组织组件结构
-    将需要使用的消费组件放到 Provider 中，其它的放到外部。这种方式仅适用于根组件，假如在消费组件中存在未使用 context 的组件，还是会重新渲染。
-  - 使用 pureComponent
-    或者 shouldComponentUpdate 可以避免 class 组件的更新，也不影响 context 继续向下传播，只适用于 class 组件。
+  - **合理组织组件结构** 将需要使用的消费组件放到 Provider 中，其它的放到外部。这种方式仅适用于根组件，假如在消费组件中存在未使用 context 的组件，还是会重新渲染。
+  - **使用 pureComponent 或者 shouldComponentUpdate** 可以避免 class 组件的更新，也不影响 context 继续向下传播
   - 用一个组件包裹 Context.Provider，把子组件以 props.children 的方式传进来
     ```jsx
       // context wrapper
@@ -106,8 +104,10 @@ Provider 接收一个 value 属性，传递给消费组件。多个 Provider 也
     App 组件成了无状态组件，传递给 ProviderWrapper 的 children，在更新时没有发生改变，就不会再重新渲染了。
 
 ## 使用技巧
-  - 深层组件更新 context
-    context 中包含一个修改值的函数，底层组件可以通过调用这个函数修改 context 的值。
+  - 在深层组件中更新 context
+
+    在 context 中包含一个修改其它值的函数，底层组件可以通过调用这个函数修改 context 的值。
+
   - 同一个组件消费多个 context
     函数组件使用多个 useContext，class 组件用函数包裹使用 Context.Consumer 嵌套包裹
     

@@ -24,7 +24,7 @@ cta: 'JS'
 
 ## 介绍
 
-ESLint 是识别和报告 JS 中特定模式的库，在开发中避免 bug。
+ESLint 是识别和报告 JS 中特定模式的库，在开发阶段避免 bug。
 
 它有以下几个特点：
 
@@ -128,7 +128,7 @@ ESLint 由配置驱动，在配置中定义需要的规则。
 
 1. #### env
 
-    制定脚本的运行环境，每种环境都有一组特定的预定义全局变量。供 ESLint 判断当前环境和可使用的全局变量。
+    设置脚本的运行环境，每种环境都有一组特定的预定义全局变量。供 ESLint 判断当前环境和可以使用的全局变量。
 
     ```jsxon
       {
@@ -142,18 +142,19 @@ ESLint 由配置驱动，在配置中定义需要的规则。
 
 2. #### globals
 
-    自定义全局变量。也可以在这里禁止某些全局标量的使用。
+    自定义的全局变量。也可以在这里禁止某些全局变量的使用。
 
     ```jsxon
       {
         "globals": {
           "var1": "writable",
-          "var2": "readonly"
+          "var2": "readonly",
+          "Promise": "off",
         }
       }
     ```
 
-    代码中可以像全局变量那样直接使用 var1/var2 ，而且 var2 只读，不可以更改。
+    代码中可以像全局变量那样直接使用 `var1/var2` ，而且 `var2` 只读，不可以更改。同时禁用了全局变量 `Promise` 的使用。
 
 3. #### parserOptions
 
@@ -222,7 +223,7 @@ ESLint 自身携带了很多规则。也可以通过插件引入其它规则，�
 
 ### Plugins
 
-  parser
+1. #### parser
 
   ESLint 默认使用 [Espree](https://github.com/eslint/espree) 解析器。也可以使用第三方符合规范的解析器：
 
@@ -241,6 +242,77 @@ ESLint 自身携带了很多规则。也可以通过插件引入其它规则，�
   - [@babel/eslint-parser](https://www.npmjs.com/package/@babel/eslint-parser) babel 解析器的包装，使其与 ESLint 兼容
   - [@typescript-eslint/parser](https://www.npmjs.com/package/@typescript-eslint/parser) 将 TypeScript 转换为 ESTree 兼容的形式，以便 TS 可以在 ESLint 中使用
 
+2. #### processor
 
+  processor 可以从其它类型文件中提取 JS 代码，供 ESLint 检测，或是在预处理阶段转换 JS 代码。
+
+  ```jsxon
+    {
+      "plugins": ["a-plugin"],
+      "processor": "a-plugin/a-processor"
+    }
+  ```
+
+  也可以结合 overrides 使用，只处理特定文件:
+
+  ```jsxon
+    {
+      "plugins": ["a-plugin"],
+      "overrides": [
+        {
+          "files": ["*.md"],
+          "processor": "a-plugin/markdown"
+        }
+      ]
+    }
+  ```
+
+3. #### plugins
+
+  ESLint 支持第三方插件，安装后可以在配置文件中引入使用。插件的 `eslint-plugin-` 前缀可以省略。
+
+  ```jsxon
+    {
+      "plugins": [
+        "plugin1",
+        "eslint-plugin-plugin2"
+      ]
+    }
+  ```
+
+  带有作用域的包，同样可以省略 `eslint-plugin-`:
+
+  ```jsxon
+    {
+      // ...
+      "plugins": [
+        "@jquery/jquery", // means @jquery/eslint-plugin-jquery
+        "@foobar" // means @foobar/eslint-plugin
+      ]
+    }
+  ```
 
 ### Ignoring Code
+
+1. #### ignorePatterns
+
+  告诉 ESLint 忽略检查的文件或文件夹。
+
+  ```jsxon
+    {
+      "ignorePatterns": ["temp.js", "**/vendor/*.js"],
+      "rules": {
+        //...
+      }
+    }
+  ```
+
+2. #### `.eslintignore` file
+
+  单独的一个文件，告诉 ESLint 忽略检查的文件或文件夹。优先级高于 `ignorePatterns` 配置项。
+
+  Glob 模式匹配使用 `node-ignore` 库，遵循以下规则:
+
+  - `#` 开头的行会被忽略
+  - 路径相对于当前文件夹
+  - `!` 表示否定，重新包含一个前面被忽略的模式

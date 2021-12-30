@@ -28,6 +28,10 @@ Wordpress2016.overrideThemeStyles = () => ({
   'h1 code, h2 code, h3 code, h4 code, h5 code, h6 code': {
     fontSize: 'inherit',
   },
+  // override default h4 uppercase
+  h4: {
+    textTransform: 'inherit',
+  },
   'li code': {
     fontSize: '1rem',
   },
