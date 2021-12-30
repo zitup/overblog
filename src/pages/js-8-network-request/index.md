@@ -169,4 +169,74 @@ cta: 'JS'
 
 ## CSP
 
-  Content-Security-Policy，内容安全策略。
+  Content-Security-Policy，内容安全策略。它是 HTTP 一个附加的安全层，有助于检测和缓建某些类型的攻击，包括 Cross-Site Scripting（XSS，跨站点脚本）和数据注入攻击。
+
+  CSP 被设计为向后兼容，如果浏览器不支持，会忽略它，并使用默认的同源策略（Same-origin policy）对待网页内容。
+
+  启用 CSP，需要手动在服务器响应加上 `Content-Security-Policy` 头。或者，`<meta>` 元素也可以配置 CSP，比如:
+
+  ```html
+    <meta http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src https://*; child-src 'none';">
+  ```
+
+  CSP 允许服务器控制浏览器可以加载脚本的源，保证加载的内容来自可信任的源。
+
+### 使用 CSP
+
+  ```yml
+    Content-Security-Policy: <policy-directive>; <policy-directive>
+  ```
+
+  `policy-directive` 由 `<directive> <value>` 组成。
+
+  看以下例子：
+
+  ```yml
+    Content-Security-Policy: default-src 'self'
+    # 表示所有内容只能来自同源
+
+    Content-Security-Policy: default-src 'self' trusted.com *.trusted.com
+    # 表示所有内容只能来自同源、信任的域名和所有信任域名的子域名
+
+    Content-Security-Policy: default-src 'self'; img-src *; media-src media1.com media2.com; script-src userscripts.example.com
+    # 在默认所有内容只能来自同源的基础上，定义了几个具体的内容类型所能加载的源
+  ```
+
+### Directives 指令列表
+
+#### Fetch directives
+
+  fetch 指令控制可以资源可以加载的源
+
+  - child-src
+  - connect-src
+  - default-src
+  - font-src
+  - img-src
+  - manifest-src
+  - media-src
+  - object-src
+  - script-src
+  - style-src
+  
+#### Document directives
+
+  - base-uri
+  - sandbox
+
+#### Navigation directives
+
+  - form-action
+  - frame-ancestors
+
+### Values 指令的值
+
+- none
+- self
+- unsafe-inline
+- unsafe-eval
+- Host
+- Scheme
+- nonce-*
+- sha*-*
