@@ -238,5 +238,5 @@ cta: 'JS'
 - unsafe-eval
 - Host
 - Scheme
-- nonce-*
-- sha*-*
+- nonce-\*
+- sha\*-\*
