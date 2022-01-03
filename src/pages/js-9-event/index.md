@@ -7,6 +7,31 @@ cta: 'JS'
 
 本篇聚焦于 JS 中的事件系统。
 
+  - [事件流](#事件流)
+    - [冒泡](#冒泡)
+    - [捕获](#捕获)
+    - [DOM 事件流](#dom-事件流)
+  - [事件处理程序](#事件处理程序)
+    - [HTML 事件处理程序](#html-事件处理程序)
+    - [DOM0 事件处理程序](#dom0-事件处理程序)
+    - [DOM2 事件处理程序](#dom2-事件处理程序)
+  - [事件对象](#事件对象)
+    - [事件属性](#事件属性)
+    - [事件方法](#事件方法)
+      - [`Event.composedPath()`](#eventcomposedpath)
+      - [`Event.preventDefault()`](#eventpreventdefault)
+      - [`Event.stopImmediatePropagation()`](#eventstopimmediatepropagation)
+      - [`Event.stopPropagation()`](#eventstoppropagation)
+  - [常用事件类型](#常用事件类型)
+    - [UIEvent 用户界面事件](#uievent-用户界面事件)
+    - [FocusEvent 焦点事件](#focusevent-焦点事件)
+    - [MouseEvent 鼠标事件](#mouseevent-鼠标事件)
+      - [属性](#属性)
+    - [TouchEvent 触摸事件](#touchevent-触摸事件)
+    - [WheelEvent 滚轮事件](#wheelevent-滚轮事件)
+    - [InputEvent 输入事件](#inputevent-输入事件)
+    - [KeyboardEvent 键盘事件](#keyboardevent-键盘事件)
+
 ## 事件流
 
 事件流描述了页面接受事件的顺序。
@@ -198,6 +223,10 @@ click 和 dblclick 在触发前都依赖其他事件触发，mousedown 和 mouse
 
 属性略。
 
+相关知识:
+
+1. https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events
+
 
 JS 中的事件很复杂，种类多，各种规范也很乱，以上只是 Event 的简单脉络，不过也达到本系列的目的了。
 
@@ -210,7 +239,8 @@ JS 中的事件很复杂，种类多，各种规范也很乱，以上只是 Even
 > 1. 数组
 > 2. Blog, File, FileReader
 > 3. Proxy, Reflect
-> 4. 迭代器与生成器
+> 4. 迭代器与生成器 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
 > 5. Mutation Observers
+> 6. 位运算
 >
-> 预计将在 React 深入计划完成之后，回来完成这些。
+> 预计将在 React 深入计划完成之后，做特训时，顺便完成这些。

@@ -451,6 +451,9 @@ var File = function () { // open IIFE
 
 > 以下项不只是涉及到函数，还包括很多其它知识点，避免花费太多时间，暂时不在这里深究了，在后面熟悉原型/串联更多知识之后再说。
 
+### this
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
+
 ### new 一个函数发生了什么、new 原理
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
 
