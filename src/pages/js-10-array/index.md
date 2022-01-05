@@ -101,7 +101,7 @@ cta: 'JS'
 
 4. ### `Array.prototype.entries()`
 
-  返回一个包含数组中每个索引的键/值对的数组迭代器对象。可以使用 `for...of` 遍历。
+  返回一个包含每个元素的 索引/值 数组的数组迭代器对象。可以使用 `for...of` 遍历。
 
 5. ### `Array.prototype.every(fn, thisArg)`
 
@@ -135,21 +135,104 @@ cta: 'JS'
 
   返回一个新数组，内容为根据参数展开的原数组的元素。
 
-11. ### `Array.prototype.flatMap()`
+11. ### `Array.prototype.flatMap(mapFn, thisArg)`
+
+  先遍历数组，再将结果展开 1 级，返回一个新的数组。
+
+  等于 `map()` 后面跟着 `flat()`，但是更高效。
+
+12. ### `Array.prototype.forEach(fn, thisArg)`
+
+  为数组的每一位元素执行一次传入的函数。返回 undefine。
+
+  `forEach` 没办法打断，除非抛出异常。有中途打断的需要，可以考虑以下几个方法：
+
+  - `for`
+  - `for...of`/`for...in`
+  - `Array.prototype.every()`
+  - `Array.prototype.some()`
+  - `Array.prototype.find()`
+  - `Array.prototype.findIndex()`
+
+13. ### `Array.prototype.includes(searchElement, fromIndex)`
+
+  判断一个数组是否包含传入的元素。
+
+  `fromIndex` 参数可选，开始搜索的起始位置，默认为 0，负数从后向前计算。
+
+  `includes` 匹配元素使用 `sameValueZero` 算法，`-0` 和 `+0` 相等。
+
+14. ### `Array.prototype.indexOf(searchElement, fromIndex)`
+
+  返回传入的元素在数组内匹配到的第一个索引，没有返回 -1。
+
+  `fromIndex` 参数可选，如果大于数组长度，数组不会被搜索。
+
+  `indexOf` 匹配元素使用 `Strict Equality Comparison(===)` 算法
+
+15. ### `Array.prototype.join(separator)`
+
+  返回一个由传入参数隔开的数组元素串联的字符串，默认使用 `,` 隔开。如果数组只有一个元素，返回由这个元素组成的字符串。数组长度为 0，返回一个空字符串。
+
+  `undefined`/`null` 转为空字符串。
+
+16. ### `Array.prototype.keys()`
+
+  返回一个由每一个索引组成的数组迭代器。
+
+  ```jsx
+    var arr = ['a', , 'c'];
+    var sparseKeys = Object.keys(arr);
+    var denseKeys = [...arr.keys()];
+    console.log(sparseKeys); // ['0', '2']
+    console.log(denseKeys);  // [0, 1, 2]
+  ```
+
+17. ### `Array.prototype.lastIndexOf(searchElement, fromIndex)`
+
+  返回传入的元素在数组内匹配到的最后一个索引，没有返回 -1。此方法从后向前搜索。
+
+  `fromIndex` 参数可选，如果大于数组长度，整个数组被搜索。如果是负数，从后向前计算位置，但是如果`arr.length + fromIndex` 小于 0，整个数组不会被搜索。
+
+  `lastIndexOf` 匹配元素使用 `Strict Equality Comparison(===)` 算法，和 `indexOf` 方法一样。
+
+18. ### `Array.prototype.map(fn, thisArg)`
+
+  为数组的每一位元素执行传入的函数，使用返回值作为新数组的元素。
+
+19. ### `Array.prototype.pop()`
+
+  移除数组的最后一个元素，并返回这个元素。会改变数组。空数组返回 undefined。
+
+20. ### `Array.prototype.push()`
+
+  向数组的末尾添加一个或多个元素，返回这个数组的新长度。
+
+21. ### `Array.prototype.reduce(callbackFn, initialValue)`
+
+  对数组的每一位元素执行传入的函数，把前一个元素的执行结果作为下一个元素执行时的参数，最终返回一个值。
+
+  如果没有传入初始值，在第一次运行回调时没有“上次计算的返回值”，这时候会把第一个元素作为初始值，从第二个元素开始迭代。
+
+  `callbackFn` 参数接收以下 4 个参数：
+  - `previousValue`: 上一次 `callbackFn` 的执行结果。第一次执行时为传入的初始值或 `array[0]`。
+  - `currentValue`: 当前元素的值。
+  - `currentIndex`: 当前元素的索引。
+  - `array`: 要遍历的数组。
+
+  空数组调用 `reduce` 且没有定义初始值，将抛出 `TypeError`。
+
+  例子：
+
+  ```jsx
+    // 按顺序执行 promise，生成了一条 promise chain
+    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce#running_promises_in_sequence
+  ```
+
+22. ### `Array.prototype.reduceRight()`
 
   
 
-12. ### `Array.prototype.`
-13. ### `Array.prototype.`
-14. ### `Array.prototype.`
-15. ### `Array.prototype.`
-16. ### `Array.prototype.`
-17. ### `Array.prototype.`
-18. ### `Array.prototype.`
-19. ### `Array.prototype.`
-20. ### `Array.prototype.`
-21. ### `Array.prototype.`
-22. ### `Array.prototype.`
 23. ### `Array.prototype.`
 24. ### `Array.prototype.`
 25. ### `Array.prototype.`

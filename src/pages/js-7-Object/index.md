@@ -253,7 +253,7 @@ Object 有 21 个静态方法，6 个实例方法。
 
     设置给定对象的原型(即内部的`[[Prototype]]`属性)。
 
-14. ### `Object.is()`
+14. ### `Object.is(value1, value2)`
 
     判断两个值是否是[同一个值](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness)。
 
@@ -271,6 +271,7 @@ Object 有 21 个静态方法，6 个实例方法。
         - 或都是其他相同数字
 
     > PS. `Object.is()` 和 `===` 唯二不同的是：1. -0 === +0 为 true 2. NaN === NaN 为 false
+    > `Object.is()` 使用的是 `sameValue` 算法
 
 15. ### `Object.isExtensible(obj)`
 
