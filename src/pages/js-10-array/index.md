@@ -95,7 +95,7 @@ cta: 'JS'
 
   - `target`: 从 0 开始的索引，指定复制到的位置，如果是负数，从后向前计算。如果 target 大于最大长度，什么也不会发生。
   - `start`: 可选，复制的元素开始的索引，如果是负数，从后向前计算。如果省略了 start，方法会从 0 开始复制
-  - `end`: 可选，复制的元素结束的索引(不包括），如果是负数，从后向前计算。如果省略了 start，方法会复制到最后一个
+  - `end`: 可选，复制的元素结束的索引(不包含），如果是负数，从后向前计算。如果省略了 start，方法会复制到最后一个
 
   如果 start 到 end 元素数量大于可以复制的数量，它会裁剪适应。
 
@@ -117,7 +117,9 @@ cta: 'JS'
 
   - `value`: 填充的值。如果是对象，所有被填充的地方都指向同一个对象
   - `start`: 可选，开始填充的索引，默认为 0，如果是负数，从后向前计算
-  - `end`: 可选，结束填充的索引(不包括），默认为 `arr.length`
+  - `end`: 可选，结束填充的索引(不包含），默认为 `arr.length`
+
+---
 
 7. ### `Array.prototype.filter(fn, thisArg)`
 
@@ -154,6 +156,8 @@ cta: 'JS'
   - `Array.prototype.find()`
   - `Array.prototype.findIndex()`
 
+---
+
 13. ### `Array.prototype.includes(searchElement, fromIndex)`
 
   判断一个数组是否包含传入的元素。
@@ -166,7 +170,7 @@ cta: 'JS'
 
   返回传入的元素在数组内匹配到的第一个索引，没有返回 -1。
 
-  `fromIndex` 参数可选，如果大于数组长度，数组不会被搜索。
+  `fromIndex` 参数可选，如果大于等于数组长度，数组不会被搜索。
 
   `indexOf` 匹配元素使用 `Strict Equality Comparison(===)` 算法
 
@@ -192,7 +196,7 @@ cta: 'JS'
 
   返回传入的元素在数组内匹配到的最后一个索引，没有返回 -1。此方法从后向前搜索。
 
-  `fromIndex` 参数可选，如果大于数组长度，整个数组被搜索。如果是负数，从后向前计算位置，但是如果`arr.length + fromIndex` 小于 0，整个数组不会被搜索。
+  `fromIndex` 参数可选，如果大于等于数组长度，整个数组被搜索。如果是负数，从后向前计算位置，但是如果`arr.length + fromIndex` 小于 0，整个数组不会被搜索。
 
   `lastIndexOf` 匹配元素使用 `Strict Equality Comparison(===)` 算法，和 `indexOf` 方法一样。
 
@@ -231,19 +235,83 @@ cta: 'JS'
 
 22. ### `Array.prototype.reduceRight()`
 
-  
+  和 `reduce()` 方法一样，只是从右向左遍历。
 
-23. ### `Array.prototype.`
-24. ### `Array.prototype.`
-25. ### `Array.prototype.`
-26. ### `Array.prototype.`
-27. ### `Array.prototype.`
-28. ### `Array.prototype.`
-29. ### `Array.prototype.`
-30. ### `Array.prototype.`
-31. ### `Array.prototype.`
-32. ### `Array.prototype.`
+23. ### `Array.prototype.reverse()`
+
+  使用原地算法翻转数组。返回修改后的原数组。
+
+24. ### `Array.prototype.shift()`
+
+  移除数组的第一个元素，返回这个元素。
+
+25. ### `Array.prototype.slice(start, end)`
+
+  浅复制数组的一部分到一个新创建的数组。不会改变原数组。
+
+  参数：
+  - `start`: 可选，负数从后向前计算，如果大于等于数组长度，方法返回空数组
+  - `end`: 可选，选取元素不包含 `end`。默认为数组长度，如果大于数组长度，也为数组长度。负数从后向前计算，如果 `array.length + end` 小于等于 0，方法返回空数组
+
+---
+
+26. ### `Array.prototype.some(fn, thisArg)`
+
+  检测是否至少有一个元素通过了传入函数的测试。
+
+27. ### `Array.prototype.sort(compareFn)`
+
+  使用原地算法排序数组，返回改变后的数组。
+  
+  如果没有参数，默认排序顺序是升序，数组元素将转换为字符串，然后根据每个字符的 Unicode 代码点值进行排序。如果数组有 `undefined` 元素，会被排到数组末尾。如果有空元素，则排在 `undefined` 之后。
+
+  参数：
+  - `compareFn`: 比较函数有两个参数 `a` 和 `b`，分别代表两个比较的元素。
+  
+  如果提供了 `compareFn`，排序会按比较函数的返回值确定（`undefined` 不调用比较函数，直接放到数组末尾）：
+
+  | `compareFn(a, b)` 返回值 | 排序          |
+  | :----------------------- | :------------ |
+  | > 0                      | b 排在 a 之前 |
+  | < 0                      | a 排在 b 之前 |
+  | === 0                    | 保持原排序    |
+
+  需要注意的是，从 ES2019 开始，`sort` 方法保证了[排序稳定性](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#sort_stability)。
+
+28. ### `Array.prototype.splice(start, deleteCount, item1, ...itemN)`
+
+  修改数组的一部分，可以是移除、替换、添加新元素。返回一个包含删除元素的数组。
+
+  参数：
+  - `start`: 开始修改数组的起始索引。如果大于等于数组长度，不会删除元素，方法会表现为向数组末尾添加元素。负数从后先前计算。
+  - `deleteCount`: 表示从 `start` 开始删除的元素个数。如果省略，或者大于等于可以移除的元素，那么从 `start` 到最后所有元素都会被删除。如果为 0 或负数，方法表现为添加元素。
+  - `item1, item2, ...`: 从 `start` 开始，向数组添加的元素
+
+  -----
+
+29. ### `Array.prototype.toLocaleString(locales, options)`
+
+  返回表示数组及其元素的本地化字符串。使用 `,` 分隔。
+
+30. ### `Array.prototype.toString()`
+
+  返回一个表示数组及其元素的字符串。使用 `,` 分隔。
+
+31. ### `Array.prototype.unShift()`
+
+  向数组开头添加一个或多个元素，返回这个数组的新长度。
+
+32. ### `Array.prototype.values()`
+
+  返回一个由每一个索引的值组成的数组迭代器。
+
+33. ### `Array.prototype[@@iterator]()`
+
+  `@@iterator` 方法是[可迭代协议](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols#the_iterable_protocol)的一部分，它定义了如何同步迭代一系列值。
+
+  `@@iterator` 属性的初始值与 `values()` 方法的初始值是相同的函数对象。`arr[Symbol.iterator]` 返回 `values()` 函数。
 
 ## 相关知识
 1. 手写 flat
+   
    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#alternatives
