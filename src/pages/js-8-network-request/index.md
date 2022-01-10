@@ -31,7 +31,10 @@ cta: 'JS'
      - `method` 请求方法
      - `headers` 请求头
      - `body` 请求体，只能是 `Blob, BufferSource, FormData, URLSearchParams, USVString, ReadableStream` 其中之一
-     - `mode` 请求模式 `cors, no-cors, or same-origin`
+     - `mode` 请求模式
+       - `cors` 允许跨域
+       - `no-cors` 阻止 `HEAD`, `GET` 和 `POST` 之外的请求，而且请求头只可以包含[简单请求头](https://fetch.spec.whatwg.org/#simple-header)
+       - `same-origin` 只能发送同源请求
      - `credentials` 控制浏览器如何处理 credentials
        - `omit` 告诉浏览器从请求中排除凭据，并忽略响应中发回的任何凭据(比如 `Set-Cookie` 头设置)
        - `same-origin` 告诉浏览器对同源 URL 的请求中包含凭据，并使用来自同源 URL 的响应中发回的任何凭据，默认设置
@@ -134,6 +137,8 @@ cta: 'JS'
   - `Access-Control-Allow-Origin` 头部不能为 `*`，必须为具体的源
   - `Access-Control-Allow-Headers` 头部不能为 `*`，必须为具体的头部项
   - `Access-Control-Allow-Methods` 头部不能为 `*`，必须为具体的方法项
+
+如果一个请求携带了凭据（比如 `Cookie` 头），响应了 `Access-Control-Allow-Origin: *`，浏览器将阻止对响应的访问，并在 devtools 控制台中报告 CORS 错误。
 
 同时，当响应头有 `Set-Cookie`，但是 `Access-Control-Allow-Origin` 为 `*`，此时 cookie 设置不会生效，`Access-Control-Allow-Origin` 必须为具体的源。
 

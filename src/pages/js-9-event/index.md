@@ -229,18 +229,3 @@ click 和 dblclick 在触发前都依赖其他事件触发，mousedown 和 mouse
 
 
 JS 中的事件很复杂，种类多，各种规范也很乱，以上只是 Event 的简单脉络，不过也达到本系列的目的了。
-
-> JS 脉络计划到这里就结束了，总共整理了 9 篇，梳理完之后对 JS 世界多了一份整体上的了解。
->
-> 但是这肯定不是结束，每篇里都还有可以完善的部分，在以后的日子里可以随时查阅和完善。
->
-> 另外，碍于时间和计划的关系，本系列也缺少了一些 JS 重要的部分，比如数组、各种新语法等，
-> 这里列一下后续大概的计划：
-> 1. 数组
-> 2. Blog, File, FileReader
-> 3. Proxy, Reflect
-> 4. 迭代器与生成器 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
-> 5. Mutation Observers
-> 6. 位运算
->
-> 预计将在 React 深入计划完成之后，做特训时，顺便完成这些。

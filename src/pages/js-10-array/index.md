@@ -315,3 +315,20 @@ cta: 'JS'
 1. 手写 flat
    
    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/flat#alternatives
+
+
+
+> JS 脉络计划到这里就结束了，总共整理了 10 篇，梳理完之后对 JS 世界多了一份整体上的了解。
+>
+> 但是这肯定不是结束，每篇里都还有可以完善的部分，在以后的日子里可以随时查阅和完善。
+>
+> 另外，碍于时间和计划的关系，本系列也缺少了一些 JS 重要的部分，比如数组、各种新语法等，
+> 这里列一下后续大概的计划：
+> 1. TBD
+> 2. Blog, File, FileReader
+> 3. Proxy, Reflect
+> 4. 迭代器与生成器 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
+> 5. Mutation Observers
+> 6. 位运算
+>
+> 预计将在攻坚计划过程中，遇到相应项时完成。
