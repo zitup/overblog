@@ -69,7 +69,7 @@
 
                 setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
               })();
-            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Webpack</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">January 5, 2022<!-- --> • ☕️ 5 min read</p></header><div><p>Webpack 是一个静态模块打包器。</p>
+            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Webpack</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">January 5, 2022<!-- --> • ☕️ 7 min read</p></header><div><p>Webpack 是一个静态模块打包器。</p>
 <h2 id="核心概念"><a href="#%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>核心概念</h2>
 <p>  Webpack 由配置驱动，配置主要写在一个配置文件中，这个配置文件就是一个遵循 CommonJS 模块规范的 JS 文件，导出一个配置对象。以下是配置对象中主要使用的属性。</p>
 <h3 id="entry"><a href="#entry" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Entry</h3>
@@ -138,7 +138,7 @@
 <ul>
 <li><code class="language-text">path</code>: 存放打包文件的目录</li>
 <li><code class="language-text">filename</code>: 打包文件的名称，如果不指定 <code class="language-text">filename</code>，webpack 会使用 <code class="language-text">entry</code> 的名称作为文件名</li>
-<li><code class="language-text">publicPath</code>: CND 路径，如果在编译时还不知道 <code class="language-text">publicPath</code>，它可以留空并在运行时通过入口点文件中的 <code class="language-text">__webpack_public_path__</code> 变量动态设置</li>
+<li><code class="language-text">publicPath</code>: 请求资源的路径。如果在编译时还不知道 <code class="language-text">publicPath</code>，它可以留空并在运行时通过入口点文件中的 <code class="language-text">__webpack_public_path__</code> 变量动态设置</li>
 </ul>
 <p>  多入口点的情况下，可以使用 <code class="language-text">[name]</code> 来指定每个入口点的名称。</p>
 <div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -181,6 +181,7 @@
 <div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token keyword">import</span> Styles <span class="token keyword">from</span> <span class="token string">'style-loader!css-loader?modules!./styles.css'</span><span class="token punctuation">;</span></code></pre></div>
 <h3 id="plugins"><a href="#plugins" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plugins</h3>
 <p>  Loaders 用来处理具体类型的模块，plugins 用来执行更宽泛的作用，比如包优化，资源管理和环境变量注入等。</p>
+<p>  插件是 webpack 的支柱。Webpack 本身就建立在配置中使用的相同插件系统上！</p>
 <div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token keyword">const</span> HtmlWebpackPlugin <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'html-webpack-plugin'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//installed via npm</span>
   <span class="token keyword">const</span> webpack <span class="token operator">=</span> <span class="token function">require</span><span class="token punctuation">(</span><span class="token string">'webpack'</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment">//to access built-in plugins</span>
   module<span class="token punctuation">.</span>exports <span class="token operator">=</span> <span class="token punctuation">{</span>
@@ -235,6 +236,69 @@
 <h2 id="其它概念"><a href="#%E5%85%B6%E5%AE%83%E6%A6%82%E5%BF%B5" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>其它概念</h2>
 <h3 id="modules"><a href="#modules" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Modules</h3>
 <p>  模块化编程中，开发者将程序分解成多个块，各司其职。</p>
-<p>  Webpack 模块</p></div><footer><p><a href="https://github.com/zitup/overblog" target="_blank" rel="noopener noreferrer">Discuss on GitHub</a></p></footer></article></main><aside><div style="margin:90px 0 40px 0;font-family:system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
+<p>  Webpack 原生支持的模块类型如下：</p>
+<ul>
+<li>ES6</li>
+<li>CommonJS</li>
+<li>AMD</li>
+<li>Assets: webpack 5 新增的模块类型，用于处理非 JavaScript 文件，比如图片、字体、视频等</li>
+<li>WebAssembly</li>
+</ul>
+<p>  除此之外，其他类型模块可以通过 loader 支持。</p>
+<h3 id="module-federation-模块联邦"><a href="#module-federation-%E6%A8%A1%E5%9D%97%E8%81%94%E9%82%A6" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Module Federation 模块联邦</h3>
+<p>  实现跨应用代码共享</p>
+<h3 id="targets"><a href="#targets" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Targets</h3>
+<p>  打包目标环境，比如 <code class="language-text">web</code>, <code class="language-text">node</code> 或 <code class="language-text">electron</code>。支持多目标打包。</p>
+<h3 id="manifest"><a href="#manifest" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Manifest</h3>
+<p>  由 webpack 构建的应用，有三种主要代码类型：</p>
+<ul>
+<li>自己写的代码</li>
+<li>依赖库的代码</li>
+<li>webpack 运行时和 manifest</li>
+</ul>
+<h3 id="hot-module-replacement"><a href="#hot-module-replacement" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Hot Module Replacement</h3>
+<p>  热模块替换，会在应用程序运行过程中，替换、添加或删除 模块，而无需重新加载整个页面。它可以：</p>
+<ul>
+<li>保留页面状态</li>
+<li>节省开发时间</li>
+<li>修改实时更新</li>
+</ul>
+<p>  HMR 原理：websocket…</p>
+<h2 id="webpack-工作流程"><a href="#webpack-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Webpack 工作流程</h2>
+<p>webpack 核心任务是完成内容转化和资源合并。主要包含 3 个阶段：</p>
+<ol>
+<li>
+<p>初始化阶段</p>
+<ul>
+<li><strong>初始化参数</strong>：从配置、shell 参数读取合并成最终配置</li>
+<li><strong>创建编译对象</strong>：用上一步的参数创建 Compiler 对象</li>
+<li><strong>初始化编译环境</strong>：包括注入内置插件、注册自定义插件、注册各种模块工厂等</li>
+</ul>
+</li>
+<li>
+<p>构建阶段</p>
+<ul>
+<li><strong>开始编译</strong>：执行 Compiler 对象的 run 方法，创建 Compilation 对象</li>
+<li><strong>确认编译入口</strong>：读取配置的 Entries，递归遍历所有的入口文件</li>
+<li><strong>编译模块</strong>：开始构建，从入口文件开始，调用 loader 对模块进行转译处理，然后调用 JS 解析器（acorn）将内容转换为 AST，然后递归分析依赖，依次处理全部文件</li>
+<li><strong>完成模块编译</strong>：在上一步处理好所有模块之后，得到模块编译产物和依赖关系图</li>
+</ul>
+</li>
+<li>
+<p>生成阶段</p>
+<ul>
+<li><strong>输出资源</strong>：根据入口和模块之间的依赖关系，组装成多个包含多个模块的 chunk，再把每个 chunk 转换成一个 asset 加入到输出列表，这里是可以修改输出内容的最后机会</li>
+<li><strong>写入文件系统</strong>：根据配置的 output 属性，将内容写入文件系统</li>
+</ul>
+</li>
+</ol>
+<h2 id="webpack-loader-机制"><a href="#webpack-loader-%E6%9C%BA%E5%88%B6" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Webpack loader 机制</h2>
+<p>  一个 loader 就是一个导出函数的 node 模块，这个函数会在一个资源需要被此 loader 转换时调用。</p>
+<p>  Loader 返回可以被 webpack 处理的模块。</p>
+<blockquote>
+<p>TODO <a href="https://webpack.js.org/contribute/writing-a-loader/" target="_blank" rel="nofollow noopener noreferrer">https://webpack.js.org/contribute/writing-a-loader/</a></p>
+</blockquote>
+<h2 id="webpack-配置的优化策略"><a href="#webpack-%E9%85%8D%E7%BD%AE%E7%9A%84%E4%BC%98%E5%8C%96%E7%AD%96%E7%95%A5" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Webpack 配置的优化策略</h2>
+<p>split chunk</p></div><footer><p><a href="https://github.com/zitup/overblog" target="_blank" rel="noopener noreferrer">Discuss on GitHub</a></p></footer></article></main><aside><div style="margin:90px 0 40px 0;font-family:system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
     &quot;Roboto&quot;, &quot;Oxygen&quot;, &quot;Ubuntu&quot;, &quot;Cantarell&quot;, &quot;Fira Sans&quot;,
-    &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif"></div><h3 style="font-family:Montserrat, sans-serif;margin-top:0.4375rem"><a style="box-shadow:none;text-decoration:none;color:var(--pink)" href="/overblog/">Overblog</a></h3><div style="display:flex;margin-bottom:3.5rem"><img src="/overblog/static/profile-pic-b180123675981fd40271acaadb8353f9.jpeg" alt="zhaoyutong" style="margin-right:0.875rem;margin-bottom:0;width:3.5rem;height:3.5rem;border-radius:50%"/><p style="max-width:310px">Personal blog by <a href="https://github.com/zitup">zitup</a>.<!-- --> <!-- --> Just write something.</p></div><nav><ul style="display:flex;flex-wrap:wrap;justify-content:space-between;list-style:none;padding:0"><li><a rel="prev" style="margin-right:20px" href="/overblog/js-10-array/">← <!-- -->Array</a></li><li><a rel="next" href="/overblog/war-1-how-browser-render-page/">浏览器如何渲染页面<!-- --> →</a></li></ul></nav></aside></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/engineering-2-webpack/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-5a3df58896fcdbb20db6.js"],"app":["/app-c58271f67fdcc0437285.js"],"component---src-pages-404-js":["/component---src-pages-404-js-cf1e5fd6591a9343a499.js"],"component---src-pages-confirm-js":["/component---src-pages-confirm-js-5cf513ee5657583bc5c9.js"],"component---src-pages-react-components-unsubscribed-js":["/component---src-pages-react-components-unsubscribed-js-7fc4f132e19bf88d210b.js"],"component---src-pages-thanks-js":["/component---src-pages-thanks-js-858b1df087138dfcf97b.js"],"component---src-templates-blog-index-js":["/component---src-templates-blog-index-js-ea74aa3098c6854c3488.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-4a0f291a5f14c9687ac9.js"]};/*]]>*/</script><script src="/overblog/polyfill-5a3df58896fcdbb20db6.js" nomodule=""></script><script src="/overblog/component---src-templates-blog-post-js-4a0f291a5f14c9687ac9.js" async=""></script><script src="/overblog/bc9699c34271943da8277b99b074a5b8731a0b8b-67b9dbee34e5849c496a.js" async=""></script><script src="/overblog/commons-3e353569f44f67239f66.js" async=""></script><script src="/overblog/styles-407fe62976dc5310c43e.js" async=""></script><script src="/overblog/app-c58271f67fdcc0437285.js" async=""></script><script src="/overblog/framework-3a07bb01dd6a58531acd.js" async=""></script><script src="/overblog/webpack-runtime-ebeee177d9cbc174216c.js" async=""></script></body></html>
+    &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif"></div><h3 style="font-family:Montserrat, sans-serif;margin-top:0.4375rem"><a style="box-shadow:none;text-decoration:none;color:var(--pink)" href="/overblog/">Overblog</a></h3><div style="display:flex;margin-bottom:3.5rem"><img src="/overblog/static/profile-pic-b180123675981fd40271acaadb8353f9.jpeg" alt="zhaoyutong" style="margin-right:0.875rem;margin-bottom:0;width:3.5rem;height:3.5rem;border-radius:50%"/><p style="max-width:310px">Personal blog by <a href="https://github.com/zitup">zitup</a>.<!-- --> <!-- --> Just write something.</p></div><nav><ul style="display:flex;flex-wrap:wrap;justify-content:space-between;list-style:none;padding:0"><li><a rel="prev" style="margin-right:20px" href="/overblog/js-10-array/">← <!-- -->Array</a></li><li><a rel="next" href="/overblog/browser-1-how-render-page/">浏览器如何渲染页面<!-- --> →</a></li></ul></nav></aside></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/engineering-2-webpack/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-5a3df58896fcdbb20db6.js"],"app":["/app-c58271f67fdcc0437285.js"],"component---src-pages-404-js":["/component---src-pages-404-js-cf1e5fd6591a9343a499.js"],"component---src-pages-confirm-js":["/component---src-pages-confirm-js-5cf513ee5657583bc5c9.js"],"component---src-pages-react-components-unsubscribed-js":["/component---src-pages-react-components-unsubscribed-js-7fc4f132e19bf88d210b.js"],"component---src-pages-thanks-js":["/component---src-pages-thanks-js-858b1df087138dfcf97b.js"],"component---src-templates-blog-index-js":["/component---src-templates-blog-index-js-ea74aa3098c6854c3488.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-4a0f291a5f14c9687ac9.js"]};/*]]>*/</script><script src="/overblog/polyfill-5a3df58896fcdbb20db6.js" nomodule=""></script><script src="/overblog/component---src-templates-blog-post-js-4a0f291a5f14c9687ac9.js" async=""></script><script src="/overblog/bc9699c34271943da8277b99b074a5b8731a0b8b-67b9dbee34e5849c496a.js" async=""></script><script src="/overblog/commons-3e353569f44f67239f66.js" async=""></script><script src="/overblog/styles-407fe62976dc5310c43e.js" async=""></script><script src="/overblog/app-c58271f67fdcc0437285.js" async=""></script><script src="/overblog/framework-3a07bb01dd6a58531acd.js" async=""></script><script src="/overblog/webpack-runtime-ebeee177d9cbc174216c.js" async=""></script></body></html>

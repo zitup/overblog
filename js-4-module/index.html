@@ -69,7 +69,7 @@
 
                 setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
               })();
-            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Module</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">November 22, 2021<!-- --> • ☕️ 2 min read</p></header><div><p>随着 JS 能做的事情越来越多，应用程序也越来越复杂，便出现了模块的概念，将 JS 程序分割成不同的块。模块化可以解决命名冲突/污染问题，良好的模块化设计可以降低代码之间的耦合，提高代码的可维护性、可扩展性和可复用性。</p>
+            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Module</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">November 22, 2021<!-- --> • ☕️ 3 min read</p></header><div><p>随着 JS 能做的事情越来越多，应用程序也越来越复杂，便出现了模块的概念，将 JS 程序分割成不同的块。模块化可以解决命名冲突/污染问题，良好的模块化设计可以降低代码之间的耦合，提高代码的可维护性、可扩展性和可复用性。</p>
 <h2 id="es-modules"><a href="#es-modules" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>ES Modules</h2>
 <p>ESM 加载模块的方式取决于所处的环境，Node.js 同步加载，浏览器端异步加载。支持模块静态分析。可以作为外部文件引入，也可以在嵌入式脚本中使用，script 需要有 <code class="language-text">type=&quot;module&quot;</code> 属性，异步加载异步执行。</p>
 <h3 id="import"><a href="#import" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>import</h3>
@@ -136,7 +136,11 @@
 </ul>
 <p>  语法</p>
 <ul>
-<li>exports</li>
+<li>
+<p>exports</p>
+<p>不能直接 <code class="language-text">exports = xxx</code>，这样不会导出任何东西。</p>
+<p>正确使用：<code class="language-text">exports.func = () =&gt; {}</code>，其它模块消费的是一个对象：<code class="language-text">require(&#39;module&#39;).func()</code></p>
+</li>
 <li>modules.exports</li>
 <li>require <a href="https://nodejs.org/dist/latest-v16.x/docs/api/modules.html#all-together" target="_blank" rel="nofollow noopener noreferrer">require(x) 算法</a></li>
 </ul>
