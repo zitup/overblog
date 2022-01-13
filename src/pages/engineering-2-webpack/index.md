@@ -150,6 +150,8 @@ Webpack 是一个静态模块打包器。
 
   Loaders 用来处理具体类型的模块，plugins 用来执行更宽泛的作用，比如包优化，资源管理和环境变量注入等。
 
+  插件是 webpack 的支柱。Webpack 本身就建立在配置中使用的相同插件系统上！
+
   ```jsx
     const HtmlWebpackPlugin = require('html-webpack-plugin'); //installed via npm
     const webpack = require('webpack'); //to access built-in plugins
@@ -222,4 +224,66 @@ Webpack 是一个静态模块打包器。
 
   模块化编程中，开发者将程序分解成多个块，各司其职。
 
-  Webpack 模块
+  Webpack 原生支持的模块类型如下：
+  - ES6
+  - CommonJS
+  - AMD
+  - Assets: webpack 5 新增的模块类型，用于处理非 JavaScript 文件，比如图片、字体、视频等
+  - WebAssembly
+
+  除此之外，其他类型模块可以通过 loader 支持。
+
+### Module Federation 模块联邦
+
+  实现跨应用代码共享
+
+### Targets
+
+  打包目标环境，比如 `web`, `node` 或 `electron`。支持多目标打包。
+
+### Manifest
+
+  由 webpack 构建的应用，有三种主要代码类型：
+  - 自己写的代码
+  - 依赖库的代码
+  - webpack 运行时和 manifest
+
+### Hot Module Replacement
+
+  热模块替换，会在应用程序运行过程中，替换、添加或删除 模块，而无需重新加载整个页面。它可以：
+  - 保留页面状态
+  - 节省开发时间
+  - 修改实时更新
+
+  HMR 原理：websocket...
+
+
+## Webpack 工作流程
+
+webpack 核心任务是完成内容转化和资源合并。主要包含 3 个阶段：
+
+  1. 初始化阶段
+
+     - **初始化参数**：从配置、shell 参数读取合并成最终配置
+     - **创建编译对象**：用上一步的参数创建 Compiler 对象
+     - **初始化编译环境**：包括注入内置插件、注册自定义插件、注册各种模块工厂等
+
+  2. 构建阶段
+
+     - **开始编译**：执行 Compiler 对象的 run 方法，创建 Compilation 对象
+     - **确认编译入口**：读取配置的 Entries，递归遍历所有的入口文件
+     - **编译模块**：开始构建，从入口文件开始，调用 loader 对模块进行转译处理，然后调用 JS 解析器（acorn）将内容转换为 AST，然后递归分析依赖，依次处理全部文件
+     - **完成模块编译**：在上一步处理好所有模块之后，得到模块编译产物和依赖关系图
+
+  3. 生成阶段
+
+     - **输出资源**：根据入口和模块之间的依赖关系，组装成多个包含多个模块的 chunk，再把每个 chunk 转换成一个 asset 加入到输出列表，这里是可以修改输出内容的最后机会
+     - **写入文件系统**：根据配置的 output 属性，将内容写入文件系统
+
+## Webpack 插件机制
+
+
+
+## Webpack 配置的优化策略
+
+split chunk

@@ -90,8 +90,7 @@ Chromium 渲染流程的主要步骤如下图所示：
 3. 合理利用特殊样式属性（如 transform: translateZ(0) 或者 will-change），将渲染层提升为合成层
 4. 使用变量对布局信息（如 clientTop）进行缓存，避免因频繁读取布局信息而触发重排和重绘
 
-> ##### 参考：
-> 本篇主要是参考 《剑指前端 offer》的学习笔记，有需要可以参考原文。
+> 本篇主要是参考 《剑指前端 offer》的学习笔记，原文内容更翔实，建议查看。
 > 
 > 1. https://febook.hzfe.org/awesome-interview/book2/browser-render-mechanism
 > 2. https://febook.hzfe.org/awesome-interview/book1/browser-repain-reflow
