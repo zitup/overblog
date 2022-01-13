@@ -87,6 +87,11 @@ CommonJS 通过同步的方式加载模块，首次加载会缓存结果，后�
   语法
 
   - exports
+
+    不能直接 `exports = xxx`，这样不会导出任何东西。
+
+    正确使用：`exports.func = () => {}`，其它模块消费的是一个对象：`require('module').func()`
+
   - modules.exports
   - require [require(x) 算法](https://nodejs.org/dist/latest-v16.x/docs/api/modules.html#all-together)
 

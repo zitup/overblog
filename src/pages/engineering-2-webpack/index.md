@@ -91,7 +91,7 @@ Webpack 是一个静态模块打包器。
   output 属性是一个对象，常用属性如下：
   - `path`: 存放打包文件的目录
   - `filename`: 打包文件的名称，如果不指定 `filename`，webpack 会使用 `entry` 的名称作为文件名
-  - `publicPath`: CND 路径，如果在编译时还不知道 `publicPath`，它可以留空并在运行时通过入口点文件中的 `__webpack_public_path__` 变量动态设置
+  - `publicPath`: 请求资源的路径。如果在编译时还不知道 `publicPath`，它可以留空并在运行时通过入口点文件中的 `__webpack_public_path__` 变量动态设置
 
   多入口点的情况下，可以使用 `[name]` 来指定每个入口点的名称。
 
@@ -280,9 +280,13 @@ webpack 核心任务是完成内容转化和资源合并。主要包含 3 个阶
      - **输出资源**：根据入口和模块之间的依赖关系，组装成多个包含多个模块的 chunk，再把每个 chunk 转换成一个 asset 加入到输出列表，这里是可以修改输出内容的最后机会
      - **写入文件系统**：根据配置的 output 属性，将内容写入文件系统
 
-## Webpack 插件机制
+## Webpack loader 机制
 
+  一个 loader 就是一个导出函数的 node 模块，这个函数会在一个资源需要被此 loader 转换时调用。
 
+  Loader 返回可以被 webpack 处理的模块。
+
+  > TODO https://webpack.js.org/contribute/writing-a-loader/
 
 ## Webpack 配置的优化策略
 
