@@ -325,7 +325,7 @@ cta: 'JS'
 > 另外，碍于时间和计划的关系，本系列也缺少了一些 JS 重要的部分，比如数组、各种新语法等，
 > 这里列一下后续大概的计划：
 > 1. TBD
-> 2. Blog, File, FileReader
+> 2. Blob, File, FileReader
 > 3. Proxy, Reflect
 > 4. 迭代器与生成器 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols
 > 5. Mutation Observers

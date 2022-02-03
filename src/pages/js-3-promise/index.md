@@ -115,6 +115,8 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
     })
   ```
 
+  `Promise.all()` 如果有一个变为了 rejected 状态，它会立即返回一个 `rejected` promise，不会等待其它 promise 执行完毕。否则，等待全部确认结果后返回。
+
 - ### Promise.allSettled(iterable)
 
   > [ES2019 新增](https://github.com/tc39/proposals/blob/HEAD/finished-proposals.md)
@@ -122,8 +124,6 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
   和 `Promise.all()` 不同点在于，allSettled 在输入的 promise 状态确定时，无论结果是 fulfilled 还是 rejected，allSettled 返回的 promise 的状态就会变为 fulfilled。
 
   返回值是一个数组，包含对应参数数量的对象，每个对象包括一个 status 属性，表示 promise 的执行结果，包括一个 value/reason，分别代表 fulfilled 的值和 rejected 的理由。
-
-  > 参考实现：https://github.com/es-shims/Promise.allSettled/blob/main/implementation.js
 
 - ### Promise.any(iterable)
 
@@ -139,7 +139,7 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
   返回一个 promise，当 iterable 中的任意一个 promise 状态确定(fulfilled/rejected)时，它会立即变为相应的状态，同时值就是此 promise 的值/理由。
 
   - 如果传入一个空的 iterable 对象，返回一个永远为 pending 状态的 promise。
-  - 其它都返回一个 pending promise。如果传入的 iterable 包含非 promise 值或已经确定状态的 promise，那么按顺序返回值为第一个的 promise。
+  - 其它都返回一个 pending promise。如果传入的 iterable 包含非 promise 值或已经确定状态的 promise，那么按顺序返回 值为第一个的 promise。
 
   和 `Promise.any` 区别
 
@@ -343,6 +343,53 @@ https://developer.mozilla.org/en-US/docs/Web/API/HTML_DOM_API/Microtask_guide
 
 ### 实现 promise
 
+1. 手写 `Promise.all()`
+
+all 方法主要做了 2 件事：
+
+- 返回一个 promise
+- 分别处理 reject 和 resolve 情况
+
+再加上边缘情况：
+
+- 判断传入参数是否可迭代
+- 空 iterator，resolve 返回空数组
+- 处理非 promise 类型
+
+```jsx
+  function promiseAll(args) {
+    // 不是可迭代对象抛出错误
+    const type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase()
+    const isIterable = ((type === 'object' && args !== null) || type === 'string') && typeof args[Symbol.iterator] === 'function'
+    if (!isIterable) {
+      throw new TypeError(`${type} is not iterable`)
+    }
+
+    args = Array.from(args)
+    let resolvedCount = 0
+    const result = []
+    return new Promise((resolve, reject) => {
+      // 空 iterator，resolve 返回空数组
+      if (!args.length) {
+        resolve([])
+      }
+
+      args.forEach((arg, index) => {
+        //使用 Promise.resolve 包裹，处理非 promise 类型
+        Promise.resolve(promise).then((res) => {
+          resolvedCount++
+          result[index] = res
+          if (resolvedCount === args.length) {
+            resolve(result)
+          }
+        }).catch(res = {
+          reject(res)
+        })
+      })
+    })
+  }
+```
+
 ### 一个吊诡的问题
 
   ```jsx
@@ -409,9 +456,3 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/asy
   ```
 
   先打印 111 222，再打印 1 2 3 4
-
-### 待确认
-1. new Promise(() => {
-
-  // 异步操作之前也是同步的？
-})

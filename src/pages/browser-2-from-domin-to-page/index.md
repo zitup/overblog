@@ -103,4 +103,4 @@ TLS 协商确定将使用哪个密码来加密通信，验证服务器，并在�
 > 参考：
 >
 > 1. https://febook.hzfe.org/awesome-interview/book1/topic-enter-url-display-xx
-> 2. https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work#parsing
+> 2. https://developer.mozilla.org/en-US/docs/Web/Performance/How_browsers_work

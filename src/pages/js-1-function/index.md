@@ -96,10 +96,20 @@ let sayHi = function(name) {
   - 不能作为构造函数（因为构造函数通过 new 调用时，需要构造函数的 prototype 属性和 this，箭头函数这两样都没有）
   - 内部没有 arguments 对象
 
+## generator function
+
+`function*` 声明定义了一个生成器函数，它返回一个 Generator 对象。
+
+```jsx
+  function* name([param[, param[, ... param]]]) {
+    statements
+  }
+```
+
 ## 函数返回值
 如果没有显式定义返回值，New 一个构造函数，函数的默认返回值为 new 创建的新对象，其它函数都默认返回 undefined。
 
-如果定义了返回值，其它函数都返回定义的值，new 一个构造函数，需要区分定义值的类型，如果返回的是一个对象，那么就直接返回，如果返回的是对象之外的其他任何值，那么就返回默认的 new 创建的新对象
+如果定义了返回值，其它函数都返回定义的值，new 一个构造函数，需要区分定义值的类型，如果返回的是一个非 null 对象，那么就直接返回，如果返回的是之外的其他任何值，那么就返回默认的 new 创建的新对象
 
 ## Properties and methods
 
@@ -448,18 +458,103 @@ var File = function () { // open IIFE
 
 ## 相关知识
 
-> 以下项不只是涉及到函数，还包括很多其它知识点，避免花费太多时间，暂时不在这里深究了，在后面熟悉原型/串联更多知识之后再说。
-
 ### this
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
 
-### new 一个函数发生了什么、new 原理
-https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/new
+### call apply bind
 
-### bind call apply 
-手写
+1. apply
 
-core-js源码：https://github.com/zloirock/core-js#ecmascript-function
+  apply 做了两件事：
+
+  - 改变调用函数内的 this
+  - 传入参数执行调用函数
+
+  再加上 this 和参数的类型判断，便可以模仿它的行为：
+
+  ```jsx{18,19,31}
+    Function.prototype.fakeApply = function fakeApply() {
+      // 判断类型
+      if (typeof this !== 'function') {
+        throw new TypeError('调用 fakeApply 的不是一个函数')
+      }
+
+      // 获取参数
+      let [thisArg, args] = arguments
+
+      // 处理 thisArg
+      if (thisArg === '' || thisArg === null || thisArg === undefined) {
+        thisArg = window
+      } else {
+        thisArg = Object(thisArg)
+      }
+
+      // 使用对象调用方法的方式，改变调用函数的 this
+      const func = Symbol("func"); // 唯一属性名称，避免冲突
+      thisArg[func] = this
+
+      // 处理参数
+      if (args && typeof args === 'object' && 'length' in args) {
+        args = Array.from(args) // 处理 array-like 参数
+      } else (args === null || args === undefined) {
+        args = []
+      } else {
+        throw new TypeError('CreateListFromArrayLike called on non-object')
+      }
+
+      // 传入参数执行调用函数
+      const result = thisArg[func](...args)
+      // 删除属性
+      delete thisArg[func]
+
+      return result 
+    }
+  ```
+
+2. call 
+
+  call 实现和 apply 类似，只是改变了处理第二个参数的方式
+
+3. bind
+
+  bind 主要做了两件事：
+
+  - 返回一个绑定后的新函数
+  - 新函数内传入参数执行调用函数，并改变调用函数的this
+
+  再加上一些边缘情况的处理，就可以模仿它的行为了：
+
+  ```jsx{16,17,18,19,20,21,22}
+    Function.prototype.fakeBind = function fakeBind() {
+      // 判断类型
+      if (typeof this !== 'function') {
+        throw new TypeError('调用 fakeBind 的不是一个函数')
+      }
+
+      let [thisArg, ...prependArgs] = arguments
+
+      // 处理 thisArg
+      if (thisArg === '' || thisArg === null || thisArg === undefined) {
+        thisArg = window
+      } else {
+        thisArg = Object(thisArg)
+      }
+
+      const F = this;
+      function boundFunction() {
+        const args = prependArgs.concat(...arguments)
+        // 包括作为构造函数调用和正常执行
+        return this instanceof boundFunction ? new F(...args) : F.apply(thisArg, args)
+      }
+
+      // 绑定函数继承原函数的原型对象
+      boundFunction.prototype = Object.create(F.prototype)
+
+      return boundFunction
+    }
+  ```
+
+  core-js源码：https://github.com/zloirock/core-js/blob/master/packages/core-js/internals/function-bind.js
 
 ### 柯里化
 手写
@@ -467,8 +562,6 @@ core-js源码：https://github.com/zloirock/core-js#ecmascript-function
 ### 函数式编程
 
 ### 节流、去抖函数
-
-### 寄生组合式继承
 
 ### 看不懂的
 

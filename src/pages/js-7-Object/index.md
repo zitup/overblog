@@ -157,7 +157,7 @@ Object 有 21 个静态方法，6 个实例方法。
 
           属性的值是否可以更改。默认为 false
 
-      访问器描述符还有以下两个可选键：
+      访问器描述符则还有以下两个可选键：
 
       1. `get`
 
@@ -329,9 +329,10 @@ Object 有 21 个静态方法，6 个实例方法。
 2. ### `Object.prototype.__proto__`
 
     > 废弃：此功能不再推荐使用。使用 `Object.getPrototypeOf()` 代替。
-    > 警告：更改对象的 [[Prototype]] 是一个非常缓慢的操作，应避免设置对象的 [[Prototype]]，使用 Object.create() 创建一个具有所需 [[Prototype]] 的新对象。
+    >
+    > 警告：更改对象的 [[Prototype]] 是一个非常缓慢的操作（包括 `Object.setPrototypeOf()`），应避免设置对象的 [[Prototype]]，推荐使用 Object.create() 创建一个具有所需 [[Prototype]] 的新对象。
     > 
-    __proto__ 属性是 Object.prototype 上的一个访问器属性，它暴露了访问它的对象的内部属性 `[[Prototype]]`。
+    \__proto__ 属性是 Object.prototype 上的一个访问器属性，它暴露了访问它的对象的内部属性 `[[Prototype]]`。
 
 ## 实例方法
 
