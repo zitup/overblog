@@ -11,8 +11,10 @@ useState 是 Hooks 的一部分，拥有了在函数组件内使用状态的能�
 
 ## 声明一个 state
 ```jsx
-const [state, setState] = useState()
-// React 保证 setState 函数在**重新渲染中是不变的**，所以可以在 useEffect 或 userCallback 的依赖列表中省略
+  const [state, setState] = useState()
+  // React 保证 setState 函数在**重新渲染中是不变的**，所以可以在 useEffect 或 userCallback 的依赖列表中省略
+
+  // 在更新执行时，useState() 内的参数会被省略，只是读取这个 state 和 setState 并返回
 ```
 
 ### state 的懒惰声明

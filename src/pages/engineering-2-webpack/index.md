@@ -248,6 +248,13 @@ Webpack 是一个静态模块打包器。
   - 依赖库的代码
   - webpack 运行时和 manifest
 
+  Webpack 使用 manifest 管理模块间的交互，Manifest 包含了模块信息，被用来解析加载模块。
+
+### Sourcemap
+
+源映射由一大堆信息组成，这些信息可用于将压缩文件中的代码映射回其原始源。
+https://blog.teamtreehouse.com/introduction-source-maps
+
 ### Hot Module Replacement
 
   热模块替换，会在应用程序运行过程中，替换、添加或删除 模块，而无需重新加载整个页面。它可以：
@@ -255,8 +262,11 @@ Webpack 是一个静态模块打包器。
   - 节省开发时间
   - 修改实时更新
 
-  HMR 原理：websocket...
+  HMR 原理：
+  
+  Websocket 和客户端通信，编译完成时通知客户端，客户端向 dev-server 请求模块列表，客户端比对后，再请求更新后的模块，完成更新或重载。
 
+  ![](./HMR.jpeg)
 
 ## Webpack 工作流程
 
@@ -291,3 +301,43 @@ webpack 核心任务是完成内容转化和资源合并。主要包含 3 个阶
 ## Webpack 配置的优化策略
 
 split chunk
+
+## 常见问题
+
+1. contentHash 和 chunkHash 有什么区别
+
+
+## 常见 loader
+
+1. style-loader
+
+  将 css 注入到 DOM 中，通过 \<style\> 标签。开发模式下推荐使用，比 MiniCssExtractPlugin 更快。
+2. css-loader
+
+  加载 css，解析 css 文件中的 @import 和 url()，返回 css 代码。
+
+3. postcss-loader
+
+  使用 postcss 转换 css 文件。
+
+4. sass-loader
+
+  将 sass/scss 编译为 css。
+
+5. babel-loader
+
+  使用 babel 编译 JS。
+
+  配合套件：babel-loader @babel/core @babel/preset-env @babel/preset-react
+
+  babel polyfill 有两种方案：  
+  1. preset-env + corejs，在 useBuiltIns 设置
+  2. preset-env + transform-runtime + runtime-corejs3
+
+## 常见 plugin
+
+1. MiniCssExtractPlugin
+
+  将 css 提取到单独文件中。
+
+2. HtmlWebpackPlugin

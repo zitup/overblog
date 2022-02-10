@@ -563,6 +563,317 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
 
 ### 节流、去抖函数
 
+```jsx
+  // 节流：在一个时间段内，只能有一次事件执行，如果触发了多次，只有一次能生效
+  // 也可以使用时间戳的方式
+  function throttle(fn, wait) {
+    let timer
+
+    return function() {
+      if (timer) {
+        return
+      }
+      const self = this
+      const args = arguments
+      timer = setTimeout(() => {
+        fn.apply(self, args)
+        timer = null
+      }, wait)
+    }
+  }
+
+  // 防抖：在事件触发一定时间后再执行，如果这段时间内有触发，则重新计时
+  function debounce(fn, wait) {
+    let timer
+    
+    return function() {
+      if (timer) {
+        clearTimeout(timer)
+        timer = null
+      }
+      const self = this
+      const args = arguments
+      timer = setTimeout(() => {
+        fn.apply(self, args)
+        timer = null
+      }, wait)
+    }
+  }
+```
+
+### 实现模板字符串功能的函数
+
+```jsx
+  function template(str, obj) {
+    const regExp = /\${([\d\w\$]+)}/g
+    if (regExp.test(str)) {
+      const result = str.replace(regExp, (match, p1, offset) => {
+        return obj[p1]
+      })
+      return result
+    }
+    return str
+  }
+
+  template("test${aa}test${bb}", {aa: 11, bb: 22})
+```
+
+### 版本比较函数
+
+```jsx
+  function compareVersion(version1, version2) {
+    const v1 = version1.split('.')
+    const v2 = version2.split('.')
+    for (let i = 0; i < v1.length || i < v2.length; ++i) {
+      let x = 0, y = 0;
+      if (i < v1.length) {
+        x = parseInt(v1[i])
+      }
+      if (i < v2.length) {
+        y = parseInt(v2[i])
+      }
+      if (x > y) {
+        return 1
+      }
+      if (x < y) {
+        return -1
+      }
+    }
+    return 0
+  }
+```
+
+### 函数柯里化
+
+将消费多个参数的函数，转换为一系列使用一个参数的函数
+
+```jsx
+  function curry(fn) {
+    return function curriedFn(...args) {
+      if (args.length >= fn.length) {
+        return fn(...args)
+      } else {
+        return function() {
+          return curriedFn(...args.concat(Array.from(arguments)))
+        }
+      }
+    }
+  }
+```
+
+### 深拷贝
+
+JS 中的数据类型分为原始类型和引用类型，针对不同类型做不同的操作。
+
+- 原始类型
+
+  ```jsx
+    // JS 目前有 7 种原始类型
+    const undefinedTag = '[object Undefined]'
+    const nullTag = '[object Null]'
+
+    const boolTag = '[object Boolean]'
+    const numberTag = '[object Number]'
+    const stringTag = '[object String]'
+
+    // es2015
+    const symbolTag = '[object Symbol]'
+
+    // es2020
+    const bigIntTag = '[object BigInt]'
+  ```
+
+  原始类型都是值传递，直接返回原值即可。
+
+  ```jsx
+    const pVal = [
+      undefinedTag, nullTag,
+      boolTag, numberTag, stringTag,
+      symbolTag, bigIntTag
+    ]
+    function clone (target) {
+      let type = Object.prototype.toString.call(target)
+      if (pVal.includes(type)) {
+        return target
+      } 
+    }
+  ```
+
+- 引用类型
+
+引用类型需要创建一个新对象，遍历需要克隆的对象，将它的属性深拷贝到新对象上
+
+  ```jsx
+    const pVal = [
+      undefinedTag, nullTag,
+      boolTag, numberTag, stringTag,
+      symbolTag, bigIntTag
+    ]
+    function clone(target, map = new WeakMap()) {
+      let type = Object.prototype.toString.call(target)
+      if (pVal.includes(type)) {
+        return target
+      } else {
+        if (map.get(target)) {
+          return map.get(target)
+        }
+        const result = Array.isArray(target) ? [] : {}
+        map.set(target, result)
+        for (let key in target) {
+          result[key] = clone(target[key])
+        }
+        return result
+      }
+    }
+  ```
+
+解决循环引用：WeakMap 存储复制的对象，当遇到相同对象时直接返回，避免无限循环，造成栈溢出。
+
+其它引用类型的深拷贝需要针对处理：
+
+  ```jsx
+    // 引用类型
+    const arrayTag = '[object Array]';
+    const objectTag = '[object Object]';
+    const mapTag = '[object Map]';
+    const setTag = '[object Set]';
+    const argTag = '[object Arguments]'
+    const regexpTag = '[object RegExp]'
+    const dateTag = '[object Date]'
+    const funcTag = '[object Function]'
+    const promiseTag = '[object Promise]'
+    // 无法拷贝的引用类型
+    const weakMapTag = '[object WeakMap]'
+    const weakSetTag = '[object WeakSet]'
+    const errorTag = '[object Error]'
+  ```
+
+完整版本：
+
+  ```jsx
+    function cloneDeep(target, cache = new WeakMap()) {
+      // 原始类型
+      const undefinedTag = '[object Undefined]'
+      const nullTag = '[object Null]'
+      const boolTag = '[object Boolean]'
+      const numberTag = '[object Number]'
+      const stringTag = '[object String]'
+      const symbolTag = '[object Symbol]' // es2015
+      const bigIntTag = '[object BigInt]' // es2020
+
+      // 引用类型
+      const arrayTag = '[object Array]';
+      const objectTag = '[object Object]';
+      const mapTag = '[object Map]';
+      const setTag = '[object Set]';
+      const argTag = '[object Arguments]'
+      const regexpTag = '[object RegExp]'
+      const dateTag = '[object Date]'
+      const funcTag = '[object Function]'
+      const promiseTag = '[object Promise]'
+      // 无法拷贝的引用类型
+      const weakMapTag = '[object WeakMap]'
+      const weakSetTag = '[object WeakSet]'
+      const errorTag = '[object Error]'
+
+      // 获取拷贝对象的类型
+      const type = Object.prototype.toString.call(target)
+
+      const pVal = [
+        undefinedTag, nullTag,
+        boolTag, numberTag, stringTag,
+        symbolTag, bigIntTag
+      ]
+      // 原始类型直接返回
+      if (pVal.includes(type)) {
+        return target
+      }
+
+      // 需要循环判断的引用类型
+      const deepTag = [arrayTag, objectTag, mapTag, setTag, argTag]
+
+      // 其它引用类型
+      if (!deepTag.includes(type)) {
+        let result
+        const Ctor = target.constructor
+        switch (type) {
+          case regexpTag: {
+            result = new Ctor(target)
+            result.lastIndex = target.lastIndex
+            return result
+          }
+          case dateTag: 
+            return new Ctor(+target)
+          case funcTag:
+            // 也可以通过正则获取普通函数的参数和函数体，使用 new Function 构造一个新函数
+            // 箭头函数通过 eval(fn.toString())
+            // 通过是否有 prototype 属性可以区分普通函数和箭头函数
+            return target
+          case promiseTag:
+            return Promise.resolve(target)
+          // 下面的不可拷贝，或者说无意义
+          case weakMapTag:
+          case weakSetTag:
+          case errorTag:
+            return target
+        }
+      }
+
+      // 初始化对象
+      const Constructor = target.constructor
+      let result = new Constructor()
+
+      // 避免循环引用
+      if (cache.get(target)) {
+        return cache.get(target)
+      }
+      cache.set(target, result)
+
+      // set
+      if (type === setTag) {
+        target.forEach(value => {
+          result.add(cloneDeep(value, cache))
+        })
+        return result
+      }
+
+      // map
+      if (type === mapTag) {
+        target.forEach((value, key) => {
+          result.set(key, cloneDeep(value, cache))
+        })
+        return result
+      }
+
+      // array object arguments
+      // for (let key in target) {
+      //   result[key] = clone(target[key])
+      // }
+      // return result
+      // 使用 while 遍历，速度更快
+      function forEach(array, fn) {
+        let index = 0
+        while (index < array.length) {
+          fn(array[index], index)
+          index++
+        }
+        return array
+      }
+      const keys = type === arrayTag ? undefined : Object.keys(target) // Object.keys() 方法获取不到对象的 symbol 属性，有需要可以使用 Object.getOwnPropertySymbols() 进一步获取
+      forEach(keys || target, (value, key) => {
+        // object
+        if (keys) {
+          key = value
+        }
+        result[key] = cloneDeep(target[key], cache)
+      })
+      return result
+    }
+
+    // 参考：https://juejin.cn/post/6844904046692679693
+    // https://segmentfault.com/a/1190000020255831
+  ```
+
 ### 看不懂的
 
 1. https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply#using_apply_to_chain_constructors

@@ -11,7 +11,7 @@ cta: 'react'
 
 ## What is reconciliation?（什么是协调）
 
-React 用来比较两个元素树，决定哪部分需要改变的算法。
+React 用来比较两个元素树，决定哪部分需要改变的过程。
 
 React 在更新时，有些元素的属性和状态是没有改变的，全部更新一遍会造成浪费，导致处理速度变慢，使用更多的资源等，这就需要一些优化手段，而这些优化就是 reconciliation 的一部分。
 
@@ -128,6 +128,23 @@ fiber 还未执行完毕，具体地说，还未返回东西
 就是当前环境的原生组件，对浏览器来说就是那些 dom 元素，`div`、`span` 等。
 
 每一个 fiber 最终都有输出，都是通过原生组件的形式。它们的输出会传输到构建的树上。
+
+## fiber reconciliation
+
+Fiber reconciliation 是新的协调引擎，它最大的特点就是异步可中断更新，不会有 stack reconciliation 执行时间过长，导致界面掉帧的问题。
+
+Fiber 将耗时很长的复杂任务进行分片，只在 deadline 内执行任务，超过 deadline 时，将执行权交还给主线程，当主线程空闲时再回来继续执行。
+
+一次更新的大致流程如下：
+
+1. 根据 current tree 构建 workInProgress tree（深度优先算法）
+   1. 根据每个节点是否改变，直接复制或更新 Fiber Node 到 workInProgress tree
+   2. 每更新一个节点，同时生成该节点对应的 effectTag，比如需要更新、需要删除等，将需要改变的结点存入 effectList 中
+   3. 为每个节点创建更新任务
+2. 更新任务等待调度（scheduler 模块负责）
+3. 根据 Effect List 更新 DOM （commit 阶段）
+   1. React 会遍历 Effect List 将所有变更一次性更新到 DOM 上
+   2. 这一阶段的工作会导致用户可见的变化。因此该过程不可中断，必须一直执行直到更新完成
 
 
 [纤程](https://zh.wikipedia.org/wiki/%E7%BA%96%E7%A8%8B)
