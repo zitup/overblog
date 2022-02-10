@@ -132,22 +132,20 @@ React 对这两类的处理有什么不一样呢？如果是实例类型，React
 </ol>
 <p>值得说明的是，instances 在 React 中并不重要，它自己会创建每一个类组件的实例并管理它。</p>
 <h2 id="reconciliation"><a href="#reconciliation" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Reconciliation</h2>
-<p>是 React 中负责处理更新的模块，包含了 Diff 算法。
+<p>是 React 中负责处理更新的模块，包含了 Diff 算法。<br>
 因为使用现有算法比较两个 element tree，复杂度太高，React 定义了两个假设：</p>
 <ol>
 <li>两个不一样类型的元素会产生不同的树</li>
-<li>
-<p>开发者可以通过 key 属性来标示某个元素在不同的渲染中可能是不变的</p>
+<li>开发者可以通过 key 属性来标示某个元素在不同的渲染中可能是不变的</li>
+</ol>
 <h3 id="the-diffing-algorithm"><a href="#the-diffing-algorithm" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The Diffing Algorithm</h3>
 <p>React 在比较树时，会先对比根元素，如果两个元素不一样，会直接舍弃旧树，构建新树。舍弃旧树时，如果是 class 组件， <code class="language-text">componentWillUnmount()</code> 会被调用。构建新树时，<code class="language-text">UNSAFE_componentWillMount()</code> 会被调用。</p>
-</li>
-</ol>
 <p>当比较相同类型的 Dom 类元素时，React 只会查找属性并<strong>只</strong>更新改变的。当处理完当前元素时，会遍历(recurse)处理它的子元素。</p>
 <p>当比较相同类型的组件实例时，React 会更新实例的 props，并调用 <code class="language-text">UNSAFE_componentWillReceiveProps()</code>，<code class="language-text">UNSAFE_componentWillUpdate()</code> and <code class="language-text">componentDidUpdate()</code>。16.3 之后的版本，会调用 <code class="language-text">static getDerivedStateFromProps()</code>。
-需要注意的是，组件的状态会跨更新存在。</p>
-<p>然后，<code class="language-text">render()</code>方法被调用，react 会对返回的结果和之前的结果，递归的执行 diff 算法。</p>
+需要注意的是，组件的状态会跨更新存在。<br>
+然后，<code class="language-text">render()</code>方法被调用，react 会对返回的结果和之前的结果，递归的执行 diff 算法。</p>
 <h3 id="recursing-on-children"><a href="#recursing-on-children" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Recursing On Children</h3>
-<p>默认情况下，对于 Dom 元素，React 同一时间比对它们的子元素，同一位置只要不一样就会生成一个改变。而下面的例子 1 和 2，性能方面明显是 2 好于 1 的，因为 React 不知道哪些元素可以保留复用。</p>
+<p>默认情况下，对于 Dom 元素，React 同一时间比对它们的子元素，同一位置只要不一样就会生成一个改变。而下面的例子 1 和 2，性能方面明显是 1 好于 2 的，因为 React 不知道哪些元素可以保留复用。</p>
 <div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">   <span class="token comment">// 1</span>
    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>ul</span><span class="token punctuation">></span></span><span class="token plain-text">
       </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span><span class="token plain-text">first</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span><span class="token plain-text">
@@ -171,9 +169,9 @@ React 对这两类的处理有什么不一样呢？如果是实例类型，React
       </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>li</span><span class="token punctuation">></span></span><span class="token plain-text">Villanova</span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>li</span><span class="token punctuation">></span></span><span class="token plain-text">
    </span><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>ul</span><span class="token punctuation">></span></span></code></pre></div>
 <p>所以，我们使用 key 属性告诉 React，哪些元素在更新前后是同一个元素，如果更新后仍然存在，React 需要做的可能就是更新一下属性，挪动一下位置，而不用重新生成，提高了性能。</p>
-<p>这里有个需要注意的地方，不要使用数组索引作为 key，尤其是在数组会重新排序的情况下。为什么呢？通过上面可以知道，React 使用 key 来确认同一个元素，然后只更新它的 props。这里的元素可能是 Dom 节点，也可能是组件实例。
-对于 Dom 节点，主要是 form 类元素，它们有默认的内部状态(没搜到浏览器对于此类元素对处理)。对于实例，我们假设它内部有 form 类元素，或者有自己的状态。然后触发一次倒序排列，因为使用数组索引作为 key，所以同一位置的 key 不变。
-react 在 diff 新树和旧树时，发现同一位置的 key 一致，就只更新它的 props，保留它的状态。这就产生了问题，<strong>更新完后排在第一个的实例，使用的是最后一个实例的 props，但 state 还是更新之前的状态</strong>。
+<p>这里有个需要注意的地方，不要使用数组索引作为 key，尤其是在数组会重新排序的情况下。为什么呢？通过上面可以知道，React 使用 key 来确认同一个元素，然后只更新它的 props。这里的元素可能是 Dom 节点，也可能是组件实例。<br>
+对于 Dom 节点，主要是 form 类元素，它们有默认的内部状态(没搜到浏览器对于此类元素的处理)。对于实例，我们假设它内部有 form 类元素，或者有自己的状态。然后触发一次倒序排列，因为使用数组索引作为 key，所以同一位置的 key 不变。<br>
+React 在 diff 新树和旧树时，发现同一位置的 key 一致，就只更新它的 props，保留它的状态。这就产生了问题，<strong>更新完后排在第一个的实例，使用的是最后一个实例的 props，但 state 还是更新之前的状态</strong>。
 我改了下<a href="https://reactjs.org/redirect-to-codepen/reconciliation/index-used-as-key" target="_blank" rel="nofollow noopener noreferrer">官方</a>的例子，在 input 元素的默认状态之外，加了个自己定义的状态，可以更清楚的看到，props 改变，state 未变：<a href="https://codesandbox.io/s/stupefied-snow-f1bxb?file=/src/App.js" target="_blank" rel="nofollow noopener noreferrer">https://codesandbox.io/s/stupefied-snow-f1bxb?file=/src/App.js</a></p>
 <p><code class="language-text">Math.random()</code>也不要用，每次更新 key 都不一样，会导致不必要的实例创建。</p></div><footer><p><a href="https://github.com/zitup/overblog" target="_blank" rel="noopener noreferrer">Discuss on GitHub</a></p></footer></article></main><aside><div style="margin:90px 0 40px 0;font-family:system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
     &quot;Roboto&quot;, &quot;Oxygen&quot;, &quot;Ubuntu&quot;, &quot;Cantarell&quot;, &quot;Fira Sans&quot;,

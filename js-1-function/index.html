@@ -69,7 +69,7 @@
 
                 setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
               })();
-            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Function</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">October 11, 2021<!-- --> • ☕️☕️☕️ 13 min read</p></header><div><p>作为一个写了好几年的前端，有时候想起 JS 还是很模糊的一个状态，对其中重要的组成部分、繁杂的语法、多样的 API 等等，脑袋里没有一个清晰的脉络，而 JS 作为前端世界核心中的核心，掌握它也是一个好前端必须要做到的。所以重学 JS 很有必要，遂有此系列。希望走完这趟重学之路之后，脑中有脉络，胸中有沟壑，能构建起自己的 JS 知识体系。</p>
+            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Function</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">October 11, 2021<!-- --> • ☕️☕️☕️☕️ 18 min read</p></header><div><p>作为一个写了好几年的前端，有时候想起 JS 还是很模糊的一个状态，对其中重要的组成部分、繁杂的语法、多样的 API 等等，脑袋里没有一个清晰的脉络，而 JS 作为前端世界核心中的核心，掌握它也是一个好前端必须要做到的。所以重学 JS 很有必要，遂有此系列。希望走完这趟重学之路之后，脑中有脉络，胸中有沟壑，能构建起自己的 JS 知识体系。</p>
 <p>函数是 JS 世界中的一等公民，写 JS 差不多就是在写函数，所以掌握函数很有必要，本文将从几个方面去学习，力求一文掌握 function。</p>
 <h2 id="创建函数"><a href="#%E5%88%9B%E5%BB%BA%E5%87%BD%E6%95%B0" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>创建函数</h2>
 <h3 id="constructor-vs-declaration-vs-expression"><a href="#constructor-vs-declaration-vs-expression" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constructor vs. declaration vs. expression</h3>
@@ -522,6 +522,281 @@ console<span class="token punctuation">.</span><span class="token function">log<
 <p>手写</p>
 <h3 id="函数式编程"><a href="#%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>函数式编程</h3>
 <h3 id="节流、去抖函数"><a href="#%E8%8A%82%E6%B5%81%E3%80%81%E5%8E%BB%E6%8A%96%E5%87%BD%E6%95%B0" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>节流、去抖函数</h3>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token comment">// 节流：在一个时间段内，只能有一次事件执行，如果触发了多次，只有一次能生效</span>
+  <span class="token comment">// 也可以使用时间戳的方式</span>
+  <span class="token keyword">function</span> <span class="token function">throttle</span><span class="token punctuation">(</span><span class="token parameter">fn<span class="token punctuation">,</span> wait</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> timer
+
+    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">const</span> self <span class="token operator">=</span> <span class="token keyword">this</span>
+      <span class="token keyword">const</span> args <span class="token operator">=</span> arguments
+      timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token function">fn</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+        timer <span class="token operator">=</span> <span class="token keyword">null</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> wait<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// 防抖：在事件触发一定时间后再执行，如果这段时间内有触发，则重新计时</span>
+  <span class="token keyword">function</span> <span class="token function">debounce</span><span class="token punctuation">(</span><span class="token parameter">fn<span class="token punctuation">,</span> wait</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> timer
+    
+    <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>timer<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">clearTimeout</span><span class="token punctuation">(</span>timer<span class="token punctuation">)</span>
+        timer <span class="token operator">=</span> <span class="token keyword">null</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">const</span> self <span class="token operator">=</span> <span class="token keyword">this</span>
+      <span class="token keyword">const</span> args <span class="token operator">=</span> arguments
+      timer <span class="token operator">=</span> <span class="token function">setTimeout</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token function">fn</span><span class="token punctuation">.</span><span class="token function">apply</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> args<span class="token punctuation">)</span>
+        timer <span class="token operator">=</span> <span class="token keyword">null</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> wait<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre></div>
+<h3 id="实现模板字符串功能的函数"><a href="#%E5%AE%9E%E7%8E%B0%E6%A8%A1%E6%9D%BF%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8A%9F%E8%83%BD%E7%9A%84%E5%87%BD%E6%95%B0" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>实现模板字符串功能的函数</h3>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token keyword">function</span> <span class="token function">template</span><span class="token punctuation">(</span><span class="token parameter">str<span class="token punctuation">,</span> obj</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> regExp <span class="token operator">=</span> <span class="token regex"><span class="token regex-delimiter">/</span><span class="token regex-source language-regex">\${([\d\w\$]+)}</span><span class="token regex-delimiter">/</span><span class="token regex-flags">g</span></span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>regExp<span class="token punctuation">.</span><span class="token function">test</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> result <span class="token operator">=</span> str<span class="token punctuation">.</span><span class="token function">replace</span><span class="token punctuation">(</span>regExp<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">match<span class="token punctuation">,</span> p1<span class="token punctuation">,</span> offset</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> obj<span class="token punctuation">[</span>p1<span class="token punctuation">]</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token keyword">return</span> result
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> str
+  <span class="token punctuation">}</span>
+
+  <span class="token function">template</span><span class="token punctuation">(</span><span class="token string">"test${aa}test${bb}"</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>aa<span class="token operator">:</span> <span class="token number">11</span><span class="token punctuation">,</span> bb<span class="token operator">:</span> <span class="token number">22</span><span class="token punctuation">}</span><span class="token punctuation">)</span></code></pre></div>
+<h3 id="版本比较函数"><a href="#%E7%89%88%E6%9C%AC%E6%AF%94%E8%BE%83%E5%87%BD%E6%95%B0" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>版本比较函数</h3>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token keyword">function</span> <span class="token function">compareVersion</span><span class="token punctuation">(</span><span class="token parameter">version1<span class="token punctuation">,</span> version2</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">const</span> v1 <span class="token operator">=</span> version1<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span>
+    <span class="token keyword">const</span> v2 <span class="token operator">=</span> version2<span class="token punctuation">.</span><span class="token function">split</span><span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> v1<span class="token punctuation">.</span>length <span class="token operator">||</span> i <span class="token operator">&lt;</span> v2<span class="token punctuation">.</span>length<span class="token punctuation">;</span> <span class="token operator">++</span>i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> x <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> y <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> v1<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        x <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>v1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>i <span class="token operator">&lt;</span> v2<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        y <span class="token operator">=</span> <span class="token function">parseInt</span><span class="token punctuation">(</span>v2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">></span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token number">1</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>x <span class="token operator">&lt;</span> y<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span>
+  <span class="token punctuation">}</span></code></pre></div>
+<h3 id="函数柯里化"><a href="#%E5%87%BD%E6%95%B0%E6%9F%AF%E9%87%8C%E5%8C%96" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>函数柯里化</h3>
+<p>将消费多个参数的函数，转换为一系列使用一个参数的函数</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token keyword">function</span> <span class="token function">curry</span><span class="token punctuation">(</span><span class="token parameter">fn</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token keyword">function</span> <span class="token function">curriedFn</span><span class="token punctuation">(</span><span class="token parameter"><span class="token operator">...</span>args</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>args<span class="token punctuation">.</span>length <span class="token operator">>=</span> fn<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token function">fn</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token keyword">return</span> <span class="token function">curriedFn</span><span class="token punctuation">(</span><span class="token operator">...</span>args<span class="token punctuation">.</span><span class="token function">concat</span><span class="token punctuation">(</span>Array<span class="token punctuation">.</span><span class="token function">from</span><span class="token punctuation">(</span>arguments<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token punctuation">}</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre></div>
+<h3 id="深拷贝"><a href="#%E6%B7%B1%E6%8B%B7%E8%B4%9D" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>深拷贝</h3>
+<p>JS 中的数据类型分为原始类型和引用类型，针对不同类型做不同的操作。</p>
+<ul>
+<li>
+<p>原始类型</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token comment">// JS 目前有 7 种原始类型</span>
+<span class="token keyword">const</span> undefinedTag <span class="token operator">=</span> <span class="token string">'[object Undefined]'</span>
+<span class="token keyword">const</span> nullTag <span class="token operator">=</span> <span class="token string">'[object Null]'</span>
+
+<span class="token keyword">const</span> boolTag <span class="token operator">=</span> <span class="token string">'[object Boolean]'</span>
+<span class="token keyword">const</span> numberTag <span class="token operator">=</span> <span class="token string">'[object Number]'</span>
+<span class="token keyword">const</span> stringTag <span class="token operator">=</span> <span class="token string">'[object String]'</span>
+
+<span class="token comment">// es2015</span>
+<span class="token keyword">const</span> symbolTag <span class="token operator">=</span> <span class="token string">'[object Symbol]'</span>
+
+<span class="token comment">// es2020</span>
+<span class="token keyword">const</span> bigIntTag <span class="token operator">=</span> <span class="token string">'[object BigInt]'</span></code></pre></div>
+<p>原始类型都是值传递，直接返回原值即可。</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx"><span class="token keyword">const</span> pVal <span class="token operator">=</span> <span class="token punctuation">[</span>
+  undefinedTag<span class="token punctuation">,</span> nullTag<span class="token punctuation">,</span>
+  boolTag<span class="token punctuation">,</span> numberTag<span class="token punctuation">,</span> stringTag<span class="token punctuation">,</span>
+  symbolTag<span class="token punctuation">,</span> bigIntTag
+<span class="token punctuation">]</span>
+<span class="token keyword">function</span> <span class="token function">clone</span> <span class="token punctuation">(</span><span class="token parameter">target</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">let</span> type <span class="token operator">=</span> <span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+  <span class="token keyword">if</span> <span class="token punctuation">(</span>pVal<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> target
+  <span class="token punctuation">}</span> 
+<span class="token punctuation">}</span></code></pre></div>
+</li>
+<li>引用类型</li>
+</ul>
+<p>引用类型需要创建一个新对象，遍历需要克隆的对象，将它的属性深拷贝到新对象上</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token keyword">const</span> pVal <span class="token operator">=</span> <span class="token punctuation">[</span>
+    undefinedTag<span class="token punctuation">,</span> nullTag<span class="token punctuation">,</span>
+    boolTag<span class="token punctuation">,</span> numberTag<span class="token punctuation">,</span> stringTag<span class="token punctuation">,</span>
+    symbolTag<span class="token punctuation">,</span> bigIntTag
+  <span class="token punctuation">]</span>
+  <span class="token keyword">function</span> <span class="token function">clone</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> map <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">let</span> type <span class="token operator">=</span> <span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pVal<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> target
+    <span class="token punctuation">}</span> <span class="token keyword">else</span> <span class="token punctuation">{</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">return</span> map<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">const</span> result <span class="token operator">=</span> Array<span class="token punctuation">.</span><span class="token function">isArray</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span> <span class="token operator">?</span> <span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token operator">:</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+      map<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> key <span class="token keyword">in</span> target<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        result<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">clone</span><span class="token punctuation">(</span>target<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> result
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span></code></pre></div>
+<p>解决循环引用：WeakMap 存储复制的对象，当遇到相同对象时直接返回，避免无限循环，造成栈溢出。</p>
+<p>其它引用类型的深拷贝需要针对处理：</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token comment">// 引用类型</span>
+  <span class="token keyword">const</span> arrayTag <span class="token operator">=</span> <span class="token string">'[object Array]'</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> objectTag <span class="token operator">=</span> <span class="token string">'[object Object]'</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> mapTag <span class="token operator">=</span> <span class="token string">'[object Map]'</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> setTag <span class="token operator">=</span> <span class="token string">'[object Set]'</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> argTag <span class="token operator">=</span> <span class="token string">'[object Arguments]'</span>
+  <span class="token keyword">const</span> regexpTag <span class="token operator">=</span> <span class="token string">'[object RegExp]'</span>
+  <span class="token keyword">const</span> dateTag <span class="token operator">=</span> <span class="token string">'[object Date]'</span>
+  <span class="token keyword">const</span> funcTag <span class="token operator">=</span> <span class="token string">'[object Function]'</span>
+  <span class="token keyword">const</span> promiseTag <span class="token operator">=</span> <span class="token string">'[object Promise]'</span>
+  <span class="token comment">// 无法拷贝的引用类型</span>
+  <span class="token keyword">const</span> weakMapTag <span class="token operator">=</span> <span class="token string">'[object WeakMap]'</span>
+  <span class="token keyword">const</span> weakSetTag <span class="token operator">=</span> <span class="token string">'[object WeakSet]'</span>
+  <span class="token keyword">const</span> errorTag <span class="token operator">=</span> <span class="token string">'[object Error]'</span></code></pre></div>
+<p>完整版本：</p>
+<div class="gatsby-highlight" data-language="jsx"><pre class="language-jsx"><code class="language-jsx">  <span class="token keyword">function</span> <span class="token function">cloneDeep</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> cache <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">WeakMap</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 原始类型</span>
+    <span class="token keyword">const</span> undefinedTag <span class="token operator">=</span> <span class="token string">'[object Undefined]'</span>
+    <span class="token keyword">const</span> nullTag <span class="token operator">=</span> <span class="token string">'[object Null]'</span>
+    <span class="token keyword">const</span> boolTag <span class="token operator">=</span> <span class="token string">'[object Boolean]'</span>
+    <span class="token keyword">const</span> numberTag <span class="token operator">=</span> <span class="token string">'[object Number]'</span>
+    <span class="token keyword">const</span> stringTag <span class="token operator">=</span> <span class="token string">'[object String]'</span>
+    <span class="token keyword">const</span> symbolTag <span class="token operator">=</span> <span class="token string">'[object Symbol]'</span> <span class="token comment">// es2015</span>
+    <span class="token keyword">const</span> bigIntTag <span class="token operator">=</span> <span class="token string">'[object BigInt]'</span> <span class="token comment">// es2020</span>
+
+    <span class="token comment">// 引用类型</span>
+    <span class="token keyword">const</span> arrayTag <span class="token operator">=</span> <span class="token string">'[object Array]'</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> objectTag <span class="token operator">=</span> <span class="token string">'[object Object]'</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> mapTag <span class="token operator">=</span> <span class="token string">'[object Map]'</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> setTag <span class="token operator">=</span> <span class="token string">'[object Set]'</span><span class="token punctuation">;</span>
+    <span class="token keyword">const</span> argTag <span class="token operator">=</span> <span class="token string">'[object Arguments]'</span>
+    <span class="token keyword">const</span> regexpTag <span class="token operator">=</span> <span class="token string">'[object RegExp]'</span>
+    <span class="token keyword">const</span> dateTag <span class="token operator">=</span> <span class="token string">'[object Date]'</span>
+    <span class="token keyword">const</span> funcTag <span class="token operator">=</span> <span class="token string">'[object Function]'</span>
+    <span class="token keyword">const</span> promiseTag <span class="token operator">=</span> <span class="token string">'[object Promise]'</span>
+    <span class="token comment">// 无法拷贝的引用类型</span>
+    <span class="token keyword">const</span> weakMapTag <span class="token operator">=</span> <span class="token string">'[object WeakMap]'</span>
+    <span class="token keyword">const</span> weakSetTag <span class="token operator">=</span> <span class="token string">'[object WeakSet]'</span>
+    <span class="token keyword">const</span> errorTag <span class="token operator">=</span> <span class="token string">'[object Error]'</span>
+
+    <span class="token comment">// 获取拷贝对象的类型</span>
+    <span class="token keyword">const</span> type <span class="token operator">=</span> <span class="token class-name">Object</span><span class="token punctuation">.</span>prototype<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">.</span><span class="token function">call</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+
+    <span class="token keyword">const</span> pVal <span class="token operator">=</span> <span class="token punctuation">[</span>
+      undefinedTag<span class="token punctuation">,</span> nullTag<span class="token punctuation">,</span>
+      boolTag<span class="token punctuation">,</span> numberTag<span class="token punctuation">,</span> stringTag<span class="token punctuation">,</span>
+      symbolTag<span class="token punctuation">,</span> bigIntTag
+    <span class="token punctuation">]</span>
+    <span class="token comment">// 原始类型直接返回</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>pVal<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> target
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 需要循环判断的引用类型</span>
+    <span class="token keyword">const</span> deepTag <span class="token operator">=</span> <span class="token punctuation">[</span>arrayTag<span class="token punctuation">,</span> objectTag<span class="token punctuation">,</span> mapTag<span class="token punctuation">,</span> setTag<span class="token punctuation">,</span> argTag<span class="token punctuation">]</span>
+
+    <span class="token comment">// 其它引用类型</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>deepTag<span class="token punctuation">.</span><span class="token function">includes</span><span class="token punctuation">(</span>type<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> result
+      <span class="token keyword">const</span> Ctor <span class="token operator">=</span> target<span class="token punctuation">.</span>constructor
+      <span class="token keyword">switch</span> <span class="token punctuation">(</span>type<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">case</span> regexpTag<span class="token operator">:</span> <span class="token punctuation">{</span>
+          result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Ctor</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+          result<span class="token punctuation">.</span>lastIndex <span class="token operator">=</span> target<span class="token punctuation">.</span>lastIndex
+          <span class="token keyword">return</span> result
+        <span class="token punctuation">}</span>
+        <span class="token keyword">case</span> dateTag<span class="token operator">:</span> 
+          <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Ctor</span><span class="token punctuation">(</span><span class="token operator">+</span>target<span class="token punctuation">)</span>
+        <span class="token keyword">case</span> funcTag<span class="token operator">:</span>
+          <span class="token comment">// 也可以通过正则获取普通函数的参数和函数体，使用 new Function 构造一个新函数</span>
+          <span class="token comment">// 箭头函数通过 eval(fn.toString())</span>
+          <span class="token comment">// 通过是否有 prototype 属性可以区分普通函数和箭头函数</span>
+          <span class="token keyword">return</span> target
+        <span class="token keyword">case</span> promiseTag<span class="token operator">:</span>
+          <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">resolve</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+        <span class="token comment">// 下面的不可拷贝，或者说无意义</span>
+        <span class="token keyword">case</span> weakMapTag<span class="token operator">:</span>
+        <span class="token keyword">case</span> weakSetTag<span class="token operator">:</span>
+        <span class="token keyword">case</span> errorTag<span class="token operator">:</span>
+          <span class="token keyword">return</span> target
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// 初始化对象</span>
+    <span class="token keyword">const</span> Constructor <span class="token operator">=</span> target<span class="token punctuation">.</span>constructor
+    <span class="token keyword">let</span> result <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Constructor</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+    <span class="token comment">// 避免循环引用</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>cache<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> cache<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span>
+    cache<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>target<span class="token punctuation">,</span> result<span class="token punctuation">)</span>
+
+    <span class="token comment">// set</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">===</span> setTag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      target<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">value</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        result<span class="token punctuation">.</span><span class="token function">add</span><span class="token punctuation">(</span><span class="token function">cloneDeep</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> cache<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token keyword">return</span> result
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// map</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>type <span class="token operator">===</span> mapTag<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      target<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">value<span class="token punctuation">,</span> key</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+        result<span class="token punctuation">.</span><span class="token function">set</span><span class="token punctuation">(</span>key<span class="token punctuation">,</span> <span class="token function">cloneDeep</span><span class="token punctuation">(</span>value<span class="token punctuation">,</span> cache<span class="token punctuation">)</span><span class="token punctuation">)</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span>
+      <span class="token keyword">return</span> result
+    <span class="token punctuation">}</span>
+
+    <span class="token comment">// array object arguments</span>
+    <span class="token comment">// for (let key in target) {</span>
+    <span class="token comment">//   result[key] = clone(target[key])</span>
+    <span class="token comment">// }</span>
+    <span class="token comment">// return result</span>
+    <span class="token comment">// 使用 while 遍历，速度更快</span>
+    <span class="token keyword">function</span> <span class="token function">forEach</span><span class="token punctuation">(</span><span class="token parameter">array<span class="token punctuation">,</span> fn</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">let</span> index <span class="token operator">=</span> <span class="token number">0</span>
+      <span class="token keyword">while</span> <span class="token punctuation">(</span>index <span class="token operator">&lt;</span> array<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">fn</span><span class="token punctuation">(</span>array<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">,</span> index<span class="token punctuation">)</span>
+        index<span class="token operator">++</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> array
+    <span class="token punctuation">}</span>
+    <span class="token keyword">const</span> keys <span class="token operator">=</span> type <span class="token operator">===</span> arrayTag <span class="token operator">?</span> <span class="token keyword">undefined</span> <span class="token operator">:</span> Object<span class="token punctuation">.</span><span class="token function">keys</span><span class="token punctuation">(</span>target<span class="token punctuation">)</span> <span class="token comment">// Object.keys() 方法获取不到对象的 symbol 属性，有需要可以使用 Object.getOwnPropertySymbols() 进一步获取</span>
+    <span class="token function">forEach</span><span class="token punctuation">(</span>keys <span class="token operator">||</span> target<span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token parameter">value<span class="token punctuation">,</span> key</span><span class="token punctuation">)</span> <span class="token operator">=></span> <span class="token punctuation">{</span>
+      <span class="token comment">// object</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>keys<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        key <span class="token operator">=</span> value
+      <span class="token punctuation">}</span>
+      result<span class="token punctuation">[</span>key<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">cloneDeep</span><span class="token punctuation">(</span>target<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">,</span> cache<span class="token punctuation">)</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> result
+  <span class="token punctuation">}</span>
+
+  <span class="token comment">// 参考：https://juejin.cn/post/6844904046692679693</span>
+  <span class="token comment">// https://segmentfault.com/a/1190000020255831</span></code></pre></div>
 <h3 id="看不懂的"><a href="#%E7%9C%8B%E4%B8%8D%E6%87%82%E7%9A%84" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>看不懂的</h3>
 <ol>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply#using_apply_to_chain_constructors" target="_blank" rel="nofollow noopener noreferrer">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply#using_apply_to_chain_constructors</a></li>

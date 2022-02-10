@@ -69,10 +69,10 @@
 
                 setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
               })();
-            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">React Fiber 架构</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">March 3, 2021<!-- --> • ☕️ 5 min read</p></header><div><h1 id="react-fiber-architecture"><a href="#react-fiber-architecture" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>React Fiber Architecture</h1>
+            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">React Fiber 架构</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">March 3, 2021<!-- --> • ☕️ 6 min read</p></header><div><h1 id="react-fiber-architecture"><a href="#react-fiber-architecture" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>React Fiber Architecture</h1>
 <p>先来了解几个前置概念</p>
 <h2 id="what-is-reconciliation（什么是协调）"><a href="#what-is-reconciliation%EF%BC%88%E4%BB%80%E4%B9%88%E6%98%AF%E5%8D%8F%E8%B0%83%EF%BC%89" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>What is reconciliation?（什么是协调）</h2>
-<p>React 用来比较两个元素树，决定哪部分需要改变的算法。</p>
+<p>React 用来比较两个元素树，决定哪部分需要改变的过程。</p>
 <p>React 在更新时，有些元素的属性和状态是没有改变的，全部更新一遍会造成浪费，导致处理速度变慢，使用更多的资源等，这就需要一些优化手段，而这些优化就是 reconciliation 的一部分。</p>
 <p>我们通常所说的虚拟”DOM”（“virtual DOM”），它背后的算法就是 reconciliation。</p>
 <p>虽然Fiber 是对 reconciler 的重写，但是针对协调器的两个假设还是奏效的：</p>
@@ -136,6 +136,28 @@
 <h3 id="output"><a href="#output" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>output</h3>
 <p>就是当前环境的原生组件，对浏览器来说就是那些 dom 元素，<code class="language-text">div</code>、<code class="language-text">span</code> 等。</p>
 <p>每一个 fiber 最终都有输出，都是通过原生组件的形式。它们的输出会传输到构建的树上。</p>
+<h2 id="fiber-reconciliation"><a href="#fiber-reconciliation" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>fiber reconciliation</h2>
+<p>Fiber reconciliation 是新的协调引擎，它最大的特点就是异步可中断更新，不会有 stack reconciliation 执行时间过长，导致界面掉帧的问题。</p>
+<p>Fiber 将耗时很长的复杂任务进行分片，只在 deadline 内执行任务，超过 deadline 时，将执行权交还给主线程，当主线程空闲时再回来继续执行。</p>
+<p>一次更新的大致流程如下：</p>
+<ol>
+<li>
+<p>根据 current tree 构建 workInProgress tree（深度优先算法）</p>
+<ol>
+<li>根据每个节点是否改变，直接复制或更新 Fiber Node 到 workInProgress tree</li>
+<li>每更新一个节点，同时生成该节点对应的 effectTag，比如需要更新、需要删除等，将需要改变的结点存入 effectList 中</li>
+<li>为每个节点创建更新任务</li>
+</ol>
+</li>
+<li>更新任务等待调度（scheduler 模块负责）</li>
+<li>
+<p>根据 Effect List 更新 DOM （commit 阶段）</p>
+<ol>
+<li>React 会遍历 Effect List 将所有变更一次性更新到 DOM 上</li>
+<li>这一阶段的工作会导致用户可见的变化。因此该过程不可中断，必须一直执行直到更新完成</li>
+</ol>
+</li>
+</ol>
 <p><a href="https://zh.wikipedia.org/wiki/%E7%BA%96%E7%A8%8B" target="_blank" rel="nofollow noopener noreferrer">纤程</a></p>
 <p><a href="https://zh.wikipedia.org/wiki/%E6%8E%92%E7%A8%8B" target="_blank" rel="nofollow noopener noreferrer">排程</a></p>
 <p><a href="https://github.com/acdlite/react-fiber-architecture" target="_blank" rel="nofollow noopener noreferrer">https://github.com/acdlite/react-fiber-architecture</a></p></div><footer><p><a href="https://github.com/zitup/overblog" target="_blank" rel="noopener noreferrer">Discuss on GitHub</a></p></footer></article></main><aside><div style="margin:90px 0 40px 0;font-family:system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
