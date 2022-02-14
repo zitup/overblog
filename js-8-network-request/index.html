@@ -69,7 +69,7 @@
 
                 setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
               })();
-            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Network requests</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">December 21, 2021<!-- --> • ☕️☕️ 9 min read</p></header><div><p>  Fetch API 提供了一个 JavaScript 接口，用于访问和操作 HTTP 管道的一部分，例如请求和响应。它在浏览器中定义在 window 接口上。</p>
+            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">Network requests</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">December 21, 2021<!-- --> • ☕️☕️☕️ 15 min read</p></header><div><p>  Fetch API 提供了一个 JavaScript 接口，用于访问和操作 HTTP 管道的一部分，例如请求和响应。它在浏览器中定义在 window 接口上。</p>
 <h2 id="介绍"><a href="#%E4%BB%8B%E7%BB%8D" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>介绍</h2>
 <h3 id="fetch"><a href="#fetch" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>fetch()</h3>
 <p>  返回一个 promise。成功时解析为 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Response" target="_blank" rel="nofollow noopener noreferrer"><code class="language-text">Response</code></a> 对象。</p>
@@ -319,6 +319,140 @@
 </li>
 <li>LocalStorage 和 SeeionStorage 跨域</li>
 </ol>
-<p>  这俩同样受同源策略的限制。</p></div><footer><p><a href="https://github.com/zitup/overblog" target="_blank" rel="noopener noreferrer">Discuss on GitHub</a></p></footer></article></main><aside><div style="margin:90px 0 40px 0;font-family:system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
+<p>  这俩同样受同源策略的限制。</p>
+<ol start="3">
+<li>
+<h3 id="http-缓存"><a href="#http-%E7%BC%93%E5%AD%98" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP 缓存</h3>
+<p>HTTP 缓存分为强缓存和协商缓存。</p>
+<ul>
+<li>
+<p>强缓存</p>
+<p>强缓存可以通过 Expires / Cache-Control 控制，命中强缓存不会发起网络请求，直接从本地读取资源。</p>
+<ol>
+<li>
+<p>Expires</p>
+<p>优先级低于 Cache-Control: max-age。<br>
+Expires 是由服务端返回的资源过期时间，若用户本地时间在过期时间之前，则不发送请求直接使用本地缓存。</p>
+</li>
+<li>
+<p>Cache-Control</p>
+<p>优先级高于 Expires。</p>
+<p>常用的值有：</p>
+<ul>
+<li>max-age 设置使用缓存的最大时长，单位秒</li>
+<li>s-maxage 与 max-age 用法一致，特别用于共享缓存，并且当它存在时将忽略 max-age</li>
+<li>public 对带有 Authorization 标头字段的请求的响应不得存储在共享缓存中。但是 public 指令将导致此类响应存储在共享缓存中。让缓存对所有请求可用。</li>
+<li>private 指示响应只能存储在私有缓存中，比如登录后收到的响应以及通过 cookie 管理的会话，可以使用私有缓存，避免用户信息泄漏</li>
+<li>no-cache 表示响应可以存储在缓存中，但必须在每次重用之前与服务器进行验证（使用协商缓存验证）</li>
+<li>no-store 表示不存储任何缓存，禁用所有缓存</li>
+<li>must-revalidate 指示响应可以存储在缓存中，并且可以在新鲜时重用。一旦它变得陈旧，它必须在重用之前与源服务器进行验证。一般与 max-age 共用。</li>
+<li>immutable 告诉缓存响应在新鲜时是不可变的，避免了对服务器的不必要的请求验证。现代开发最佳实践，会在静态资源链接中加版本号或 hash，这种方式下，静态资源不会改变。</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>协商缓存</p>
+<p>协商缓存可以通过 Last-Modified/If-Modified-Since 和 ETag/If-None-Match 控制，开启协商缓存向浏览器发起请求时会带上缓存标识，服务器根据标识返回 304 或者 200。</p>
+<ol>
+<li>
+<p>ETag/If-None-Match</p>
+<ul>
+<li>通过唯一标识来验证缓存</li>
+<li>优先级高于 Last-Modified/If-Modified-Since</li>
+</ul>
+<p>如果资源请求的响应头里包含 ETag，客户端可以在后续请求的头部带上 If-None-Match 来进行验证。如果服务器判断资源标识一致，则返回 304 状态码，告知浏览器可以从本地读取缓存。</p>
+<p>唯一标识符由后端算法生成，可以是资源内容生成的哈希值，也可以最后修改的时间戳。</p>
+</li>
+<li>
+<p>Last-Modified/If-Modified-Since</p>
+<ul>
+<li>通过资源的最后修改时间来验证缓存</li>
+<li>优先级低于 ETag/If-None-Match</li>
+<li>缺点：只能精确到秒</li>
+</ul>
+<p>如果资源请求的响应头里包含 Last-Modified，客户端可以在后续请求的头部带上 If-Modified-Since 来进行验证。如果服务器判断最后修改时间一致，则返回 304 状态码告知浏览器可以从本地读取缓存。</p>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>
+<h3 id="http2"><a href="#http2" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>HTTP/2</h3>
+<p>HTTP/2 正式发表于 2015 年。</p>
+<ol>
+<li>
+<p>HTTP/1.1</p>
+<ol>
+<li>
+<p>相较 HTTP/1.0 的改进</p>
+<p>主要包括：持久连接、HTTP 管道化请求、分块编码传输、新增 host 头字段、缓存支持、更多状态码等</p>
+<p><strong>持久连接</strong></p>
+<p>HTTP/1.0 没进行一次请求都要经过 TCP 三次握手建立连接，极大的增加了服务器的负担，拉长了请求时间，影响用户体验。<br>
+HTTP/1.1 中添加了持久连接功能，可以复用 TCP 连接。持久连接通过 Connection: kep-live 默认开启。</p>
+<p><strong>HTTP 管道化</strong></p>
+<p>在 HTTP/1.1 协议里，允许在响应头中指定 Transfer-Encoding: chunked 标识当前为分块编码传输，可以将内容实体分装成一个个块进行传输。</p>
+<p><strong>新增 host 头字段</strong></p>
+<p>在 HTTP/1.0 中认为每台服务器都绑定一个唯一的 IP 地址，因此一台服务器也无法搭建多个 Web 站点。<br>
+在 HTTP/1.1 中新增了 host 字段，可以指定请求将要发送到的服务器主机名和端口号。</p>
+<p><strong>并行下载</strong></p>
+<p>使用 Range 和 Content-Range 头</p>
+</li>
+<li>
+<p>HTTP/1.1 缺点</p>
+<p><strong>队头阻塞</strong></p>
+<p>一个 TCP 连接只能处理一个请求，后续请求会被阻塞</p>
+<p><strong>头部冗余</strong></p>
+<p>每个请求都会带上请求头，比如 cookie，如果数据量较大，会影响传输效率</p>
+<p><strong>TCP 连接数限制</strong></p>
+<p>浏览器对 TCP 连接数有限制，请求较多时会阻塞</p>
+</li>
+</ol>
+</li>
+<li>
+<p>HTTP/2</p>
+<ul>
+<li>
+<p>二进制分帧层</p>
+<p>将一个TCP连接分为若干个流（Stream），每个流中可以传输若干消息（Message），每个消息由若干最小的二进制帧（Frame）组成</p>
+</li>
+<li>
+<p>多路复用</p>
+<p>HTTP/2 允许在单个 TCP 连接上并行地处理多个请求和响应</p>
+</li>
+<li>Header 压缩</li>
+<li>
+<p>服务端推送</p>
+<p>允许服务器直接提供浏览器渲染页面所需资源，而无须浏览器在收到、解析页面后再提起一轮请求，节约了加载时间。</p>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<h3 id="tls-握手详细过程"><a href="#tls-%E6%8F%A1%E6%89%8B%E8%AF%A6%E7%BB%86%E8%BF%87%E7%A8%8B" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>TLS 握手详细过程</h3>
+<p>HTTPS 通信建立在 TLS 之上，客户端和服务端建立 TLS 连接需要以下5次握手：</p>
+<ol>
+<li><strong>客户端发送 client hello 消息</strong>，发起握手请求，发送消息包括客户端支持的 tls 版本、加密算法组合，还有一个客户端随机数（client random）</li>
+<li><strong>服务端发送 server hello 消息</strong>进行回应，内容包括数字证书、服务端选择的加密算法和服务端随机数（server random）</li>
+<li>客户端验证发来的证书，包含是否过期、颁发者是否可信、使用颁发机构的公开密钥校验证书的数字签名、证书是否吊销、检测证书中的域名和对话服务器域名是否一致，确保对方的合法身份。验证成功之后，<strong>客户端发送一个随机字符串</strong>（pre-master secret），这个字符串是经过证书公钥加密的，只有服务端的私钥可以解开</li>
+<li>服务器使用私钥解密发来的字符串</li>
+<li>客户端和服务器均使用 client random、server random、pre-master secret，并通过相同的算法生成共享密钥 KEY</li>
+<li><strong>客户端就绪，发送用共享密钥加密的 finished 信号</strong></li>
+<li><strong>服务端就绪，发送用共享密钥加密的 finished 信号</strong></li>
+<li>双方分别解密成功，建立 tls 通信，使用对称加密进行安全通信</li>
+</ol>
+</li>
+<li>
+<h3 id="get-请求和-post-请求的区别"><a href="#get-%E8%AF%B7%E6%B1%82%E5%92%8C-post-%E8%AF%B7%E6%B1%82%E7%9A%84%E5%8C%BA%E5%88%AB" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>GET 请求和 POST 请求的区别</h3>
+<ul>
+<li>get 请求会被浏览器主动 cache，而 post 不会，除非手动设置</li>
+<li>get 请求在浏览器反复的 回退/前进 操作是无害的，而 post 操作会再次提交表单请求</li>
+<li>GET请求在URL中传送的参数是有长度限制的，而POST没有</li>
+<li>GET比POST更不安全，因为参数直接暴露在URL上，所以不能用来传递敏感信息</li>
+<li>GET参数通过URL传递，POST放在Request body中</li>
+</ul>
+</li>
+</ol></div><footer><p><a href="https://github.com/zitup/overblog" target="_blank" rel="noopener noreferrer">Discuss on GitHub</a></p></footer></article></main><aside><div style="margin:90px 0 40px 0;font-family:system-ui, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;,
     &quot;Roboto&quot;, &quot;Oxygen&quot;, &quot;Ubuntu&quot;, &quot;Cantarell&quot;, &quot;Fira Sans&quot;,
     &quot;Droid Sans&quot;, &quot;Helvetica Neue&quot;, sans-serif"></div><h3 style="font-family:Montserrat, sans-serif;margin-top:0.4375rem"><a style="box-shadow:none;text-decoration:none;color:var(--pink)" href="/overblog/">Overblog</a></h3><div style="display:flex;margin-bottom:3.5rem"><img src="/overblog/static/profile-pic-b180123675981fd40271acaadb8353f9.jpeg" alt="zhaoyutong" style="margin-right:0.875rem;margin-bottom:0;width:3.5rem;height:3.5rem;border-radius:50%"/><p style="max-width:310px">Personal blog by <a href="https://github.com/zitup">zitup</a>.<!-- --> <!-- --> Just write something.</p></div><nav><ul style="display:flex;flex-wrap:wrap;justify-content:space-between;list-style:none;padding:0"><li><a rel="prev" style="margin-right:20px" href="/overblog/engineering-1-eslint/">← <!-- -->ESLint</a></li><li><a rel="next" href="/overblog/js-9-event/">Event<!-- --> →</a></li></ul></nav></aside></div></div></div><div id="gatsby-announcer" style="position:absolute;top:0;width:1px;height:1px;padding:0;overflow:hidden;clip:rect(0, 0, 0, 0);white-space:nowrap;border:0" aria-live="assertive" aria-atomic="true"></div></div><script id="gatsby-script-loader">/*<![CDATA[*/window.pagePath="/js-8-network-request/";/*]]>*/</script><script id="gatsby-chunk-mapping">/*<![CDATA[*/window.___chunkMapping={"polyfill":["/polyfill-5a3df58896fcdbb20db6.js"],"app":["/app-c58271f67fdcc0437285.js"],"component---src-pages-404-js":["/component---src-pages-404-js-cf1e5fd6591a9343a499.js"],"component---src-pages-confirm-js":["/component---src-pages-confirm-js-5cf513ee5657583bc5c9.js"],"component---src-pages-react-components-unsubscribed-js":["/component---src-pages-react-components-unsubscribed-js-7fc4f132e19bf88d210b.js"],"component---src-pages-thanks-js":["/component---src-pages-thanks-js-858b1df087138dfcf97b.js"],"component---src-templates-blog-index-js":["/component---src-templates-blog-index-js-ea74aa3098c6854c3488.js"],"component---src-templates-blog-post-js":["/component---src-templates-blog-post-js-4a0f291a5f14c9687ac9.js"]};/*]]>*/</script><script src="/overblog/polyfill-5a3df58896fcdbb20db6.js" nomodule=""></script><script src="/overblog/component---src-templates-blog-post-js-4a0f291a5f14c9687ac9.js" async=""></script><script src="/overblog/bc9699c34271943da8277b99b074a5b8731a0b8b-67b9dbee34e5849c496a.js" async=""></script><script src="/overblog/commons-3e353569f44f67239f66.js" async=""></script><script src="/overblog/styles-407fe62976dc5310c43e.js" async=""></script><script src="/overblog/app-c58271f67fdcc0437285.js" async=""></script><script src="/overblog/framework-3a07bb01dd6a58531acd.js" async=""></script><script src="/overblog/webpack-runtime-ebeee177d9cbc174216c.js" async=""></script></body></html>
