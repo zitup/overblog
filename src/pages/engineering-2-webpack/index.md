@@ -341,3 +341,10 @@ split chunk
   将 css 提取到单独文件中。
 
 2. HtmlWebpackPlugin
+3. TerserPlugin
+
+  压缩/最小化 JS，可以移除注释，解析代码到固定版本
+
+4. CssMinimizerPlugin
+
+  压缩 css

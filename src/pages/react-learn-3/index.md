@@ -43,11 +43,9 @@ React 使用数组保存 hooks 的状态和 set 函数，数组的下标和 hook
 
 ## Hooks 原理
 
-数组保存每个 hook 的状态，重新渲染时，根据 hook 顺序从数组中获取状态值。
+Hook 本质就是 JavaScript 函数，在首次执行时，计算出状态值存入一个数组，在重新渲染时，根据 hook 顺序再从数组中获取状态值。
 
-和 fiber node 的关系：
-
-Fiber 结点包含了当前组件的状态、更新函数数组，重新渲染时，会依次执行这些更新函数，获取到最新的状态值。  
+这些信息保存在 fiber 结点对象中，fiber 结点包含了当前组件的状态、更新函数数组，重新渲染时，会忽略传入 hook 的参数，只获取当前的状态值。再比如 useEffect hook，在更新时，会比对当前最新依赖值和从 fiber 对象中获取的状态值进行对比，有变化时再执行会调函数。  
 React useEffect hook 会在协调过程的 commit 阶段执行。
 
 ## 手写一个 hook
@@ -56,8 +54,84 @@ TODO
 
 ----
 
+React 事件系统
 
+React 元素的事件处理和 DOM 元素的很相似，但是有一点语法上的不同：
 
+- React 事件的命名采用小驼峰式（camelCase），而不是纯小写。
+- 使用 JSX 语法时你需要传入一个函数作为事件处理函数，而不是一个字符串。
 
+函数的参数 e 是一个合成事件。React 根据规范来定义这些合成事件。
 
-React 有自己设计的一套事件处理机制。
+## SyntheticEvent
+
+SyntheticEvent 是浏览器的原生事件的跨浏览器包装器。函数的默认参数 e 就是 SyntheticEvent 的一个实例。除兼容所有浏览器外，它还拥有和浏览器原生事件相同的接口，包括 `stopPropagation()` 和 `preventDefault()`。
+
+每个 SyntheticEvent 对象都包含以下属性：
+
+```jsx
+  boolean bubbles
+  boolean cancelable
+  DOMEventTarget currentTarget
+  boolean defaultPrevented
+  number eventPhase
+  boolean isTrusted
+  DOMEvent nativeEvent
+  void preventDefault()
+  boolean isDefaultPrevented()
+  void stopPropagation()
+  boolean isPropagationStopped()
+  DOMEventTarget target
+  number timeStamp
+  string type
+```
+
+其中 nativeEvent 属性可以获取浏览器的原生事件。
+
+不同的事件还包含自有属性。具体可以查看[官网的罗列](https://reactjs.org/docs/events.html#supported-events)。
+
+## 事件机制
+
+React 事件机制可以分为两步：注册和触发。这里做一些简单的描述，不涉及具体的代码实现。
+
+### 事件注册
+
+在 react 构建时，fiber 结点上的事件属性会被识别为事件进行处理。
+
+React 会根据事件名称寻找该事件的依赖，这里的依赖是指 react 合成事件和原生事件的对应关系，比如 onMouseEnter 事件依赖了 mouseout 和 mouseover 两个原生事件，onClick 只依赖了 click 一个原生事件。React 会循环这些依赖，在 root 上绑定对应的事件。
+
+### 事件触发
+
+当通过交互触发事件时，会经过这三个步骤：**事件对象的合成、将事件处理函数收集到执行路径、事件执行**。
+
+#### 合成事件对象
+
+也就是合成 SyntheticEvent 对象，供后续事件执行使用。
+
+#### 事件执行路径
+
+当事件对象合成完毕，会将事件收集到事件执行路径上。什么是事件执行路径呢？
+
+DOM 元素上的同类型事件会按照冒泡或者捕获的顺序执行，在 React 中，它模拟了一套事件捕获和冒泡的机制。
+
+从触发事件的元素开始，依据 fiber 树的层级结构向上查找，累加上级元素中所有相同类型的事件，最终形成一个具有所有相同类型事件的数组，这个数组就是事件执行路径。
+
+在向上查找过程中，在沿途 fiber 的属性中获取到同类型的事件处理函数，push 到执行路径中，等待下一步的批量执行。
+
+#### 事件执行
+
+经过上面两个步骤，得到了事件执行路径和一个共享的事件合成对象，之后进入到事件执行过程，循环事件执行路径，依次执行处理函数。
+
+## 事件系统和优先级的联系
+
+绑定到 root 上的事件监听函数是一个有着优先级信息的事件监听包装函数。事件优先级是根据事件的交互程度划分的，react 会根据事件名返回不同级别的事件监听包装器。
+
+总的来说，会有三种事件监听包装器：
+
+dispatchDiscreteEvent: 处理离散事件，click、keydown、focusin等，这些事件的触发不是连续的，优先级为0  
+dispatchUserBlockingUpdate：处理用户阻塞事件，drag、scroll、mouseover等，特点是连续触发，阻塞渲染，优先级为1  
+dispatchEvent：处理连续事件，canplay、error、audio标签的timeupdate和canplay，优先级最高，为2。
+
+当触发事件时，react 会将优先级信息传递给 scheduler ，scheduler 才能获知当前任务的优先级，然后展开调度。
+
+> 参考：https://segmentfault.com/a/1190000039108951
