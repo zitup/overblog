@@ -260,13 +260,17 @@ https://blog.teamtreehouse.com/introduction-source-maps
   热模块替换，会在应用程序运行过程中，替换、添加或删除 模块，而无需重新加载整个页面。它可以：
   - 保留页面状态
   - 节省开发时间
-  - 修改实时更新
+  - 修改实时更新，比如更改样式几乎和在浏览器开发工具中修改体验一直，且不会丢失
 
   HMR 原理：
   
   Websocket 和客户端通信，编译完成时通知客户端，客户端向 dev-server 请求模块列表，客户端比对后，再请求更新后的模块，完成更新或重载。
 
   ![](./HMR.jpeg)
+
+  客户端模块热更新之后，再搭配上 react-fresh 动态更新状态即可。
+
+  > react-fresh: https://github.com/facebook/react/issues/16604#issuecomment-528663101
 
 ## Webpack 工作流程
 
@@ -298,10 +302,6 @@ webpack 核心任务是完成内容转化和资源合并。主要包含 3 个阶
 
   > TODO https://webpack.js.org/contribute/writing-a-loader/
 
-## Webpack 配置的优化策略
-
-split chunk
-
 ## 常见问题
 
 1. contentHash 和 chunkHash 有什么区别
@@ -331,8 +331,8 @@ split chunk
   配合套件：babel-loader @babel/core @babel/preset-env @babel/preset-react
 
   babel polyfill 有两种方案：  
-  1. preset-env + corejs，在 useBuiltIns 设置
-  2. preset-env + transform-runtime + runtime-corejs3
+     1. preset-env + corejs，在 useBuiltIns 设置
+     2. preset-env + transform-runtime + runtime-corejs3
 
 ## 常见 plugin
 
@@ -348,3 +348,56 @@ split chunk
 4. CssMinimizerPlugin
 
   压缩 css
+
+## 提高 webpack 构建性能
+
+1. 使用高版本的 webpack 和 nodejs
+2. 在最小模块范围内使用 loader，尽量使用 include/exclude 缩小范围
+3. 持久化缓存——cache filesystem 来缓存模块，提升二次构建速度，首次构建时间有略微增加，二次构建时间将大幅减少
+4. 多进程构建 thread-loader
+
+### 开发环境下的优化
+
+1. 增量构建，使用 watch 配置
+2. 在内存中编译，webpack-dev-server 在内存中编译和提供资源而不是写入磁盘来提高性能
+3. 避免在生产环境中使用的插件，比如压缩插件，在开发环境没必要使用
+
+## Webpack 优化策略
+
+1. JS、CSS 压缩
+2. 代码分割  
+Webpack 中的代码分割分为三种情况：多入口分包、依赖分包和动态引入分包。属于优化的主要是后两种。  
+
+   1. 依赖分包
+
+        通过 optimization.splitChunks 配置项，将第三方依赖和共享模块拆分成单独的包，便于浏览器缓存。  
+        splitChunks 默认配置：https://webpack.js.org/plugins/split-chunks-plugin/#optimizationsplitchunks  
+        cacheGroups 默认定义了 defaultVendors 和 default 两个选项，分别拆分 node_modules 中的包和最少两个 chunk 共享的模块。defaultVendors 优先级更高。
+
+   2. 动态引入分包
+
+        Webpack 默认提供懒加载（Lazy-load）部分的代码分离。修改 output.chunkFilename 可以自定义懒加载包的名字。
+
+        使用 `React.lazy` 搭配 `react-router` 可以启用懒加载功能。
+
+3. webpack runtime chunk 分包
+   
+  Webpack 会将一小段运行时代码放入最后打的那个包中。每次构建完，这小段代码会变，导致最后的包即使本身没发生变化，它的名字也会改变，这样不利于使用强缓存，所以我们将 runtimeChunk 也分离出来。通过 optimization.runtimeChunk 配置。
+
+  再进一步，可以将这一小段代码放入 script 标签中，节省一次 http 请求。
+
+  > 参考：https://developers.google.com/web/fundamentals/performance/webpack/use-long-term-caching#inline_webpack_runtime_to_save_an_extra_http_request
+
+4. prefetch/preload link：https://webpack.js.org/guides/code-splitting/#prefetchingpreloading-modules
+
+5. tree-shaking
+
+  Tree shaking 功能依赖于 ESM 代码可以静态分析。
+
+  开启：
+  - 使用 ESM
+  - 确保没有其它插件将代码转换为 CommonJS 代码
+  - 在 package.json 中添加 sideEffects 字段
+  - mode 配置设置为 production
+
+6. 静态资源上传 CDN

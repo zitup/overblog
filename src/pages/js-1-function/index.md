@@ -556,11 +556,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
 
   core-js源码：https://github.com/zloirock/core-js/blob/master/packages/core-js/internals/function-bind.js
 
-### 柯里化
-手写
-
-### 函数式编程
-
 ### 节流、去抖函数
 
 ```jsx
@@ -657,6 +652,17 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
           return curriedFn(...args.concat(Array.from(arguments)))
         }
       }
+    }
+  }
+```
+
+```jsx
+  function curry(fn) {
+    const args = []
+    return function inner(arg) {
+      args.push(arg)
+      if(args.length === fn.length) return fn(...args)
+      return inner
     }
   }
 ```
