@@ -289,7 +289,12 @@ promise 执行成功时，调用 `resolutionFunc(value)`，失败时，调用 `r
 
 ## async await (ES2017)
 
-async/await 使用更简洁的方式启用异步操作。简化了使用 promise API 时必要的语法。
+async 函数就是 Generator 加自动执行器的语法糖。async/await 使用更简洁的方式启用异步操作。
+
+### 和 Promise 区别
+
+1. 代码更简洁，同步写法避免了嵌套地狱
+2. 错误可以使用 `try...catch` 捕获
 
 ### async
 
@@ -360,7 +365,7 @@ all 方法主要做了 2 件事：
   function promiseAll(args) {
     // 不是可迭代对象抛出错误
     const type = Object.prototype.toString.call(args).slice(8, -1).toLowerCase()
-    const isIterable = ((type === 'object' && args !== null) || type === 'string') && typeof args[Symbol.iterator] === 'function'
+    const isIterable = ((type === 'object' && args !== null) || type === 'array' || type === 'string') && typeof args[Symbol.iterator] === 'function'
     if (!isIterable) {
       throw new TypeError(`${type} is not iterable`)
     }
@@ -376,13 +381,13 @@ all 方法主要做了 2 件事：
 
       args.forEach((arg, index) => {
         //使用 Promise.resolve 包裹，处理非 promise 类型
-        Promise.resolve(promise).then((res) => {
+        Promise.resolve(arg).then((res) => {
           resolvedCount++
           result[index] = res
           if (resolvedCount === args.length) {
             resolve(result)
           }
-        }).catch(res = {
+        }).catch(res => {
           reject(res)
         })
       })

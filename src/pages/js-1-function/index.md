@@ -644,13 +644,12 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this
 
 ```jsx
   function curry(fn) {
-    return function curriedFn(...args) {
-      if (args.length >= fn.length) {
+    return function inner(...args) {
+      if (args.length === fn.length) {
         return fn(...args)
-      } else {
-        return function() {
-          return curriedFn(...args.concat(Array.from(arguments)))
-        }
+      } 
+      return function() {
+        return inner(...args.concat(Array.from(arguments)))
       }
     }
   }

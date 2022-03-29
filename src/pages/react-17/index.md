@@ -16,8 +16,8 @@ cta: 'react'
 React v17.0 RC 版本发布在北京时间 8 月 11 日凌晨，距离上一次大的版本更新（HOOK 版本，2019.2），已经将近两年的时间，本次更新没有新特性，主要是**升级简化 React 本身**，为未来做准备。
 
 ## 逐步升级
-当有新的版本时，可以选择部分升级，项目里可以有两个 react 的版本，**但是官方都不建议这么搞**，主要是为了么办法全量升级 react 的项目。
-这里有个疑问是【项目里可以有两个 react 的版本呢？】，答案是两个 package.json ，参考官方给的逐步升级 [demo](https://github.com/reactjs/react-gradual-upgrade-demo/)，看下目录结构就清楚了
+当有新的版本时，可以选择部分升级，项目里可以有两个 react 的版本，**但是官方都不建议这么搞**，主要是为了没办法全量升级 react 的项目。
+这里有个疑问是【项目里怎么可以有两个 react 的版本呢？】，答案是两个 package.json ，参考官方给的逐步升级 [demo](https://github.com/reactjs/react-gradual-upgrade-demo/)，看下目录结构就清楚了
 
 ![img](./react.jpg)
 

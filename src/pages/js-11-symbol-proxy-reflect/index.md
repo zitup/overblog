@@ -193,6 +193,8 @@ Reflect 为可拦截的 JS 操作提供方法。这些方法和 `proxy handler` 
 
 Reflect 是一个对象，它的所有属性和方法都是静态的（就像 Math 对象一样）。
 
+为什么要有 reflect 对象呢？主要是为 Proxy 的各种改写 handler， 提供原生的方法。这些静态方法从 Object 上解耦出来，作用更加集中。
+
 ### Static methods
 
 略。参看上面的 `proxy handler` 列表。

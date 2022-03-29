@@ -43,10 +43,12 @@ React 使用数组保存 hooks 的状态和 set 函数，数组的下标和 hook
 
 ## Hooks 原理
 
-Hook 本质就是 JavaScript 函数，在首次执行时，计算出状态值存入一个数组，在重新渲染时，根据 hook 顺序再从数组中获取状态值。
+Hook 本质就是 JavaScript 函数，在首次执行时，计算出状态值存入一个链表，在重新渲染时，根据 hook 顺序再从链表中获取状态值。
 
 这些信息保存在 fiber 结点对象中，fiber 结点包含了当前组件的状态、更新函数数组，重新渲染时，会忽略传入 hook 的参数，只获取当前的状态值。再比如 useEffect hook，在更新时，会比对当前最新依赖值和从 fiber 对象中获取的状态值进行对比，有变化时再执行会调函数。  
 React useEffect hook 会在协调过程的 commit 阶段执行。
+
+https://segmentfault.com/a/1190000039076330
 
 ## 手写一个 hook
 

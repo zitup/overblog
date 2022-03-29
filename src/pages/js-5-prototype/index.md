@@ -278,6 +278,7 @@ new 操作符创建一个给定构造函数或内置构造函数的实例。new 
   /**
    * @param {function} 构造函数
    * @param {*} 构造函数的参数
+   * @use fakeNew(constructor[, arg1, arg2])
    */
   function fakeNew() {
     // 1. 创建一个新对象

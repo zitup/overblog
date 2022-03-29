@@ -10,8 +10,11 @@ cta: 'react'
 ## 1. 克隆 sentry 官方部署仓库
 
 ```bash
-git clone https://github.com/getsentry/onpremise
+# git clone https://github.com/getsentry/onpremise
+wget https://github.com/getsentry/self-hosted/archive/refs/tags/20.8.0.tar.gz
 ```
+
+注意：克隆仓库下来的是最新的版本，需要安装 README.md 中对应的 docker、docker-compose 版本。本次安装使用的 20.8.0，安装的 docker 最新版、docker-compose@1.27.4。
 
 ## 2. 安装 docker docker-compose  
 
@@ -52,10 +55,15 @@ git clone https://github.com/getsentry/onpremise
     ```bash
     docker run hello-world
     ```
+  * 如果出现 `permission denied` 错误，尝试执行
+    ```bash
+    newgrp docker
+    ```
+    再重复上一步
   ### **安装 docker-compose**
   * 安装
     ```bash
-    sudo curl -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+    sudo curl -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
     sudo chmod +x /usr/local/bin/docker-compose
     ```
   * 测试
@@ -71,16 +79,24 @@ git clone https://github.com/getsentry/onpremise
 
 这里主要更换两处源
   * 更换 docker 镜像源
+    在 `/etc/docker/daemon.json` 中写入以下内容（文件不存在请自行创建）
     ```jsxon
     "registry-mirrors": [
+      // 阿里云的源，需要申请
       "https://xxxxxx.mirror.aliyuncs.com",
       "http://docker.mirrors.ustc.edu.cn",
       "http://hub-mirror.c.163.com"
     ]
     ```
+    然后重启服务
+    ```bash
+    sudo systemctl daemon-reload
+    sudo systemctl restart docker
+    ```
+    
   * **更换 apt-get 源(重要！！！)**  
     这里是修改镜像中 apt debian 的源，否则国内下载要很久很久  
-      * 进到第一步克隆的 onpremise 目录
+      * 进到第一步克隆的 self-hosted 目录
       * 打开 cron 下的 Dockerfile
       * 将
         ```bash
@@ -97,7 +113,7 @@ git clone https://github.com/getsentry/onpremise
         ```
 
 ## 4. 最后
-* onpremise 目录下 `./install.sh`
+* self-hosted 目录下 `./install.sh`
 * 启动
   ```bash
   docker-compose up -d
