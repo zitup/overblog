@@ -69,11 +69,13 @@
 
                 setTheme(preferredTheme || (darkQuery.matches ? 'dark' : 'light'));
               })();
-            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">sentry 部署极简教程</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">August 31, 2020<!-- --> • ☕️ 3 min read</p></header><div><blockquote>
+            </script><div id="___gatsby"><div style="outline:none" tabindex="-1" id="gatsby-focus-wrapper"><div style="color:var(--textNormal);background:var(--bg);transition:color 0.2s ease-out, background 0.2s ease-out;min-height:100vh"><div style="margin-left:auto;margin-right:auto;max-width:42rem;padding:2.625rem 1.3125rem"><header style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2.625rem"><h3 style="font-family:Montserrat, sans-serif;margin-top:0;margin-bottom:0;height:42px;line-height:2.625rem"><a style="box-shadow:none;text-decoration:none;color:rgb(255, 167, 196)" href="/overblog/">Overblog</a></h3><div style="height:24px"></div></header><main><article><header><h1 style="color:var(--textTitle)">sentry 部署极简教程</h1><p style="font-size:0.83255rem;line-height:1.75rem;display:block;margin-bottom:1.75rem;margin-top:-1.4rem">August 31, 2020<!-- --> • ☕️ 4 min read</p></header><div><blockquote>
 <p>关键词： sentry docker 更换源</p>
 </blockquote>
 <h2 id="1-克隆-sentry-官方部署仓库"><a href="#1-%E5%85%8B%E9%9A%86-sentry-%E5%AE%98%E6%96%B9%E9%83%A8%E7%BD%B2%E4%BB%93%E5%BA%93" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>1. 克隆 sentry 官方部署仓库</h2>
-<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token function">git</span> clone https://github.com/getsentry/onpremise</code></pre></div>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token comment"># git clone https://github.com/getsentry/onpremise</span>
+<span class="token function">wget</span> https://github.com/getsentry/self-hosted/archive/refs/tags/20.8.0.tar.gz</code></pre></div>
+<p>注意：克隆仓库下来的是最新的版本，需要安装 README.md 中对应的 docker、docker-compose 版本。本次安装使用的 20.8.0，安装的 docker 最新版、docker-compose@1.27.4。</p>
 <h2 id="2-安装-docker-docker-compose"><a href="#2-%E5%AE%89%E8%A3%85-docker-docker-compose" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>2. 安装 docker docker-compose</h2>
 <h3 id="版本要求"><a href="#%E7%89%88%E6%9C%AC%E8%A6%81%E6%B1%82" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><strong>版本要求</strong></h3>
 <ul>
@@ -114,11 +116,16 @@
 <li>
 <p>测试</p>
 <div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">docker run hello-world</code></pre></div>
+</li>
+<li>
+<p>如果出现 <code class="language-text">permission denied</code> 错误，尝试执行</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">newgrp docker</code></pre></div>
+<p>再重复上一步</p>
 <h3 id="安装-docker-compose"><a href="#%E5%AE%89%E8%A3%85-docker-compose" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a><strong>安装 docker-compose</strong></h3>
 </li>
 <li>
 <p>安装</p>
-<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">curl</span> -L https://github.com/docker/compose/releases/download/1.18.0/docker-compose-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -s<span class="token variable">`</span></span>-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -m<span class="token variable">`</span></span> -o /usr/local/bin/docker-compose
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> <span class="token function">curl</span> -L https://github.com/docker/compose/releases/download/1.27.4/docker-compose-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -s<span class="token variable">`</span></span>-<span class="token variable"><span class="token variable">`</span><span class="token function">uname</span> -m<span class="token variable">`</span></span> -o /usr/local/bin/docker-compose
 <span class="token function">sudo</span> <span class="token function">chmod</span> +x /usr/local/bin/docker-compose</code></pre></div>
 </li>
 <li>
@@ -134,18 +141,23 @@
 <p>这里主要更换两处源</p>
 <ul>
 <li>
-<p>更换 docker 镜像源</p>
+<p>更换 docker 镜像源
+在 <code class="language-text">/etc/docker/daemon.json</code> 中写入以下内容（文件不存在请自行创建）</p>
 <div class="gatsby-highlight" data-language="jsxon"><pre class="language-jsxon"><code class="language-jsxon">&quot;registry-mirrors&quot;: [
+  // 阿里云的源，需要申请
   &quot;https://xxxxxx.mirror.aliyuncs.com&quot;,
   &quot;http://docker.mirrors.ustc.edu.cn&quot;,
   &quot;http://hub-mirror.c.163.com&quot;
 ]</code></pre></div>
+<p>然后重启服务</p>
+<div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash"><span class="token function">sudo</span> systemctl daemon-reload
+<span class="token function">sudo</span> systemctl restart docker</code></pre></div>
 </li>
 <li>
 <p><strong>更换 apt-get 源(重要！！！)</strong><br>
 这里是修改镜像中 apt debian 的源，否则国内下载要很久很久  </p>
 <ul>
-<li>进到第一步克隆的 onpremise 目录</li>
+<li>进到第一步克隆的 self-hosted 目录</li>
 <li>打开 cron 下的 Dockerfile</li>
 <li>
 <p>将</p>
@@ -163,7 +175,7 @@ RUN <span class="token function">apt-get</span> update <span class="token operat
 </ul>
 <h2 id="4-最后"><a href="#4-%E6%9C%80%E5%90%8E" aria-hidden class="anchor"><svg aria-hidden="true" height="16" version="1.1" viewBox="0 0 16 16" width="16"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>4. 最后</h2>
 <ul>
-<li>onpremise 目录下 <code class="language-text">./install.sh</code></li>
+<li>self-hosted 目录下 <code class="language-text">./install.sh</code></li>
 <li>
 <p>启动</p>
 <div class="gatsby-highlight" data-language="bash"><pre class="language-bash"><code class="language-bash">docker-compose up -d</code></pre></div>
