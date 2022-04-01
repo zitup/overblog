@@ -31,3 +31,35 @@ https://reactnative.dev/docs/environment-setup
 ### Fast Refresh
 
 近乎实时刷新。
+
+### Debugging
+
+### Symbolicating a stack trace (Sourcemap)
+
+### Testing
+
+## Design
+
+### Style prop
+
+### Height and Width
+
+### Flex
+
+### Images
+
+### Color
+
+### Interaction
+
+- Handling Touches
+- Navigating Between Screens
+- Animations（较复杂）
+- Gesture Responder System
+
+### Accessibility
+
+
+## Core Components
+
+## API

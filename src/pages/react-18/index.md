@@ -77,9 +77,14 @@ React 未来想保留状态，可以添加和移除某一部分 UI。比如，�
 
 ## 不再支持 IE
 
-## 相关知识
+> 04-01 Update https://reactjs.org/blog/2022/03/29/react-v18.html
 
-### 并发更新是什么
+**Suspense 是什么？**
 
+React 18 已经发布到 npm，成为了默认安装版本。
 
-并发模式：https://mp.weixin.qq.com/s/tC2VF_uIZf4RfBWdlpaKUA
+## What is Concurrent React?
+
+并发模式的一个关键特性，就是**可中断**。React 默认不启用并发模式，只在使用了并发 API 的情况下才启用，也就是说默认情况下，React 18 和之前的版本一样，不可中断、同步更新，可以参考[这里](https://mp.weixin.qq.com/s/tC2VF_uIZf4RfBWdlpaKUA)。
+
+https://zh-hans.reactjs.org/docs/concurrent-mode-intro.html
